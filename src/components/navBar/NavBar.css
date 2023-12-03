@@ -99,6 +99,13 @@
     left: 0;
     top: 0;
 }
+.text_user{
+    font-size: 14px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
 @media screen and (min-width:600px) {
     .icon_close_menu{

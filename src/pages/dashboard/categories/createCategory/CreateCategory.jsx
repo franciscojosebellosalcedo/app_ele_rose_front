@@ -33,6 +33,7 @@ const CreateNewCategory = () => {
           if(responseCreate.status===200 && responseCreate.response){
             const data=responseCreate.data;
             dispatch(addCategorie(data));
+            setNewCategory({name:""});
             toast.success(responseCreate.message);
           }else{
             toast.warning(responseCreate.message);

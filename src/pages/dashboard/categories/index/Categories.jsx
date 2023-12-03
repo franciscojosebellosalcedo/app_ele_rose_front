@@ -13,12 +13,18 @@ import { toast } from "sonner";
 const Categories = () => {
   const navigate = useNavigate();
   const [isLoader, setIsLoader] = useState(false);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.user.data.accessToken);
-  const categories=useSelector((state)=>state.categories.data.list);
+  const categories = useSelector((state) => state.categories.data.list);
+  const [valueSearch, setValueSearch] = useState("");
+  const [categoriesFound, setCategoriesFound] = useState([]);
 
   const goTo = (url) => {
     navigate(url, { replace: true, relative: true });
+  }
+
+  const handlerFormSearch = (value) => {
+    setValueSearch(value);
   }
 
   const getCategories = async () => {
@@ -27,9 +33,9 @@ const Categories = () => {
       if (accessToken) {
         const responseGetAll = await getAllCategories(accessToken);
         if (responseGetAll.status === 200 && responseGetAll.response) {
-          const data=responseGetAll.data;
+          const data = responseGetAll.data;
           dispatch(setCategories(data));
-        }else{
+        } else {
           toast.error(responseGetAll.message);
         }
       }
@@ -40,9 +46,19 @@ const Categories = () => {
 
   }
 
+  const findCategoriesSearch = () => {
+    const filter = categories.filter((cat) => cat.name.toLowerCase().includes(valueSearch));
+    setCategoriesFound([...filter]);
+  }
+
   useEffect(() => {
     getCategories();
   }, []);
+
+  useEffect(() => {
+    findCategoriesSearch();
+  }, [valueSearch]);
+
   return (
     <>
       {
@@ -51,20 +67,34 @@ const Categories = () => {
             <h1 className="container_title">Categorías</h1>
             <button onClick={() => goTo(`${ROUTES.CREATE_CATEGORY}`)} className="btn btn_new_category">Crear categoría</button>
             <form className="form_search">
-              <input type="search" className="input_search" placeholder="Buscar categoría" />
+              <input onInput={(e) => handlerFormSearch(e.target.value)} value={valueSearch} type="search" className="input_search" placeholder="Buscar categoría" />
             </form>
             <div className="list_categories_grid">
-             {
-                categories && categories.length > 0 ? 
+              {
+                valueSearch !=="" && categoriesFound.length===0 ? 
+                  <>
+                    <p>No se encontraron datos</p>
+                  </>
+                :
+                categoriesFound && categoriesFound.length > 0 ?
                   <>
                     {
-                      categories.map((cat,index)=>(
-                        <ItemCategory key={index} category={cat}/>
+                      categoriesFound.map((cat, index) => (
+                        <ItemCategory key={index} category={cat} />
                       ))
                     }
                   </>
-                : ""
-             }
+                  :
+                  categories && categories.length > 0 ?
+                    <>
+                      {
+                        categories.map((cat, index) => (
+                          <ItemCategory key={index} category={cat} />
+                        ))
+                      }
+                    </>
+                    : ""
+              }
             </div>
           </section>
       }

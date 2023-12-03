@@ -35,8 +35,7 @@
 }
 .icon_back_section{
     font-size: 30px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    cursor: pointer;
 }
 .container_title{
     font-size: var(--font-size-title-main);
