@@ -1,0 +1,59 @@
+.layaut_login{
+    background-color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form{
+    background-color: var(--color-bg-layaut);
+    height: max-content;
+    padding: 15px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border-radius: var(--border-radius-box);
+}
+.image_form{
+    max-height: 90px;
+    max-width: 80%;
+}
+.form_text{
+    font-size: var(--font-size-text-paragraph);
+}
+.section_form{
+    width: 100%;
+}
+.label_form{
+    font-size: 13px;
+    font-weight: 400;
+}
+.box_section{
+    position: relative;
+}
+.input_form{
+    font-size: 13px;
+    padding-left: 5px;
+    border-radius: var(--border-radius-input);
+    height: var(--heigth-input);
+    width: 100%;
+}
+.btn_excute{
+    background-color: var(--color-primary);
+    padding: 8px 10px;
+    border-radius: var(--border-radius-box);
+    width: 100%;
+    font-size: 15px;
+    cursor: pointer;
+    color: var(--color-white);
+}
+.text_forgot_password{
+    font-size: var(--font-size-text-paragraph);
+}
+
+@media screen and  (min-width:400px) {
+    .form{
+        max-width: 350px;
+    }
+}

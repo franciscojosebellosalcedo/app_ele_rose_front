@@ -1,0 +1,30 @@
+.btn_new_category {
+  margin-top: 15px;
+  margin-bottom: 20px;
+  padding: 4px 5px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--border-radius-box);
+  cursor: pointer;
+}
+.list_categories_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  max-height: 370px;
+  overflow: auto;
+}
+
+.form_search {
+  margin-bottom: 20px;
+}
+.input_search {
+  height: var(--heigth-input);
+  border-radius: var(--border-radius-input);
+  font-size: 13px;
+  width: 60%;
+  padding-left: 5px;
+}
+.icon_search_category {
+  font-size: 17px;
+}

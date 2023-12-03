@@ -1,0 +1,32 @@
+.form_category{
+    margin-top: 20px;
+}
+.form_section{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+.form_section > label{
+    font-size: 13px;
+    font-weight: 500;
+}
+.input_form_category{
+    height: var(--heigth-input);
+    border-radius: var(--border-radius-input);
+    padding-left: 5px;
+    font-size: 14px;
+}
+.btn_create_category{
+    margin-top: 20px;
+    padding: 5px;
+    border-radius: var(--border-radius-box);
+    cursor: pointer;
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}
+
+@media screen and (min-width:400px) {
+    .input_form_category{
+        width: 300px;
+    }
+}
