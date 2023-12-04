@@ -40,6 +40,9 @@ const ItemCategory = ({ category,index }) => {
                         },
                         onAutoClose:()=>{
                             setOpenConfirm(false);
+                        },
+                        onDismiss:()=>{
+                            setOpenConfirm(false);
                         }
                     })
                     setOpenConfirm(true);
