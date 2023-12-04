@@ -3,19 +3,19 @@ import { useNavigate } from "react-router-dom";
 import ItemCategory from "../itemCategory/ItemCategory";
 import { ROUTES } from "../../../../constants/constants";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategories } from "../../../../feacture/categories/categoriesSlice";
 import { useEffect } from "react";
 import { getAllCategories } from "../../../../service/category";
 import { useState } from "react";
 import Loader from "../../../../components/loader/Loader";
 import { toast } from "sonner";
+import { setAllCategories} from "../../../../features/category/categorySlice";
 
 const Categories = () => {
   const navigate = useNavigate();
   const [isLoader, setIsLoader] = useState(false);
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.user.data.accessToken);
-  const categories = useSelector((state) => state.categories.data.list);
+  const categories = useSelector((state)=>state.category.data.list)
   const [valueSearch, setValueSearch] = useState("");
   const [categoriesFound, setCategoriesFound] = useState([]);
 
@@ -34,7 +34,7 @@ const Categories = () => {
         const responseGetAll = await getAllCategories(accessToken);
         if (responseGetAll.status === 200 && responseGetAll.response) {
           const data = responseGetAll.data;
-          dispatch(setCategories(data));
+          dispatch(setAllCategories(data));
         } else {
           toast.error(responseGetAll.message);
         }
@@ -76,20 +76,20 @@ const Categories = () => {
                     <p>No se encontraron datos</p>
                   </>
                 :
-                categoriesFound && categoriesFound.length > 0 ?
-                  <>
-                    {
-                      categoriesFound.map((cat, index) => (
-                        <ItemCategory key={index} category={cat} />
-                      ))
-                    }
-                  </>
-                  :
+                // categoriesFound && categoriesFound.length > 0 ?
+                //   <>
+                //     {
+                //       categoriesFound.map((cat, index) => (
+                //         <ItemCategory index={index} key={index} category={cat} />
+                //       ))
+                //     }
+                //   </>
+                //   :
                   categories && categories.length > 0 ?
                     <>
                       {
                         categories.map((cat, index) => (
-                          <ItemCategory key={index} category={cat} />
+                          <ItemCategory index={index} key={index} category={cat} />
                         ))
                       }
                     </>

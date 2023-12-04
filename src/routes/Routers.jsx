@@ -10,7 +10,8 @@ import Categories from '../pages/dashboard/categories/index/Categories'
 import Products from '../pages/dashboard/products/Products'
 import ProductsNews from '../pages/dashboard/newProducts/ProductsNews'
 import CreateNewCategory from '../pages/dashboard/categories/createCategory/CreateCategory'
-import EditCategory from '../pages/dashboard/categories/editCategory/EditCategory'
+import EditCategory from '../pages/dashboard/categories/editCategory/EditCategory';
+
 
 const Routers = () => {
   return (

@@ -2,12 +2,12 @@ import "./ItemCategory.css";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { deleteCategory } from "../../../../service/category";
-import { removeCategory } from "../../../../feacture/categories/categoriesSlice";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../../constants/constants";
 import { useState } from "react";
+import { removeCategorie } from "../../../../features/category/categorySlice";
 
-const ItemCategory = ({ category }) => {
+const ItemCategory = ({ category,index }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [openConfirm, setOpenConfirm] = useState(false);
@@ -24,8 +24,8 @@ const ItemCategory = ({ category }) => {
                             onClick: async () => {
                                 const responseDeleted = await deleteCategory(accessToken, category._id);
                                 if (responseDeleted.status === 200 && responseDeleted.response) {
+                                    dispatch(removeCategorie(category._id));
                                     toast.success(responseDeleted.message);
-                                    dispatch(removeCategory(category._id));
                                 } else {
                                     toast.error(responseDeleted.message);
                                 }

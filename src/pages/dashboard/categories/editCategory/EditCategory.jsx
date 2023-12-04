@@ -4,12 +4,12 @@ import {  useNavigate,useParams} from "react-router-dom";
 import { ROUTES } from "../../../../constants/constants";
 import {useDispatch, useSelector  } from "react-redux";
 import { toast} from "sonner";
-import { editCategory  } from "../../../../feacture/categories/categoriesSlice";
 import { getOneCategory, updateCategory } from "../../../../service/category";
+import { editCategory } from "../../../../features/category/categorySlice";
 
 const EditCategory = () => {
   const [newDataCategory,setNewDataCategory]=useState({name:""});
-  const categories=useSelector((state)=>state.categories.data.list);
+  const categories=useSelector((state)=>state.category.data.list);
   const accessToken=useSelector((state)=>state.user.data.accessToken);
   const navigate=useNavigate();
   const params=useParams();
@@ -25,14 +25,21 @@ const EditCategory = () => {
     try {
       const filterCat=categories.filter((cat)=>cat._id !== category._id);
       const categoryFound=filterCat.find((cate)=>cate.name.toLowerCase().includes(newDataCategory.name.toLocaleLowerCase()));
+      if(newDataCategory.name === ""){
+        toast.warning("Llene el campo por favor");
+        return;
+      }
       if(categoryFound){
         toast.warning("Esta categoría ya existe");
       }else{
         const responseUpdated=await updateCategory(accessToken,category._id,newDataCategory);
         if(responseUpdated.status===200 && responseUpdated.response){
-          dispatch(editCategory(responseUpdated.data));
+          const data=responseUpdated.data;
+          dispatch(editCategory(data));
           navigate(`/${ROUTES.DASHBOARD}/${ROUTES.CATEGORIES}`);
           toast.success(responseUpdated.message);
+        }else{
+          toast.error(responseUpdated.message);
         }
       }
     } catch (error) {

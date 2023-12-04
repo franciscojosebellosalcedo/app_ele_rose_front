@@ -1,6 +1,6 @@
 import "./NavBar.css";
 import { useSelector, useDispatch } from "react-redux";
-import { setOpenMenu } from "../../feacture/sectionActive/sectionActiveSlice";
+import { setOpenMenu } from "../../features/sectionActive/sectionActiveSlice";
 import { NavLink } from "react-router-dom";
 import { ROUTES } from "../../constants/constants";
 

@@ -1,10 +1,9 @@
 import Loader from "./components/loader/Loader";
 import Routers from "./routes/Routers";
-import { Toaster } from "sonner";
 import { getNewTokenUser } from "./service/user";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { setUser } from "./feacture/user/userSlice";
+import { setUser } from "./features/user/userSlice";
 
 function App() {
   const [isLoader, setIsLoader] = useState(false);
@@ -40,10 +39,7 @@ function App() {
       {isLoader === true ? (
         <Loader/>
       ) : (
-        <>
-          <Toaster richColors position="top-center" />
-          <Routers />
-        </>
+        <Routers />
       )}
     </>
   );
