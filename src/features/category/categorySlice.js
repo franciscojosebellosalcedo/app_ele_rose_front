@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     data:{
-        list:[]
+        list:[],
+        found:[]
     },
 }
 
@@ -10,6 +11,9 @@ export const categorySlice=createSlice({
     name:"category",
     initialState,
     reducers:{
+        searchCategory:(state,action)=>{
+            state.data.found=state.data.list.filter((cat) => cat.name.toLowerCase().includes(action.payload));
+        },
         setAllCategories:(state,action)=>{
             state.data.list=action.payload;
         },
@@ -19,6 +23,8 @@ export const categorySlice=createSlice({
         removeCategorie:(state,action)=>{
             const index=state.data.list.findIndex((cat)=>cat._id===action.payload);
             state.data.list.splice(index,1);
+            const indexFounSearch=state.data.found.findIndex((cat)=>cat._id===action.payload);
+            state.data.found.splice(indexFounSearch,1);
         },
         editCategory:(state,action)=>{
             const list=state.data.list;
@@ -29,6 +35,6 @@ export const categorySlice=createSlice({
     }
 })
 
-export const {setAllCategories,pushCategory,removeCategorie,editCategory } = categorySlice.actions;
+export const {setAllCategories,searchCategory,pushCategory,removeCategorie,editCategory } = categorySlice.actions;
 
 export default categorySlice.reducer;

@@ -8,16 +8,16 @@ import { getAllCategories } from "../../../../service/category";
 import { useState } from "react";
 import Loader from "../../../../components/loader/Loader";
 import { toast } from "sonner";
-import { setAllCategories} from "../../../../features/category/categorySlice";
+import { setAllCategories ,searchCategory} from "../../../../features/category/categorySlice";
 
 const Categories = () => {
   const navigate = useNavigate();
   const [isLoader, setIsLoader] = useState(false);
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.user.data.accessToken);
-  const categories = useSelector((state)=>state.category.data.list)
+  const categories = useSelector((state) => state.category.data.list);
+  const categoriesFound=useSelector((state)=>state.category.data.found);
   const [valueSearch, setValueSearch] = useState("");
-  const [categoriesFound, setCategoriesFound] = useState([]);
 
   const goTo = (url) => {
     navigate(url, { replace: true, relative: true });
@@ -47,8 +47,7 @@ const Categories = () => {
   }
 
   const findCategoriesSearch = () => {
-    const filter = categories.filter((cat) => cat.name.toLowerCase().includes(valueSearch));
-    setCategoriesFound([...filter]);
+    dispatch(searchCategory(valueSearch));
   }
 
   useEffect(() => {
@@ -71,29 +70,24 @@ const Categories = () => {
             </form>
             <div className="list_categories_grid">
               {
-                valueSearch !=="" && categoriesFound.length===0 ? 
+                valueSearch !== "" && categoriesFound.length > 0 ?
                   <>
-                    <p>No se encontraron datos</p>
+                    {
+                      categoriesFound.map((cat, index) => (
+                        <ItemCategory setValueSearch={setValueSearch} key={index} category={cat} />
+                      ))
+                    }
                   </>
-                :
-                // categoriesFound && categoriesFound.length > 0 ?
-                //   <>
-                //     {
-                //       categoriesFound.map((cat, index) => (
-                //         <ItemCategory index={index} key={index} category={cat} />
-                //       ))
-                //     }
-                //   </>
-                //   :
-                  categories && categories.length > 0 ?
+                  : categories && categories.length > 0 ?
                     <>
                       {
                         categories.map((cat, index) => (
-                          <ItemCategory index={index} key={index} category={cat} />
+                          <ItemCategory setValueSearch={setValueSearch} key={index} category={cat} />
                         ))
                       }
                     </>
                     : ""
+
               }
             </div>
           </section>

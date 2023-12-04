@@ -7,7 +7,7 @@ import { ROUTES } from "../../../../constants/constants";
 import { useState } from "react";
 import { removeCategorie } from "../../../../features/category/categorySlice";
 
-const ItemCategory = ({ category,index }) => {
+const ItemCategory = ({ category,setValueSearch }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [openConfirm, setOpenConfirm] = useState(false);
@@ -25,6 +25,7 @@ const ItemCategory = ({ category,index }) => {
                                 const responseDeleted = await deleteCategory(accessToken, category._id);
                                 if (responseDeleted.status === 200 && responseDeleted.response) {
                                     dispatch(removeCategorie(category._id));
+                                    setValueSearch("");
                                     toast.success(responseDeleted.message);
                                 } else {
                                     toast.error(responseDeleted.message);
