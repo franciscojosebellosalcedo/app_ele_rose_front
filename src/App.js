@@ -4,6 +4,8 @@ import { getNewTokenUser } from "./service/user";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { setUser } from "./features/user/userSlice";
+import { Toaster } from "sonner";
+
 
 function App() {
   const [isLoader, setIsLoader] = useState(false);
@@ -16,7 +18,7 @@ function App() {
       if (dataUser) {
         const responseNewToken = await getNewTokenUser(dataUser.refressToken);
         if (responseNewToken.status === 200 && responseNewToken.response) {
-          const data=responseNewToken.data;
+          const data = responseNewToken.data;
           const dataUser = {
             refressToken: data.refressToken,
             user: data.user,
@@ -37,9 +39,12 @@ function App() {
   return (
     <>
       {isLoader === true ? (
-        <Loader/>
+        <Loader />
       ) : (
-        <Routers />
+        <>
+          <Toaster richColors position="bottom-right" expand={false} />
+          <Routers />
+        </>
       )}
     </>
   );
