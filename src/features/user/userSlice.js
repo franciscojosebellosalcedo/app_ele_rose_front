@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const data=JSON.parse(localStorage.getItem(process.env.REACT_APP_KEY_LOCAL));
+const data=JSON.parse(localStorage.getItem("dataEleRose"));
 
 
 const initialState = {
@@ -19,24 +19,28 @@ export const userSlice=createSlice({
     name:"user",
     initialState,
     reducers:{
+        logoutUser:(state)=>{
+           state.data={};
+            localStorage.removeItem("dataEleRose");
+        },
         setUser:(state,action)=>{
            state.data=action.payload;
             const dataUser={
                 refressToken: action.payload.refressToken,
                 user:action.payload.user
             }
-            localStorage.setItem(process.env.REACT_APP_KEY_LOCAL,JSON.stringify(dataUser));
+            localStorage.setItem("dataEleRose",JSON.stringify(dataUser));
         },
         updateUser:(state,action)=>{
             state.data.user=action.payload;
         },
         removeUser:(state)=>{
             state.data={};
-            localStorage.removeItem(process.env.REACT_APP_KEY_LOCAL);
+            localStorage.removeItem("dataEleRose");
         }
     }
 })
 
-export const { setUser,updateUser ,removeUser} = userSlice.actions;
+export const { setUser,updateUser ,logoutUser,removeUser} = userSlice.actions;
 
 export default userSlice.reducer;

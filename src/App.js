@@ -14,7 +14,7 @@ function App() {
   const getNewAccessTokenUser = async () => {
     setIsLoader(true);
     try {
-      const dataUser = JSON.parse(localStorage.getItem(process.env.REACT_APP_KEY_LOCAL));
+      const dataUser = JSON.parse(localStorage.getItem("dataEleRose"));
       if (dataUser) {
         const responseNewToken = await getNewTokenUser(dataUser.refressToken);
         if (responseNewToken.status === 200 && responseNewToken.response) {
@@ -23,7 +23,7 @@ function App() {
             refressToken: data.refressToken,
             user: data.user,
           };
-          localStorage.setItem(process.env.REACT_APP_KEY_LOCAL, JSON.stringify(dataUser));
+          localStorage.setItem("dataEleRose", JSON.stringify(dataUser));
           dispatch(setUser(data));
         }
       }

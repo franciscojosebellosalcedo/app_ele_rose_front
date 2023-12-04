@@ -12,6 +12,8 @@ export const ROUTES={
     NOT_FOUND:"*"
 }
 
+export const keyLocalStorage=process.env.REACT_APP_KEY_LOCAL;
+
 export const URL_BASE=process.env.REACT_APP_URL_BASE;
 
 export const HEADERS={

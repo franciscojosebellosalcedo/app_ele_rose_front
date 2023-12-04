@@ -1,12 +1,13 @@
 import "./Login.css";
 import {toast} from "sonner";
-import { ROUTES } from "../../constants/constants";
+import { ROUTES} from "../../constants/constants";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { loginUser } from "../../service/user";
 import {  useDispatch} from "react-redux";
 import {setUser  } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
+
 
 
 const Login = () => {
@@ -35,7 +36,6 @@ const Login = () => {
         }
       }
     }catch(error){
-      console.log(error)
       toast.error("Se produjo un error")
     }
   }

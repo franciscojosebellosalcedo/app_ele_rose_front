@@ -1,16 +1,24 @@
 import "./NavBar.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setOpenMenu } from "../../features/sectionActive/sectionActiveSlice";
-import { NavLink } from "react-router-dom";
+import { logoutUser } from "../../features/user/userSlice";
+import { NavLink,useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/constants";
 
 const NavBar = () => {
   const openMenu = useSelector((state) => state.sectionActive.data.openMenu);
   const dispatch = useDispatch();
+  const navigate=useNavigate();
   const user=useSelector((state)=>state.user.data.user);
 
   const handlerOpenMenu = () => {
     dispatch(setOpenMenu());
+  }
+
+  const logout=(e)=>{
+    e.preventDefault();
+    dispatch(logoutUser());
+    navigate(`${ROUTES.LOGIN}`);
   }
 
   return (
@@ -29,7 +37,7 @@ const NavBar = () => {
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.PRODUCTS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-box icon_menu_item"></i> Productos</NavLink>
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.PRODUCTS_NEWS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-create-dashboard icon_menu_item"></i> Productos nuevos</NavLink>
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.USERS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-users-alt icon_menu_item"></i> Usuarios</NavLink>
-          <button className="btn btn_logout"><i className="uil uil-signout icon_logout"></i> Cerrar sesión</button>
+          <button onClick={(e)=>logout(e)} className="btn btn_logout"><i className="uil uil-signout icon_logout"></i> Cerrar sesión</button>
         </div>
       </nav>
     </section>
