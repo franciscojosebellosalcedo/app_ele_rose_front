@@ -29,7 +29,7 @@ const Login = () => {
           const dataResponse=responseLogin.data;
           dispatch(setUser(dataResponse));
           setCredencials({email:"",password:""});
-          navigate(`${ROUTES.DASHBOARD}/${ROUTES.CATEGORIES}`);
+          navigate(`/${ROUTES.DASHBOARD}/${ROUTES.CATEGORIES}`);
         }else{
           toast.error(responseLogin.message);
         }
