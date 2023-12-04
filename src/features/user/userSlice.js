@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const data=JSON.parse(localStorage.getItem("dataEleRose"));
+const data=JSON.parse(localStorage.getItem(process.env.REACT_APP_KEY_LOCAL));
 
 
 const initialState = {
@@ -25,14 +25,14 @@ export const userSlice=createSlice({
                 refressToken: action.payload.refressToken,
                 user:action.payload.user
             }
-            localStorage.setItem("dataEleRose",JSON.stringify(dataUser));
+            localStorage.setItem(process.env.REACT_APP_KEY_LOCAL,JSON.stringify(dataUser));
         },
         updateUser:(state,action)=>{
             state.data.user=action.payload;
         },
         removeUser:(state)=>{
             state.data={};
-            localStorage.removeItem("dataEleRose");
+            localStorage.removeItem(process.env.REACT_APP_KEY_LOCAL);
         }
     }
 })
