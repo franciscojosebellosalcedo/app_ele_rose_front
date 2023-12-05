@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     data:{
         list:[],
+        added:[],
     },
 }
 
@@ -12,10 +13,13 @@ export const productSlice=createSlice({
     reducers:{
         setAllProducts:(state,action)=>{
             state.data.list=action.payload;
+        },
+        addProductToAdded:(state,action)=>{
+            state.data.added.unshift(action.payload);
         }
     }
 })
 
-export const { setAllProducts} = productSlice.actions;
+export const { setAllProducts,addProductToAdded} = productSlice.actions;
 
 export default productSlice.reducer;

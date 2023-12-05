@@ -34,6 +34,7 @@
     background-color: #0000006c;
     top: 0;
     bottom: 0;
+    z-index: 100;
     left: 0;
     display: flex;
     align-items: center;

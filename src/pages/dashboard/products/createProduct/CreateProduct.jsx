@@ -14,7 +14,9 @@ const CreateProduct = () => {
   const [isLoader, setIsLoader] = useState(false);
   const [imageSelected,setImageSelected]=useState(null);
 
-  const deleteOneImageSelected = (index) => {
+  const deleteOneImageSelected = (e,index) => {
+    e.preventDefault();
+    e.stopPropagation();
     const list = base64Strings; list.splice(index, 1);
     setBase64Strings([...list]);
   }
@@ -70,7 +72,7 @@ const CreateProduct = () => {
                       {
                         base64Strings.map((img, index) => {
                           return <div onClick={()=>handlerSelectedImage({image:img,index})} className="item_grid" key={index}>
-                            <i className="uil uil-multiply icon_delete_img" onClick={() => deleteOneImageSelected(index)}></i>
+                            <i className="uil uil-multiply icon_delete_img" onClick={(e) => deleteOneImageSelected(e,index)}></i>
                             <img className="item_img_grid" src={img} />
                           </div>
                         })
@@ -82,7 +84,7 @@ const CreateProduct = () => {
           }
         </>
         {
-          imageSelected && <FormProduct dataImagen={imageSelected}/>
+          imageSelected && <FormProduct dataImagen={imageSelected} setImageSelected={setImageSelected}/>
         }
       </section>
     </div>

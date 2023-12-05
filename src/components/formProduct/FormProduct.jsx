@@ -1,23 +1,87 @@
 import { useState } from "react";
-import { optionsFilter } from "../../constants/constants";
 import "./FormProduct.css";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "sonner";
+import { addProductToAdded } from "../../features/product/productSlice";
+import { useEffect } from "react";
 
-const FormProduct = ({ dataImagen }) => {
+const FormProduct = ({ dataImagen, setImageSelected }) => {
   const [openSelect, setOpenSelect] = useState(false);
   const [openSectionDataMain, setOpenSectionDataMain] = useState(true);
   const [openSectionDataDiscont, setOpenSectionDataDiscont] = useState(false);
+  const categories = useSelector((state) => state.category.data.list);
+  const [nameCategorySelected, setNameCategorySelected] = useState("");
+  const [product, setProduct] = useState({
+    name: "",
+    description: "",
+    category: "",
+    isNow: false,
+    amount: "",
+    percentage: "",
+    realPrice: "",
+    pricePromotion: "",
+    imagen: dataImagen.image
+  });
+
+  const handlerNameOptionSelected = (name, value) => {
+    handlerFormProduct("category", value);
+    setNameCategorySelected(name);
+    handlerOpenSelect();
+  }
+
+  const handlerOpenSelect = () => {
+    setOpenSelect(!openSelect);
+  }
 
   const handlerOpenSectionDiscont = () => {
     setOpenSectionDataDiscont(!openSectionDataDiscont);
   }
+
   const handlerOpenSectionMain = () => {
     setOpenSectionDataMain(!openSectionDataMain);
   }
 
+  const handlerFormProduct = (target, value) => {
+    if(target==="realPrice" && product.percentage !== ""){
+      setPromotionProduct(product,product.percentage);
+    }
+    if (target === "percentage") {
+      if (product.realPrice === "") {
+        toast.warning("Por favor ingrese primero el precio del producto");
+        return;
+      } else {
+        setPromotionProduct(product, value);
+      }
+    }
+    setProduct({ ...product, [target]: value });
+
+  }
+
+  const setPromotionProduct = (product, percentage) => {
+    const percentageFinish = parseInt(percentage) / 100;
+    const pricePromotion = parseInt(product.realPrice) * percentageFinish;
+    const pricePromotionFinal = parseInt(product.realPrice) - pricePromotion;
+    const data = product;
+    data.pricePromotion = pricePromotionFinal.toString();
+    data.percentage = percentage;
+    setProduct({ ...data });
+  }
+
+  const addProduct = (e) => {
+    e.preventDefault();
+
+    console.log(product);
+
+  }
+
+  useEffect(() => {
+    console.log(product)
+  }, [product])
+
   return (
     <section className='container_modal'>
       <div className='modal '>
-        <i className="uil uil-times icon_close_modal"></i>
+        <i onClick={() => setImageSelected(null)} className="uil uil-times icon_close_modal"></i>
         <h2 className="modal_title_main">Agregar producto</h2>
         <form className='form_product'>
           <article className="section_form_product">
@@ -27,26 +91,26 @@ const FormProduct = ({ dataImagen }) => {
                 <img className="section_imagen" src={dataImagen.image} alt="" />
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_name_product">Nombre:</label>
-                  <input className="input_form_product input_name_product" id="input_name_product" type="text" placeholder="Ingrese el nombre del producto" />
+                  <input onInput={(e) => handlerFormProduct("name", e.target.value)} defaultValue={product.name} className="input_form_product input_name_product" id="input_name_product" type="text" placeholder="Ingrese el nombre del producto" />
                 </div>
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_description_product">Descripción (Opcional):</label>
-                  <textarea className="input_description_product" name="" id="" cols="30" rows="10"></textarea>
+                  <textarea onInput={(e) => handlerFormProduct("description", e.target.value)} defaultValue={product.description} className="input_description_product" name="" id="" cols="30" rows="10"></textarea>
                 </div>
 
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="category">Categoría</label>
                   <section className="filter ">
                     <div className="filter_option input_select_category">
-                      <div className="container_title_filter"  >
-                        <i className="uil uil-apps icon_menu_item"></i> Elije...
+                      <div className="container_title_filter" onClick={() => handlerOpenSelect()}  >
+                        <i className="uil uil-apps icon_menu_item"></i> {nameCategorySelected !== "" ? nameCategorySelected : "Elije..."}
                       </div>
                       {
                         openSelect === true ? <div className="options_filter_operator">
                           {
-                            optionsFilter.map((option, index) => (
-                              <div className="item_option">Categoría</div>
-                            ))
+                            categories && categories.length > 0 ? categories.map((category, index) => (
+                              <div onClick={() => handlerNameOptionSelected(category.name, category._id)} key={index} className="item_option">{category.name}</div>
+                            )) : ""
                           }
                         </div> : ""
                       }
@@ -56,17 +120,17 @@ const FormProduct = ({ dataImagen }) => {
 
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_price_product">Precio unidad:</label>
-                  <input className="input_form_product input_price_product" id="input_price_product" type="number" placeholder="Ingrese el precio del producto" />
+                  <input onInput={(e) => handlerFormProduct("realPrice", e.target.value)} defaultValue={product.realPrice} className="input_form_product input_price_product" id="input_price_product" type="number" placeholder="Ingrese el precio del producto" />
                 </div>
 
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_amount_product">Cantidad:</label>
-                  <input className="input_form_product input_amount_product" id="input_amount_product" type="number" placeholder="Ingrese la cantidad del producto" />
+                  <input onInput={(e) => handlerFormProduct("amount", e.target.value)} defaultValue={product.amount} className="input_form_product input_amount_product" id="input_amount_product" type="number" placeholder="Ingrese la cantidad del producto" />
                 </div>
 
                 <div className="container_input_checkbox">
                   <label className="label_form_product" htmlFor="input_checkbox_product">Marcar como nuevo</label>
-                  <input className=" input_checkbox_product" id="input_checkbox_product" type="checkbox" />
+                  <input onInput={(e) => handlerFormProduct("isNow", e.target.checked)} defaultChecked={product.isNow} className=" input_checkbox_product" id="input_checkbox_product" type="checkbox" />
                 </div>
 
               </section>
@@ -74,22 +138,23 @@ const FormProduct = ({ dataImagen }) => {
           </article>
 
           <article className="section_form_product">
-            <h3 onClick={() => handlerOpenSectionDiscont()} className={`section_title ${openSectionDataDiscont && "title_section_active"}`}>Aplicar descuento <i className="uil uil-angle-right icon_arrow_title"></i></h3>
+            <h3 onClick={() => handlerOpenSectionDiscont()} className={`section_title ${openSectionDataDiscont && "title_section_active"}`}>Aplicar descuento (Opcional) <i className="uil uil-angle-right icon_arrow_title"></i></h3>
             {
               openSectionDataDiscont && <section className="section_data">
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_percentage_product">Porcentaje:</label>
-                  <input className="input_form_product input_percentage_product" id="input_percentage_product" type="number" placeholder="Ingrese el porcentaje del descuento" />
+                  <input onInput={(e) => handlerFormProduct("percentage", e.target.value)} defaultValue={product.percentage} className="input_form_product input_percentage_product" id="input_percentage_product" type="number" placeholder="Ingrese el porcentaje del descuento" />
                 </div>
 
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_discount_price_product">Precio descuento:</label>
-                  <input readOnly className="input_form_product input_discount_price_product" id="input_discount_price_product" type="number" />
+                  <input value={product.pricePromotion} readOnly className="input_form_product input_discount_price_product" id="input_discount_price_product" type="number" />
                 </div>
               </section>
             }
           </article>
         </form>
+        <button onClick={(e) => addProduct(e)} className="btn btn_add_product"><i className="uil uil-plus-circle icon_add_product"></i> Agregar</button>
       </div>
     </section>
   )
