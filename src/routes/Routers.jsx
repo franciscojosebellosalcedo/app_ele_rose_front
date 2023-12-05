@@ -4,14 +4,14 @@ import { ROUTES } from '../constants/constants'
 import Login from '../pages/login/Login'
 import LoginGuard from '../guards/LoginGuard'
 import AuthGuard from '../guards/AuthGuard';
-import Layaut from '../pages/dashboard/layaut/Layaut'
+import Layaut from '../components/layaut/Layaut'
 import Users from '../pages/dashboard/users/Users'
 import Categories from '../pages/dashboard/categories/index/Categories'
-import Products from '../pages/dashboard/products/Products'
+import Products from '../pages/dashboard/products/index/Products'
 import ProductsNews from '../pages/dashboard/newProducts/ProductsNews'
 import CreateNewCategory from '../pages/dashboard/categories/createCategory/CreateCategory'
 import EditCategory from '../pages/dashboard/categories/editCategory/EditCategory';
-
+import CreateProduct from '../pages/dashboard/products/createProduct/CreateProduct'
 
 const Routers = () => {
   return (
@@ -33,6 +33,8 @@ const Routers = () => {
             <Route path={`${ROUTES.CATEGORIES}/${ROUTES.EDIT_CATEGORY}/:id`} element={<EditCategory/>}></Route>
 
             <Route path={ROUTES.PRODUCTS} element={<Products />}></Route>
+
+            <Route path={`${ROUTES.PRODUCTS}/${ROUTES.CREATE_PRODUCT}`} element={<CreateProduct />}></Route>
 
             <Route path={ROUTES.PRODUCTS_NEWS} element={<ProductsNews />}></Route>
 

@@ -4,17 +4,15 @@ import ItemCategory from "../itemCategory/ItemCategory";
 import { ROUTES } from "../../../../constants/constants";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { getAllCategories } from "../../../../service/category";
 import { useState } from "react";
 import Loader from "../../../../components/loader/Loader";
-import { toast } from "sonner";
-import { setAllCategories ,searchCategory} from "../../../../features/category/categorySlice";
+import { searchCategory } from "../../../../features/category/categorySlice";
+
 
 const Categories = () => {
-  const navigate = useNavigate();
   const [isLoader, setIsLoader] = useState(false);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const accessToken = useSelector((state) => state.user.data.accessToken);
   const categories = useSelector((state) => state.category.data.list);
   const categoriesFound=useSelector((state)=>state.category.data.found);
   const [valueSearch, setValueSearch] = useState("");
@@ -27,32 +25,9 @@ const Categories = () => {
     setValueSearch(value);
   }
 
-  const getCategories = async () => {
-    setIsLoader(true)
-    try {
-      if (accessToken) {
-        const responseGetAll = await getAllCategories(accessToken);
-        if (responseGetAll.status === 200 && responseGetAll.response) {
-          const data = responseGetAll.data;
-          dispatch(setAllCategories(data));
-        } else {
-          toast.error(responseGetAll.message);
-        }
-      }
-    } catch (error) {
-      toast.error("Se produjo un error al obtener las categorías");
-    }
-    setIsLoader(false);
-
-  }
-
   const findCategoriesSearch = () => {
     dispatch(searchCategory(valueSearch));
   }
-
-  useEffect(() => {
-    getCategories();
-  }, []);
 
   useEffect(() => {
     findCategoriesSearch();

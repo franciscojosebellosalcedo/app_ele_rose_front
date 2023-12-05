@@ -1,0 +1,46 @@
+.item_grid_product {
+  background-color: var(--color-white);
+  box-shadow: var(--box-shadow-black);
+  height: max-content;
+  border-radius: var(--border-radius-box);
+  position: relative;
+}
+.item_image{
+    width: 100%;
+    height: 70%;
+    border-radius: var(--border-radius-box);
+}
+.info_item{
+    padding: 7px;
+    width: 100%;
+}
+.info_item >p{
+    font-size: 13px;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.info_item >p > span{
+    font-weight: 300;
+}
+.actions_card{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.actions_card >button{
+    font-size: 13px;
+    padding: 2px 3px;
+    border-radius: var(--border-radius-box);
+    cursor: pointer;
+}
+.btn_edit{
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+.btn_delete{
+    background-color: var(--color-danger);
+    color: var(--color-white);
+}
