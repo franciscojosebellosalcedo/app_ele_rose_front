@@ -3,6 +3,9 @@ import "./ItemProduct.css";
 const ItemProduct = () => {
   return (
     <div className="item_grid_product">
+      <div className="title_now_product">
+        <p>Nuevo</p>
+      </div>
       <img className="item_image" src={require("../../../../assest/image-test-product.png")} alt="imagen producto" />
       <div className="info_item">
         <p className="text_info">Nombre: <span>Collar de vida</span></p>
