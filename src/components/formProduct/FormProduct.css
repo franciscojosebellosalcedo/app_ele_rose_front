@@ -6,6 +6,9 @@
     position: relative;
     border-radius: var(--border-radius-box);
     box-shadow: var(--box-shadow-black);
+    max-height: 90%;
+    transition: .5s;
+    overflow: auto;
 }
 .modal_title_main{
     font-size: 18px;
@@ -21,9 +24,9 @@
 }
 .form_product{
     display: flex;
-    margin-top: 20px;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
+    margin-top: 20px;
     width: 100%;
 }
 .section_title{
@@ -31,6 +34,7 @@
     padding: 2px;
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
     justify-content: space-between;
     border-radius: var(--border-radius-box);
 }
@@ -43,6 +47,7 @@
 }
 .icon_arrow_title{
     font-size: 25px;
+    transition: .5s;
 }
 .section_data_main{
     display: flex;
@@ -75,7 +80,12 @@
 }
 
 .section_imagen{
-    width: 100px;
+    width: 140px;
     height: 140px;
     border-radius: var(--border-radius-box);
+}
+.container_input_checkbox{
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
