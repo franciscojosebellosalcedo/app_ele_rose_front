@@ -76,5 +76,6 @@
 
 .section_imagen{
     width: 100px;
+    height: 140px;
     border-radius: var(--border-radius-box);
 }
