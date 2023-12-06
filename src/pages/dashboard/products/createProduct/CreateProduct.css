@@ -12,14 +12,14 @@
   border-radius: var(--border-radius-box);
   cursor: pointer;
 }
-.see_list_products_add{
+.btn_delete_all_imagens{
   padding: 3px;
-  background-color: var(--color-primary);
+  background-color: var(--color-danger);
   color: var(--color-white);
   border-radius: var(--border-radius-box);
   cursor: pointer;
 }
-.see_list_products_add,.label_input_file{
+.label_input_file{
   font-size: 15px;
 }
 

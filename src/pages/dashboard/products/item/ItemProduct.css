@@ -1,7 +1,7 @@
 .item_grid_product {
   background-color: var(--color-white);
   box-shadow: var(--box-shadow-black);
-  height: max-content;
+  min-height: min-content;
   border-radius: var(--border-radius-box);
   position: relative;
   overflow: hidden;
@@ -11,23 +11,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    right: 3px;
-    top: 3px;
-    transform: rotate(-20deg);
-}
-.title_now_product >p{
-    font-size: 13px;
-    color: var(--color-white);
-    position: relative;
-}
-.title_now_product >p::before{
-    content: "";
-    height: 1.5px;
-    background-color: var(--color-white);
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    right: 0px;
+    padding: 2px;
+    top: 0px;
+    transform: rotate(-40deg);
 }
 .item_image{
     width: 100%;

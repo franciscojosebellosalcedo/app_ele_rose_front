@@ -42,7 +42,7 @@ function App() {
         <Loader />
       ) : (
         <>
-          <Toaster richColors position="bottom-right" expand={false} />
+          <Toaster richColors position="top-center" expand={false} />
           <Routers />
         </>
       )}

@@ -18,6 +18,9 @@
   max-height: 360px;
   overflow: auto;
 }
+.container_text_loader{
+  margin-top: 20px;
+}
 
 @media screen and (min-width: 400px) {
   .list_products {

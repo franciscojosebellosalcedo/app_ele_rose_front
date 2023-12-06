@@ -2,14 +2,18 @@ import { useState } from "react";
 import "./FormProduct.css";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "sonner";
-import { addProductToAdded } from "../../features/product/productSlice";
-import { useEffect } from "react";
+import { createProduct } from "../../service/product";
+import { addNewProduct, removeOneImage } from "../../features/product/productSlice";
+import Loader from "../loader/Loader";
 
 const FormProduct = ({ dataImagen, setImageSelected }) => {
+  const dispatch=useDispatch();
   const [openSelect, setOpenSelect] = useState(false);
   const [openSectionDataMain, setOpenSectionDataMain] = useState(true);
   const [openSectionDataDiscont, setOpenSectionDataDiscont] = useState(false);
   const categories = useSelector((state) => state.category.data.list);
+  const accessToken = useSelector((state) => state.user.data.accessToken);
+  const [isLoader,setIsLoader]=useState(false);
   const [nameCategorySelected, setNameCategorySelected] = useState("");
   const [product, setProduct] = useState({
     name: "",
@@ -50,10 +54,10 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
         toast.warning("Por favor ingrese primero el precio del producto");
         return;
       } else {
-        setPromotionProduct(product, value);
+        setPromotionProduct(product, convertToNumber(target,value));
       }
     }
-    setProduct({ ...product, [target]: value });
+    setProduct({ ...product, [target]: convertToNumber(target,value) });
 
   }
 
@@ -62,21 +66,50 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
     const pricePromotion = parseInt(product.realPrice) * percentageFinish;
     const pricePromotionFinal = parseInt(product.realPrice) - pricePromotion;
     const data = product;
-    data.pricePromotion = pricePromotionFinal.toString();
+    data.pricePromotion = pricePromotionFinal;
     data.percentage = percentage;
     setProduct({ ...data });
   }
 
-  const addProduct = (e) => {
-    e.preventDefault();
-
-    console.log(product);
-
+  const convertToNumber=(target,value)=>{
+    if(target==="amount" || target==="realPrice" || target==="percentage" ||  target==="pricePromotion"){
+      return parseInt(value);
+    }
+    return value;
   }
 
-  useEffect(() => {
-    console.log(product)
-  }, [product])
+  const isEmptyFiels=()=>{
+    if(product.name==="" || product.category==="" || product.amount==="" || product.realPrice==="" || product.imagen===""){
+      return false;
+    }
+    return true;
+  }
+
+  const addProduct =async  (e) => {
+    e.preventDefault();
+    setIsLoader(true);
+    if(!isEmptyFiels()){
+      toast.warning("Por favor llene los campos necesarios");
+    }else{
+      try {
+        if(accessToken){
+          const responseCretaed=await createProduct(accessToken,product);
+          if(responseCretaed.status===200 && responseCretaed.response){
+            const data=responseCretaed.data;
+            dispatch(addNewProduct(data));
+            dispatch(removeOneImage(dataImagen.index));
+            setImageSelected(null);
+            toast.success(responseCretaed.message);
+          }else{
+            toast.error(responseCretaed.message);
+          }
+        }
+      } catch (error) {
+        toast.error("Se produjo un error en el servidor");
+      }
+    }
+    setIsLoader(false);
+  }
 
   return (
     <section className='container_modal'>
@@ -129,7 +162,7 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
                 </div>
 
                 <div className="container_input_checkbox">
-                  <label className="label_form_product" htmlFor="input_checkbox_product">Marcar como nuevo</label>
+                  <label className="label_form_product" htmlFor="input_checkbox_product">Marcar como nuevo (Opcional)</label>
                   <input onInput={(e) => handlerFormProduct("isNow", e.target.checked)} defaultChecked={product.isNow} className=" input_checkbox_product" id="input_checkbox_product" type="checkbox" />
                 </div>
 
@@ -156,6 +189,7 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
         </form>
         <button onClick={(e) => addProduct(e)} className="btn btn_add_product"><i className="uil uil-plus-circle icon_add_product"></i> Agregar</button>
       </div>
+      {isLoader && <Loader/>}
     </section>
   )
 }
