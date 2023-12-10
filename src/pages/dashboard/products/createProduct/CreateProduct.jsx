@@ -5,7 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import Loader from "../../../../components/loader/Loader";
 import FormProduct from "../../../../components/formProduct/FormProduct";
+import {  toast} from "sonner";
 import { addImage, removeAllImagens, removeOneImage, setImagens } from "../../../../features/product/productSlice";
+import { setOpenFormProduct } from "../../../../features/sectionActive/sectionActiveSlice";
 
 
 const CreateProduct = () => {
@@ -13,9 +15,12 @@ const CreateProduct = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data.user);
   const imagens = useSelector((state) => state.product.data.imagens);
+  const openFormProduct=useSelector((state)=>state.sectionActive.data.openFormProduct);
+  console.log(openFormProduct)
   const [base64Strings, setBase64Strings] = useState([]);
   const [isLoader, setIsLoader] = useState(false);
   const [imageSelected, setImageSelected] = useState(null);
+  const [openConfirm,setOpenConfirm]=useState(false);
 
   const deleteOneImageSelected = (e, index) => {
     e.preventDefault();
@@ -23,7 +28,8 @@ const CreateProduct = () => {
     dispatch(removeOneImage(index));
   }
 
-  const handlerSelectedImage = (data) => {
+  const handlerOpenForm = (data) => {
+    dispatch(setOpenFormProduct());
     setImageSelected(data);
   }
 
@@ -54,7 +60,30 @@ const CreateProduct = () => {
 
   const deleteAllImagensSelected = (e) => {
     e.preventDefault();
-    dispatch(removeAllImagens());
+    if (!openConfirm) {
+      toast(`¿ Desea eliminar las imagenes restantes ?`, {
+          action: {
+              label: "Si",
+              onClick: async () => {
+                dispatch(removeAllImagens());
+                setOpenConfirm(false);
+              }
+          },
+          cancel: {
+              label: "No",
+              onClick: () => {
+                  setOpenConfirm(false);
+              }
+          },
+          onAutoClose:()=>{
+              setOpenConfirm(false);
+          },
+          onDismiss:()=>{
+              setOpenConfirm(false);
+          }
+      })
+      setOpenConfirm(true);
+  }
   }
 
 
@@ -82,7 +111,7 @@ const CreateProduct = () => {
                     <>
                       {
                         imagens.map((img, index) => {
-                          return <div onClick={() => handlerSelectedImage({ image: img, index })} className="item_grid" key={index}>
+                          return <div onClick={() => handlerOpenForm({ image: img, index })} className="item_grid" key={index}>
                             <i className="uil uil-multiply icon_delete_img" onClick={(e) => deleteOneImageSelected(e, index)}></i>
                             <img className="item_img_grid" src={img} />
                           </div>
@@ -95,7 +124,7 @@ const CreateProduct = () => {
           }
         </>
         {
-          imageSelected && <FormProduct dataImagen={imageSelected} setImageSelected={setImageSelected} />
+          openFormProduct===true ? <FormProduct dataImagen={imageSelected} fnHandlerOpenForm={handlerOpenForm} productSeleted={null} />:""
         }
       </section>
     </div>

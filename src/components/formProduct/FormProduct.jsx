@@ -2,18 +2,20 @@ import { useState } from "react";
 import "./FormProduct.css";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "sonner";
-import { createProduct } from "../../service/product";
-import { addNewProduct, removeOneImage } from "../../features/product/productSlice";
+import { createProduct, updateProduct } from "../../service/product";
+import { addNewProduct, removeOneImage,editProduct } from "../../features/product/productSlice";
 import Loader from "../loader/Loader";
+import { useEffect } from "react";
 
-const FormProduct = ({ dataImagen, setImageSelected }) => {
-  const dispatch=useDispatch();
+//{ dataImagen, handlerOpenForm ,productSeleted }
+const FormProduct = (props) => {
+  const dispatch = useDispatch();
   const [openSelect, setOpenSelect] = useState(false);
   const [openSectionDataMain, setOpenSectionDataMain] = useState(true);
   const [openSectionDataDiscont, setOpenSectionDataDiscont] = useState(false);
   const categories = useSelector((state) => state.category.data.list);
   const accessToken = useSelector((state) => state.user.data.accessToken);
-  const [isLoader,setIsLoader]=useState(false);
+  const [isLoader, setIsLoader] = useState(false);
   const [nameCategorySelected, setNameCategorySelected] = useState("");
   const [product, setProduct] = useState({
     name: "",
@@ -24,7 +26,7 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
     percentage: "",
     realPrice: "",
     pricePromotion: "",
-    imagen: dataImagen.image
+    imagen: props?.dataImagen && props.dataImagen?.image
   });
 
   const handlerNameOptionSelected = (name, value) => {
@@ -46,18 +48,18 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
   }
 
   const handlerFormProduct = (target, value) => {
-    if(target==="realPrice" && product.percentage !== ""){
-      setPromotionProduct(product,product.percentage);
+    if (target === "realPrice" && product.percentage !== "") {
+      setPromotionProduct(product, product.percentage);
     }
     if (target === "percentage") {
       if (product.realPrice === "") {
         toast.warning("Por favor ingrese primero el precio del producto");
         return;
       } else {
-        setPromotionProduct(product, convertToNumber(target,value));
+        setPromotionProduct(product, convertToNumber(target, value));
       }
     }
-    setProduct({ ...product, [target]: convertToNumber(target,value) });
+    setProduct({ ...product, [target]: convertToNumber(target, value) });
 
   }
 
@@ -71,36 +73,35 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
     setProduct({ ...data });
   }
 
-  const convertToNumber=(target,value)=>{
-    if(target==="amount" || target==="realPrice" || target==="percentage" ||  target==="pricePromotion"){
+  const convertToNumber = (target, value) => {
+    if (target === "amount" || target === "realPrice" || target === "percentage" || target === "pricePromotion") {
       return parseInt(value);
     }
     return value;
   }
 
-  const isEmptyFiels=()=>{
-    if(product.name==="" || product.category==="" || product.amount==="" || product.realPrice==="" || product.imagen===""){
+  const isEmptyFiels = () => {
+    if (product.name === "" || product.category === "" || product.amount === "" || product.realPrice === "" || product.imagen === "") {
       return false;
     }
     return true;
   }
 
-  const addProduct =async  (e) => {
+  const updateProductSelected=async(e)=>{
     e.preventDefault();
     setIsLoader(true);
-    if(!isEmptyFiels()){
+    if (!isEmptyFiels()) {
       toast.warning("Por favor llene los campos necesarios");
-    }else{
+    } else {
       try {
-        if(accessToken){
-          const responseCretaed=await createProduct(accessToken,product);
-          if(responseCretaed.status===200 && responseCretaed.response){
-            const data=responseCretaed.data;
-            dispatch(addNewProduct(data));
-            dispatch(removeOneImage(dataImagen.index));
-            setImageSelected(null);
+        if (accessToken) {
+          const responseCretaed = await updateProduct(accessToken,props.productSeleted._id, product);
+          if (responseCretaed.status === 200 && responseCretaed.response) {
+            const data = responseCretaed.data;
+            dispatch(editProduct(data));
+            props?.fnHandlerOpenForm(null);
             toast.success(responseCretaed.message);
-          }else{
+          } else {
             toast.error(responseCretaed.message);
           }
         }
@@ -111,24 +112,76 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
     setIsLoader(false);
   }
 
+  const addProduct = async (e) => {
+    e.preventDefault();
+    setIsLoader(true);
+    if (!isEmptyFiels()) {
+      toast.warning("Por favor llene los campos necesarios");
+    } else {
+      try {
+        if (accessToken) {
+          const responseCretaed = await createProduct(accessToken, product);
+          if (responseCretaed.status === 200 && responseCretaed.response) {
+            const data = responseCretaed.data;
+            dispatch(addNewProduct(data));
+            dispatch(removeOneImage(props?.dataImagen.index));
+            props?.fnHandlerOpenForm(null);
+            toast.success(responseCretaed.message);
+          } else {
+            toast.error(responseCretaed.message);
+          }
+        }
+      } catch (error) {
+        toast.error("Se produjo un error en el servidor");
+      }
+    }
+    setIsLoader(false);
+  }
+
+
+  useEffect(() => {
+    if (props?.productSeleted) {
+      const data = props?.productSeleted;
+      console.log(data)
+      setOpenSectionDataDiscont(true);
+      setProduct({
+        name: data.name,
+        description: data.description,
+        category: data.category?._id,
+        isNow: data.isNow,
+        amount: data.amount,
+        percentage:data.percentage,
+        realPrice: data.realPrice,
+        pricePromotion: data.pricePromotion,
+        imagen:data.imagen
+      });
+      console.log(data.category);
+      setNameCategorySelected(data.category?.name);
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(product)
+  // }, [product]);
+
   return (
     <section className='container_modal'>
       <div className='modal '>
-        <i onClick={() => setImageSelected(null)} className="uil uil-times icon_close_modal"></i>
-        <h2 className="modal_title_main">Agregar producto</h2>
+        <i onClick={() => props?.fnHandlerOpenForm(null)} className="uil uil-times icon_close_modal"></i>
+        <h2 className="modal_title_main">{props?.productSeleted !== null ? "Editar" : "Agregar"} producto</h2>
         <form className='form_product'>
           <article className="section_form_product">
             <h3 onClick={() => handlerOpenSectionMain()} className={`section_title ${openSectionDataMain && "title_section_active"}`}>Datos Principales <i className="uil uil-angle-right icon_arrow_title"></i></h3>
             {
               openSectionDataMain && <section className="section_data section_data_main">
-                <img className="section_imagen" src={dataImagen.image} alt="" />
+                <img className="section_imagen" src={props?.dataImagen?.image || product?.imagen} alt="" />
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_name_product">Nombre:</label>
-                  <input onInput={(e) => handlerFormProduct("name", e.target.value)} defaultValue={product.name} className="input_form_product input_name_product" id="input_name_product" type="text" placeholder="Ingrese el nombre del producto" />
+                  <input onInput={(e) => handlerFormProduct("name", e.target.value)} defaultValue={product?.name || props?.productSeleted?.name} className="input_form_product input_name_product" id="input_name_product" type="text" placeholder="Ingrese el nombre del producto" />
                 </div>
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_description_product">Descripción (Opcional):</label>
-                  <textarea onInput={(e) => handlerFormProduct("description", e.target.value)} defaultValue={product.description} className="input_description_product" name="" id="" cols="30" rows="10"></textarea>
+                  <textarea onInput={(e) => handlerFormProduct("description", e.target.value)} defaultValue={product?.description} className="input_description_product" name="" id="" cols="30" rows="10"></textarea>
                 </div>
 
                 <div className="container_input">
@@ -142,7 +195,7 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
                         openSelect === true ? <div className="options_filter_operator">
                           {
                             categories && categories.length > 0 ? categories.map((category, index) => (
-                              <div onClick={() => handlerNameOptionSelected(category.name, category._id)} key={index} className="item_option">{category.name}</div>
+                              <div onClick={() => handlerNameOptionSelected(category?.name, category?._id)} key={index} className="item_option">{category?.name}</div>
                             )) : ""
                           }
                         </div> : ""
@@ -163,7 +216,13 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
 
                 <div className="container_input_checkbox">
                   <label className="label_form_product" htmlFor="input_checkbox_product">Marcar como nuevo (Opcional)</label>
-                  <input onInput={(e) => handlerFormProduct("isNow", e.target.checked)} defaultChecked={product.isNow} className=" input_checkbox_product" id="input_checkbox_product" type="checkbox" />
+                  {
+                    product.isNow === true 
+                    ?
+                    <input onChange={(e) => handlerFormProduct("isNow", e.target.checked)} checked className=" input_checkbox_product" id="input_checkbox_product" type="checkbox" />
+                    :
+                    <input onChange={(e) => handlerFormProduct("isNow", e.target.checked)} className=" input_checkbox_product" id="input_checkbox_product" type="checkbox" />
+                  }
                 </div>
 
               </section>
@@ -187,9 +246,9 @@ const FormProduct = ({ dataImagen, setImageSelected }) => {
             }
           </article>
         </form>
-        <button onClick={(e) => addProduct(e)} className="btn btn_add_product"><i className="uil uil-plus-circle icon_add_product"></i> Agregar</button>
+        <button onClick={(e) => props?.productSeleted !== null ? updateProductSelected(e) : addProduct(e)} className="btn btn_add_product"><i className="uil uil-plus-circle icon_add_product"></i> Guardar</button>
       </div>
-      {isLoader && <Loader/>}
+      {isLoader && <Loader />}
     </section>
   )
 }

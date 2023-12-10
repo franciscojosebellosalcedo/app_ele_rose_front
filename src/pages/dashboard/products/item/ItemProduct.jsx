@@ -1,19 +1,23 @@
 import "./ItemProduct.css";
 import { useSelector,useDispatch } from "react-redux";
-import { removeOneProduct } from "../../../../features/product/productSlice";
-import { deleteOneProducts } from "../../../../service/product";
+import { editProduct, removeOneProduct } from "../../../../features/product/productSlice";
+import { setOpenFormProduct } from "../../../../features/sectionActive/sectionActiveSlice.js";
+import { deleteOneProducts, updateProduct } from "../../../../service/product";
 import {  toast} from "sonner";
 import { useState } from "react";
 import Loader from "../../../../components/loader/Loader";
+import FormProduct from "../../../../components/formProduct/FormProduct";
 
-const ItemProduct = ({product,setValueSearch}) => {
+const ItemProduct = ({product,clearProductsFound}) => {
   const dispatch=useDispatch();
   const accessToken=useSelector((state)=>state.user.data.accessToken);
   const [openConfirm,setOpenConfirm]=useState(false);
   const [isLoader,setIsloader]=useState(false);
+  const [productoSelected,setProductSelected]=useState(null);
 
   const deleteProduct=async (e,product)=>{
     e.preventDefault();
+    e.stopPropagation()
     setIsloader(true);
     try {
       if (accessToken) {
@@ -24,9 +28,8 @@ const ItemProduct = ({product,setValueSearch}) => {
                     onClick: async () => {
                         const responseDeleted = await deleteOneProducts(accessToken, product._id);
                         if (responseDeleted.status === 200 && responseDeleted.response) {
-                          console.log(responseDeleted);
                             dispatch(removeOneProduct(product._id));
-                            setValueSearch("");
+                            clearProductsFound();
                             toast.success(responseDeleted.message);
                         } else {
                             toast.error(responseDeleted.message);
@@ -57,8 +60,40 @@ const ItemProduct = ({product,setValueSearch}) => {
     setIsloader(false);
   }
 
+  const handlerOpenForm=(value)=>{
+    dispatch(setOpenFormProduct());
+    setProductSelected(value);
+  }
+
+  const updateProductById=async (e,product,body)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    setIsloader(true);
+    try {
+      if(accessToken){
+        const responseUpdate=await updateProduct(accessToken,product._id,body);
+        if(responseUpdate.status===200 && responseUpdate.response){
+          const dataResponse=responseUpdate.data;
+          dispatch(editProduct(dataResponse));
+          toast.success(responseUpdate.message);
+        }else{
+          toast.error(responseUpdate.message);
+        }
+      }      
+    } catch (error) {
+      toast.error("Se produjo un error");
+    }
+    setIsloader(false);
+  }
+
+  const handlerSelectProduct=(product)=>{
+    setProductSelected(product);
+    dispatch(setOpenFormProduct());
+  }
+
   return (
-    <div className="item_grid_product">
+   <>
+       <div className="item_grid_product" onClick={()=>handlerSelectProduct(product)}>
       {
         product.isNow===true ? <div className="title_now_product">
         <img src={require("../../../../assest/icon-new-product.png")} alt="" />
@@ -68,17 +103,22 @@ const ItemProduct = ({product,setValueSearch}) => {
       <div className="info_item">
         <p className="text_info">Nombre: <span>{product?.name}</span></p>
         <p className="text_info">Precio unidad: $ <span>{product?.realPrice}</span></p>
-        <p className="text_info">Cantidad: <span>3</span></p>
+        <p className="text_info">Precio descuento: <span>{product?.pricePromotion > 0 ? `$ ${product?.pricePromotion}`:"No aplica"}</span></p>
+        <p className="text_info">Cantidad: <span>{product?.amount}</span></p>
+        <p className="text_info">Categoría: <span>{product?.category?.name}</span></p>
         <section className="actions_card">
-          <button className="btn btn_card btn_edit">Editar</button>
-          <button onClick={(e)=>deleteProduct(e,product)} className="btn btn_card btn_delete">Eliminar</button>
-          <button className="btn btn_card btn_new">Es nuevo</button>
+          <button onClick={(e)=>deleteProduct(e,product)} className="btn btn_card btn_delete">Anular</button>
+          <button onClick={(e)=>updateProductById(e,product,{isNow:!product.isNow})} className="btn btn_card btn_new">{product.isNow === true ? "Cambiar a anterior" : "Cambiar a nuevo"}</button>
         </section>
       </div>
       {
         isLoader===true ? <Loader/>:""
       }
     </div>
+      {
+        productoSelected !==null ? <FormProduct fnHandlerOpenForm={handlerOpenForm} productSeleted={productoSelected} />:""
+      }
+   </>
   )
 }
 

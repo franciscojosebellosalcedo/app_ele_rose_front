@@ -1,9 +1,11 @@
 .item_grid_product {
   background-color: var(--color-white);
   box-shadow: var(--box-shadow-black);
-  min-height: min-content;
+  height: 430px;
   border-radius: var(--border-radius-box);
   position: relative;
+  cursor: pointer;
+  padding-bottom: 30px;
   overflow: hidden;
 }
 .title_now_product{
@@ -42,7 +44,7 @@
     justify-content: space-between;
 }
 .actions_card >button{
-    font-size: 13px;
+    font-size: 12px;
     padding: 2px 3px;
     border-radius: var(--border-radius-box);
     cursor: pointer;

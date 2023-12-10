@@ -11,7 +11,6 @@ export const ROUTES={
 
 
     USERS:"users",
-    PRODUCTS_NEWS:"products-news",
 
     REGISTER:"register",
     NOT_FOUND:"*"
@@ -29,6 +28,8 @@ export const optionsFilter=[
     {name:"Precio",value:"realPrice"},
     {name:"Cantidad",value:"amount"},
     {name:"Categoría",value:"category"},
+    {name:"Nuevos",value:true},
+    {name:"Anterior",value:false},
 ];
 
 

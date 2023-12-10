@@ -36,8 +36,6 @@ const Routers = () => {
 
             <Route path={`${ROUTES.PRODUCTS}/${ROUTES.CREATE_PRODUCT}`} element={<CreateProduct />}></Route>
 
-            <Route path={ROUTES.PRODUCTS_NEWS} element={<ProductsNews />}></Route>
-
             <Route path={ROUTES.USERS} element={<Users />}></Route>
 
           </Route>

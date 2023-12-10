@@ -4,6 +4,7 @@ const initialState = {
   data: {
     list: [],
     imagens: [],
+    productsFound:[]
   },
 };
 
@@ -11,11 +12,18 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
+    setProductsFound: (state, action) => {
+      state.data.productsFound = action.payload;
+    },
     setAllProducts: (state, action) => {
       state.data.list = action.payload;
     },
     addNewProduct: (state, action) => {
       state.data.list.unshift(action.payload);
+    },
+    editProduct:(state,action)=>{
+      const indexProductEdited=state.data.list.findIndex((p)=>p._id===action.payload._id);
+      state.data.list[indexProductEdited]=action.payload;
     },
     removeOneProduct: (state, action) => {
       const index = state.data.list.findIndex((p) => p._id === action.payload);
@@ -45,6 +53,8 @@ export const {
   removeAllImagens,
   addNewProduct,
   removeOneProduct,
+  editProduct,
+  setProductsFound,
 } = productSlice.actions;
 
 export default productSlice.reducer;
