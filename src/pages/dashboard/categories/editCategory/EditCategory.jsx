@@ -6,9 +6,10 @@ import {useDispatch, useSelector  } from "react-redux";
 import { toast} from "sonner";
 import { getOneCategory, updateCategory } from "../../../../service/category";
 import { editCategory } from "../../../../features/category/categorySlice";
+import { convertToBase64 } from "../../../../helpers/helpers";
 
 const EditCategory = () => {
-  const [newDataCategory,setNewDataCategory]=useState({name:""});
+  const [newDataCategory,setNewDataCategory]=useState({name:"",imagen:""});
   const categories=useSelector((state)=>state.category.data.list);
   const accessToken=useSelector((state)=>state.user.data.accessToken);
   const navigate=useNavigate();
@@ -16,8 +17,14 @@ const EditCategory = () => {
   const dispatch=useDispatch();
   const [category,setCategory]=useState({});
 
-  const handelerFormCategory=(target,value)=>{
-    setNewDataCategory({...newDataCategory,[target]:value});
+  const handelerFormCategory=async(target,value)=>{
+    if(target=="imagen"){
+      const base64Image=await convertToBase64(value);
+      setNewDataCategory({ ...newDataCategory, [target]: base64Image });
+    }else{
+      setNewDataCategory({...newDataCategory,[target]:value});
+    }
+    
   }
 
   const updateCategorie=async (e)=>{
@@ -54,7 +61,7 @@ const EditCategory = () => {
         if(responseFindOneCategory.status===200 && responseFindOneCategory.response){
           const data=responseFindOneCategory.data;
           setCategory(data);
-          setNewDataCategory({name:data?.name});
+          setNewDataCategory({name:data?.name,imagen:data?.imagen});
         }else{
           navigate(`/${ROUTES.DASHBOARD}/${ROUTES.CATEGORIES}`);
         }
@@ -78,6 +85,12 @@ const EditCategory = () => {
         <label htmlFor="name_category">Nombre:</label>
         <input onInput={(e)=>handelerFormCategory("name",e.target.value)} defaultValue={newDataCategory?.name}  className="input_form_category" type="text" placeholder="Ingrese el nombre de la categoria" id="name_category" />
       </section>
+      <section className="form_section form_section_input_file">
+          <label htmlFor="imagen_category">Imagen:</label>
+          <label htmlFor="imagen_category" className="label_input_image_category">Seleccionar imagen</label>
+          <input onInput={(e) => handelerFormCategory("imagen", e.target.files)} accept="image/*"  className="input_form_category input_file_category" type="file" placeholder="Ingrese el nombre de la categoria" id="imagen_category" />
+        </section>
+        {newDataCategory?.imagen && <img className="imagen_new_category" src={newDataCategory?.imagen} alt="imagen category" />}
       <button onClick={(e)=>updateCategorie(e)} className="btn btn_create_category">Guardar</button>
     </form>
   </section>

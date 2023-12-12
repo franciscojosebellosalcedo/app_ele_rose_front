@@ -16,7 +16,6 @@ const CreateProduct = () => {
   const user = useSelector((state) => state.user.data.user);
   const imagens = useSelector((state) => state.product.data.imagens);
   const openFormProduct=useSelector((state)=>state.sectionActive.data.openFormProduct);
-  console.log(openFormProduct)
   const [base64Strings, setBase64Strings] = useState([]);
   const [isLoader, setIsLoader] = useState(false);
   const [imageSelected, setImageSelected] = useState(null);

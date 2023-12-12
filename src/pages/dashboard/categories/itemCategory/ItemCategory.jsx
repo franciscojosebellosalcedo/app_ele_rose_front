@@ -57,6 +57,7 @@ const ItemCategory = ({ category,setValueSearch }) => {
     return (
         <div className="grid_item">
             <h3 className="item_name">{category?.name}</h3>
+            <img className="imagen_category_card" src={category?.imagen} alt="imagen category" />
             <button onClick={() => navigate(`${ROUTES.EDIT_CATEGORY}/${category?._id}`)} className="btn_category btn_edit_category"><i className="uil uil-pen"></i> Editar</button>
             <button onClick={(e) => deleteOneCategory(e, category)} className="btn_category btn_delete_category"><i className="uil uil-trash-alt"></i> Eliminar</button>
         </div>

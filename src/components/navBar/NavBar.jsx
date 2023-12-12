@@ -35,7 +35,7 @@ const NavBar = () => {
           <h2 className="text_user">!Hola {user?.name} 😊¡</h2>
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.CATEGORIES} className={({isActive})=>isActive ===true? "item_active":""}><i className="uil uil-apps icon_menu_item"></i> Categorias</NavLink>
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.PRODUCTS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-box icon_menu_item"></i> Productos</NavLink>
-          <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.USERS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-users-alt icon_menu_item"></i> Usuarios</NavLink>
+          {/* <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.USERS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-users-alt icon_menu_item"></i> Usuarios</NavLink> */}
           <button onClick={(e)=>logout(e)} className="btn btn_logout"><i className="uil uil-signout icon_logout"></i> Cerrar sesión</button>
         </div>
       </nav>

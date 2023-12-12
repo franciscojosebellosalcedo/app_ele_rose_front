@@ -1,7 +1,8 @@
 .grid_item {
   background-color: var(--color-white);
   box-shadow: var(--box-shadow-black);
-  height: 100px;
+  height: 300px;
+   /* width: 295px;  */
   border-radius: var(--border-radius-box);
   padding: 15px;
   position: relative;
@@ -10,10 +11,16 @@
 .item_name {
   font-size: 15px;
   overflow: hidden;
+  margin-bottom: 10px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-
+.imagen_category_card{
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--border-radius-box);
+}
 .btn_category {
   position: absolute;
   bottom: 10px;
@@ -26,10 +33,11 @@
 .btn_edit_category {
   background-color: var(--color-primary);
   color: var(--color-white);
+  right: 20px;
 }
 
 .btn_delete_category {
-  left: 100px;
+  left: 20px;
   background-color: var(--color-danger);
   color: var(--color-white);
 }

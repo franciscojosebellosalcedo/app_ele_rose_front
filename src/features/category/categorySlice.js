@@ -30,6 +30,7 @@ export const categorySlice=createSlice({
             const list=state.data.list;
             const index=state.data.list.findIndex((cat)=>cat._id===action.payload._id);
             list[index].name=action.payload.name;
+            list[index].imagen=action.payload.imagen;
             state.data.list=list;
         }
     }
