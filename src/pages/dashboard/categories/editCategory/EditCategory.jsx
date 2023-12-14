@@ -91,8 +91,8 @@ const EditCategory = () => {
           <input onInput={(e) => handelerFormCategory("imagen", e.target.files)} accept="image/*"  className="input_form_category input_file_category" type="file" placeholder="Ingrese el nombre de la categoria" id="imagen_category" />
         </section>
         {newDataCategory?.imagen && <img className="imagen_new_category" src={newDataCategory?.imagen} alt="imagen category" />}
+       </form>
       <button onClick={(e)=>updateCategorie(e)} className="btn btn_create_category">Guardar</button>
-    </form>
   </section>
   )
 }

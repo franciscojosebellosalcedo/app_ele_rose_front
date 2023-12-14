@@ -3,7 +3,7 @@ import "./FormProduct.css";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { createProduct, updateProduct } from "../../service/product";
-import { addNewProduct, removeOneImage,editProduct } from "../../features/product/productSlice";
+import { addNewProduct, removeOneImage, editProduct } from "../../features/product/productSlice";
 import Loader from "../loader/Loader";
 import { useEffect } from "react";
 
@@ -47,7 +47,33 @@ const FormProduct = (props) => {
     setOpenSectionDataMain(!openSectionDataMain);
   }
 
+  const setPercentajeProduct = (pricePromotion) => {
+    let dataProduct = product;
+    if (product.realPrice === "" || product.realPrice === null) {
+      toast.warning("Por favor ingrese primero el precio del producto");
+    } else if(product.realPrice !==parseInt(pricePromotion)) {
+      const operationValueRest = parseInt(dataProduct.realPrice) - parseInt(pricePromotion);
+      const valueOperation2 = operationValueRest / parseInt(dataProduct.realPrice);
+      const percentage = parseFloat(valueOperation2.toFixed(2)) * 100;
+      dataProduct.percentage = parseFloat(percentage.toFixed(2));
+      dataProduct.pricePromotion = parseInt(pricePromotion);
+    }else if(product.realPrice ===parseInt(pricePromotion)) {
+      dataProduct.percentage = 100;
+      dataProduct.pricePromotion = parseInt(pricePromotion);
+    }
+    setProduct({ ...dataProduct });
+  }
+
   const handlerFormProduct = (target, value) => {
+    if (target === "pricePromotion") {
+      if (product.realPrice === "") {
+        toast.warning("Por favor ingrese primero el precio del producto");
+      } else {
+        setPercentajeProduct(value);
+      }
+
+    }
+
     if (target === "realPrice" && product.percentage !== "") {
       setPromotionProduct(product, product.percentage);
     }
@@ -64,12 +90,20 @@ const FormProduct = (props) => {
   }
 
   const setPromotionProduct = (product, percentage) => {
-    const percentageFinish = parseInt(percentage) / 100;
-    const pricePromotion = parseInt(product.realPrice) * percentageFinish;
-    const pricePromotionFinal = parseInt(product.realPrice) - pricePromotion;
     const data = product;
-    data.pricePromotion = pricePromotionFinal;
-    data.percentage = percentage;
+    if (percentage !== 0 && percentage !== 100) {
+      const percentageFinish = parseInt(percentage) / 100;
+      const pricePromotion = parseInt(product.realPrice) * percentageFinish;
+      const pricePromotionFinal = parseInt(product.realPrice) - pricePromotion;
+      data.pricePromotion = pricePromotionFinal;
+      data.percentage = percentage;
+    }else if(percentage===0){
+      data.pricePromotion = 0;
+      data.percentage = percentage;
+    }else if(percentage===100){
+      data.pricePromotion = data.realPrice;
+      data.percentage = percentage;
+    }
     setProduct({ ...data });
   }
 
@@ -87,7 +121,7 @@ const FormProduct = (props) => {
     return true;
   }
 
-  const updateProductSelected=async(e)=>{
+  const updateProductSelected = async (e) => {
     e.preventDefault();
     setIsLoader(true);
     if (!isEmptyFiels()) {
@@ -95,7 +129,7 @@ const FormProduct = (props) => {
     } else {
       try {
         if (accessToken) {
-          const responseCretaed = await updateProduct(accessToken,props.productSeleted._id, product);
+          const responseCretaed = await updateProduct(accessToken, props.productSeleted._id, product);
           if (responseCretaed.status === 200 && responseCretaed.response) {
             const data = responseCretaed.data;
             dispatch(editProduct(data));
@@ -150,10 +184,10 @@ const FormProduct = (props) => {
         category: data.category?._id,
         isNow: data.isNow,
         amount: data.amount,
-        percentage:data.percentage,
+        percentage: data.percentage,
         realPrice: data.realPrice,
         pricePromotion: data.pricePromotion,
-        imagen:data.imagen
+        imagen: data.imagen
       });
       console.log(data.category);
       setNameCategorySelected(data.category?.name);
@@ -217,11 +251,11 @@ const FormProduct = (props) => {
                 <div className="container_input_checkbox">
                   <label className="label_form_product" htmlFor="input_checkbox_product">Marcar como nuevo (Opcional)</label>
                   {
-                    product.isNow === true 
-                    ?
-                    <input onChange={(e) => handlerFormProduct("isNow", e.target.checked)} checked className=" input_checkbox_product" id="input_checkbox_product" type="checkbox" />
-                    :
-                    <input onChange={(e) => handlerFormProduct("isNow", e.target.checked)} className=" input_checkbox_product" id="input_checkbox_product" type="checkbox" />
+                    product.isNow === true
+                      ?
+                      <input onChange={(e) => handlerFormProduct("isNow", e.target.checked)} checked className=" input_checkbox_product" id="input_checkbox_product" type="checkbox" />
+                      :
+                      <input onChange={(e) => handlerFormProduct("isNow", e.target.checked)} className=" input_checkbox_product" id="input_checkbox_product" type="checkbox" />
                   }
                 </div>
 
@@ -235,12 +269,12 @@ const FormProduct = (props) => {
               openSectionDataDiscont && <section className="section_data">
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_percentage_product">Porcentaje:</label>
-                  <input onInput={(e) => handlerFormProduct("percentage", e.target.value)} defaultValue={product.percentage} className="input_form_product input_percentage_product" id="input_percentage_product" type="number" placeholder="Ingrese el porcentaje del descuento" />
+                  <input onInput={(e) => handlerFormProduct("percentage", e.target.value)} value={product?.percentage} className="input_form_product input_percentage_product" id="input_percentage_product" type="number" placeholder="Ingrese el porcentaje del descuento" />
                 </div>
 
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_discount_price_product">Precio descuento:</label>
-                  <input value={product.pricePromotion} readOnly className="input_form_product input_discount_price_product" id="input_discount_price_product" type="number" />
+                  <input value={product.pricePromotion} onInput={(e) => handlerFormProduct("pricePromotion", e.target.value)} className="input_form_product input_discount_price_product" id="input_discount_price_product" type="number" />
                 </div>
               </section>
             }

@@ -43,6 +43,22 @@
     align-items: center;
     justify-content: space-between;
 }
+.text_percentage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+.text_percentage > p{
+    font-size: 13px;
+    color: var(--color-white);
+}
 .actions_card >button{
     font-size: 12px;
     padding: 2px 3px;
