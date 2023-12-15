@@ -2,7 +2,6 @@
   background-color: var(--color-white);
   box-shadow: var(--box-shadow-black);
   height: 300px;
-   /* width: 295px;  */
   border-radius: var(--border-radius-box);
   padding: 15px;
   position: relative;

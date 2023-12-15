@@ -31,7 +31,7 @@ const Filter = () => {
   const handlerValueCategory = (category) => {
     setValueCategory(category);
     setNameCategory(category?.name);
-    filterProducts({ property: optionsFilter[3].name, value: category.name })
+    filterProducts({ property: optionsFilter[3].name, value: category?.name })
     handlerOpenOptionCategories();
   }
 
@@ -176,7 +176,7 @@ const Filter = () => {
 
       {
         optionValueSelected !== "" && valueOperator !== "" ?
-          <input onInput={(e)=>handlerInputFilter(e.target.value)} className="input_filter" type="number" placeholder="Ingrese un valor" />
+          <input onInput={(e)=>handlerInputFilter(e.target.value)} className="input_filter" type="number" placeholder="Valor" />
           : ""
       }
 

@@ -12,6 +12,7 @@ import ProductsNews from '../pages/dashboard/newProducts/ProductsNews'
 import CreateNewCategory from '../pages/dashboard/categories/createCategory/CreateCategory'
 import EditCategory from '../pages/dashboard/categories/editCategory/EditCategory';
 import CreateProduct from '../pages/dashboard/products/createProduct/CreateProduct'
+import Slider from '../pages/dashboard/slider/Slider'
 
 const Routers = () => {
   return (
@@ -35,6 +36,8 @@ const Routers = () => {
             <Route path={ROUTES.PRODUCTS} element={<Products />}></Route>
 
             <Route path={`${ROUTES.PRODUCTS}/${ROUTES.CREATE_PRODUCT}`} element={<CreateProduct />}></Route>
+
+            <Route path={ROUTES.SLIDER} element={<Slider />}></Route>
 
             <Route path={ROUTES.USERS} element={<Users />}></Route>
 

@@ -12,6 +12,8 @@ export const ROUTES={
 
     USERS:"users",
 
+    SLIDER:"slider",
+
     REGISTER:"register",
     NOT_FOUND:"*"
 }
