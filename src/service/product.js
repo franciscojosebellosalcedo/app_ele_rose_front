@@ -2,7 +2,7 @@ import { HEADERS, URL_BASE } from "../constants/constants"
 import { headersWithAccessToken } from "../helpers/helpers";
 
 export const deleteOneProducts=async (accessToken,id)=>{
-    const response=await fetch(URL_BASE+"/jewelry/"+id,{
+    const response=await fetch(URL_BASE+"/product/"+id,{
         method:"DELETE",
         headers:headersWithAccessToken(HEADERS,accessToken),
     });
@@ -10,7 +10,7 @@ export const deleteOneProducts=async (accessToken,id)=>{
 }
 
 export const getAllProducts=async (accessToken)=>{
-    const response=await fetch(URL_BASE+"/jewelry",{
+    const response=await fetch(URL_BASE+"/product",{
         method:"GET",
         headers:headersWithAccessToken(HEADERS,accessToken),
     });
@@ -18,7 +18,7 @@ export const getAllProducts=async (accessToken)=>{
 }
 
 export const updateProduct=async (accessToken,id,body)=>{
-    const response=await fetch(URL_BASE+"/jewelry/"+id,{
+    const response=await fetch(URL_BASE+"/product/"+id,{
         method:"PUT",
         headers:headersWithAccessToken(HEADERS,accessToken),
         body:JSON.stringify(body)
@@ -27,7 +27,7 @@ export const updateProduct=async (accessToken,id,body)=>{
 }
 
 export const createProduct=async (accessToken,body)=>{
-    const response=await fetch(URL_BASE+"/jewelry",{
+    const response=await fetch(URL_BASE+"/product",{
         method:"POST",
         headers:headersWithAccessToken(HEADERS,accessToken),
         body:JSON.stringify(body)
