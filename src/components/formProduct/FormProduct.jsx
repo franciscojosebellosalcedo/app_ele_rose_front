@@ -18,7 +18,7 @@ const FormProduct = (props) => {
   const accessToken = useSelector((state) => state.user.data.accessToken);
   const [isLoader, setIsLoader] = useState(false);
   const [nameCategorySelected, setNameCategorySelected] = useState("");
-  const [nameCollectionSelected, setNameCollectionSelected] = useState("");
+  const [nameCollectionSelected, setNameCollectionSelected] = useState(null);
   const [product, setProduct] = useState({
     name: "",
     description: "",
