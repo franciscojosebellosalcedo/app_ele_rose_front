@@ -42,7 +42,6 @@ const Filter = () => {
     } else {
       setNameOperator(operator.keyValue);
       setValueOperator(operator.value);
-      console.log(optionSelected)
       filterProducts({property:optionSelected,operator:operator.value,value:valueInput});
     }
     handlerOpenOptionOperator();
@@ -92,8 +91,8 @@ const Filter = () => {
   const handlerSelectedOption = (option) => {
     if (option.value === optionsFilter[0].value) {
       setOptionSelected("");
+      dispatch(setProductsFound([]));
       setOptionValueSelected(option.value);
-
     } else {
       setOptionSelected(option.name);
       setOptionValueSelected(option.value);

@@ -4,18 +4,22 @@ import { Outlet} from "react-router-dom";
 import { toast } from "sonner";
 import { getAllCategories } from "../../service/category";
 import { setAllCategories} from "../../features/category/categorySlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../loader/Loader";
 import { getAllProducts } from "../../service/product";
 import { setAllProducts } from "../../features/product/productSlice";
+import { setListCollection } from "../../features/collection/collection";
+import { setLoaderCategories,setLoaderProducts,setLoaderCollections } from "../../features/sectionActive/sectionActiveSlice";
+import { getAllCollection } from "../../service/collection";
 
 const Layaut = () => {
   const dispatch = useDispatch();
-  const [isLoader, setIsLoader] = useState(false);
+  const isLoader=useSelector((state)=>state.sectionActive.data.loader);
   const accessToken = useSelector((state) => state.user.data.accessToken);
 
   const getProducts=async()=>{
+    dispatch(setLoaderProducts(true));
     try {
       if (accessToken) {
         const responseGetAll = await getAllProducts(accessToken);
@@ -29,9 +33,29 @@ const Layaut = () => {
     } catch (error) {
       toast.error("Se produjo un error al obtener los productos");
     }
+    dispatch(setLoaderProducts(false));
+  }
+
+  const getCollections = async () => {
+    dispatch(setLoaderCollections(true));
+    try {
+      if (accessToken) {
+        const responseGetAll = await getAllCollection(accessToken);
+        if (responseGetAll.status === 200 && responseGetAll.response) {
+          const data = responseGetAll.data;
+          dispatch(setListCollection(data));
+        } else {
+          toast.error(responseGetAll.message);
+        }
+      }
+    } catch (error) {
+      toast.error("Se produjo un error al obtener las colecciones");
+    }
+    dispatch(setLoaderCollections(false));
   }
 
   const getCategories = async () => {
+    dispatch(setLoaderCategories(true));
     try {
       if (accessToken) {
         const responseGetAll = await getAllCategories(accessToken);
@@ -45,13 +69,13 @@ const Layaut = () => {
     } catch (error) {
       toast.error("Se produjo un error al obtener las categorías");
     }
+    dispatch(setLoaderCategories(false));
   }
 
   const loadModules=()=>{
-    setIsLoader(true);
     getCategories();
+    getCollections();
     getProducts();
-    setIsLoader(false);
   }
 
   useEffect(() => {

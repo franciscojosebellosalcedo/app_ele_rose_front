@@ -12,6 +12,10 @@ export const ROUTES={
 
     USERS:"users",
 
+    COLLECTIONS:"collections",
+    CREATE_COLLECTION:"create",
+    EDIT_COLLECTION:"edit",
+
     SLIDER:"slider",
 
     REGISTER:"register",

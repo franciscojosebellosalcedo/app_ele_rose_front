@@ -14,13 +14,16 @@ const FormProduct = (props) => {
   const [openSectionDataMain, setOpenSectionDataMain] = useState(true);
   const [openSectionDataDiscont, setOpenSectionDataDiscont] = useState(false);
   const categories = useSelector((state) => state.category.data.list);
+  const collections = useSelector((state) => state.collection.data.list);
   const accessToken = useSelector((state) => state.user.data.accessToken);
   const [isLoader, setIsLoader] = useState(false);
   const [nameCategorySelected, setNameCategorySelected] = useState("");
+  const [nameCollectionSelected, setNameCollectionSelected] = useState("");
   const [product, setProduct] = useState({
     name: "",
     description: "",
     category: "",
+    collection: null,
     isNow: false,
     amount: "",
     percentage: "",
@@ -28,13 +31,22 @@ const FormProduct = (props) => {
     pricePromotion: "",
     imagen: props?.dataImagen && props.dataImagen?.image
   });
+  const [openSelectCollection,setOpenSelectCollection]=useState(false);
 
+  const handlerNameOptionSelectedCollection = (name, value) => {
+    handlerFormProduct("collection", value);
+    setNameCollectionSelected(name);
+    handlerOpenSelectCollection();
+  }
   const handlerNameOptionSelected = (name, value) => {
     handlerFormProduct("category", value);
     setNameCategorySelected(name);
     handlerOpenSelect();
   }
 
+  const handlerOpenSelectCollection = () => {
+    setOpenSelectCollection(!openSelectCollection);
+  }
   const handlerOpenSelect = () => {
     setOpenSelect(!openSelect);
   }
@@ -176,7 +188,6 @@ const FormProduct = (props) => {
   useEffect(() => {
     if (props?.productSeleted) {
       const data = props?.productSeleted;
-      console.log(data)
       setOpenSectionDataDiscont(true);
       setProduct({
         name: data.name,
@@ -189,14 +200,11 @@ const FormProduct = (props) => {
         pricePromotion: data.pricePromotion,
         imagen: data.imagen
       });
-      console.log(data.category);
       setNameCategorySelected(data.category?.name);
+      setNameCollectionSelected(data.collection?.name ?data.collection?.name:"Elije..." );
     }
   }, []);
 
-  // useEffect(() => {
-  //   console.log(product)
-  // }, [product]);
 
   return (
     <section className='container_modal'>
@@ -230,6 +238,26 @@ const FormProduct = (props) => {
                           {
                             categories && categories.length > 0 ? categories.map((category, index) => (
                               <div onClick={() => handlerNameOptionSelected(category?.name, category?._id)} key={index} className="item_option">{category?.name}</div>
+                            )) : ""
+                          }
+                        </div> : ""
+                      }
+                    </div>
+                  </section>
+                </div>
+
+                <div className="container_input">
+                  <label className="label_form_product" htmlFor="category">Colección (Opcional)</label>
+                  <section className="filter ">
+                    <div className="filter_option input_select_category">
+                      <div className="container_title_filter" onClick={() => handlerOpenSelectCollection()}  >
+                        <i className="uil uil-apps icon_menu_item"></i> {nameCollectionSelected !== null ? nameCollectionSelected : "Elije..."}
+                      </div>
+                      {
+                        openSelectCollection === true ? <div className="options_filter_operator">
+                          {
+                            collections && collections.length > 0 ? collections.map((collection, index) => (
+                              <div onClick={() => handlerNameOptionSelectedCollection(collection?.name, collection?._id)} key={index} className="item_option">{collection?.name}</div>
                             )) : ""
                           }
                         </div> : ""

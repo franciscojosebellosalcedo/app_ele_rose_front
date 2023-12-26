@@ -27,7 +27,7 @@ const CreateNewCategory = () => {
   }
 
   const validate = () => {
-    return newCategory.name === "";
+    return newCategory.name === "" || newCategory.imagen === "";
   }
 
   const saveCategory = async (e) => {
@@ -35,7 +35,7 @@ const CreateNewCategory = () => {
     try {
       if (accessToken) {
         if (validate()) {
-          toast.warning("LLene el campo por favor");
+          toast.warning("LLene los campo por favor");
           return ;
         }
         const responseCreate = await createCategory(accessToken, newCategory);

@@ -1,7 +1,7 @@
 .item_grid_product {
   background-color: var(--color-white);
   box-shadow: var(--box-shadow-black);
-  height: 430px;
+  height: 440px;
   border-radius: var(--border-radius-box);
   position: relative;
   cursor: pointer;
@@ -20,7 +20,7 @@
 }
 .item_image{
     width: 100%;
-    height: 70%;
+    height: 65%;
     border-radius: var(--border-radius-box);
 }
 .info_item{

@@ -100,7 +100,7 @@ const ItemProduct = ({ product, clearProductsFound }) => {
           </div> : ""
         }
         {
-          product.percentage && product.percentage >0  === true ? <div className="text_percentage">
+          product.percentage && product.percentage >0 ? <div className="text_percentage">
            <p>{`${product.percentage}%`}</p>
           </div> : ""
         }
@@ -110,9 +110,10 @@ const ItemProduct = ({ product, clearProductsFound }) => {
           <p className="text_info">Precio unidad: $ <span>{product?.realPrice}</span></p>
           <p className="text_info">Precio descuento: <span>{product?.pricePromotion > 0 ? `$ ${product?.pricePromotion}` : "No aplica"}</span></p>
           <p className="text_info">Cantidad: <span>{product?.amount}</span></p>
-          <p className="text_info">Categoría: <span>{product?.category?.name}</span></p>
+          <p className="text_info">Categoría: <span>{product?.category?.name ? product?.category?.name :"No aplica"}</span></p>
+          <p className="text_info">Colección: <span>{product?.collection?.name ? product?.collection?.name:"No aplica"}</span></p>
           <section className="actions_card">
-            <button onClick={(e) => deleteProduct(e, product)} className="btn btn_card btn_delete">Anular</button>
+            <button onClick={(e) => deleteProduct(e, product)} className="btn btn_card btn_delete">Eliminar</button>
             <button onClick={(e) => updateProductById(e, product, { isNow: !product.isNow })} className="btn btn_card btn_new">{product.isNow === true ? "Cambiar a anterior" : "Cambiar a nuevo"}</button>
           </section>
         </div>

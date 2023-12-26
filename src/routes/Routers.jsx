@@ -8,11 +8,13 @@ import Layaut from '../components/layaut/Layaut'
 import Users from '../pages/dashboard/users/Users'
 import Categories from '../pages/dashboard/categories/index/Categories'
 import Products from '../pages/dashboard/products/index/Products'
-import ProductsNews from '../pages/dashboard/newProducts/ProductsNews'
 import CreateNewCategory from '../pages/dashboard/categories/createCategory/CreateCategory'
 import EditCategory from '../pages/dashboard/categories/editCategory/EditCategory';
 import CreateProduct from '../pages/dashboard/products/createProduct/CreateProduct'
 import Slider from '../pages/dashboard/slider/Slider'
+import Collections from '../pages/dashboard/collections/index/Collections'
+import CreateCollection from '../pages/dashboard/collections/createCollection/CreateCollection'
+import EditCollection from '../pages/dashboard/collections/editCollection/EditCollection'
 
 const Routers = () => {
   return (
@@ -36,6 +38,13 @@ const Routers = () => {
             <Route path={ROUTES.PRODUCTS} element={<Products />}></Route>
 
             <Route path={`${ROUTES.PRODUCTS}/${ROUTES.CREATE_PRODUCT}`} element={<CreateProduct />}></Route>
+
+            <Route path={ROUTES.COLLECTIONS} element={<Collections />}></Route>
+
+            <Route path={`${ROUTES.COLLECTIONS}/${ROUTES.CREATE_COLLECTION}`} element={<CreateCollection />}></Route>
+
+            <Route path={`${ROUTES.COLLECTIONS}/${ROUTES.EDIT_COLLECTION}/:id`} element={<EditCollection/>}></Route>
+
 
             <Route path={ROUTES.SLIDER} element={<Slider />}></Route>
 

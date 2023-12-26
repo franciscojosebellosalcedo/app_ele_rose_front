@@ -10,11 +10,11 @@ import { searchCategory } from "../../../../features/category/categorySlice";
 
 
 const Categories = () => {
-  const [isLoader, setIsLoader] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.category.data.list);
-  const categoriesFound=useSelector((state)=>state.category.data.found);
+  const categoriesFound = useSelector((state) => state.category.data.found);
+  const isLoaderCategories = useSelector((state) => state.sectionActive.data.isLoaderCategories);
   const [valueSearch, setValueSearch] = useState("");
 
   const goTo = (url) => {
@@ -34,11 +34,11 @@ const Categories = () => {
   }, [valueSearch]);
 
   return (
-    <>
+    <section className="container">
+      <h1 className="container_title">Categorías</h1>
       {
-        isLoader === true ? <Loader /> :
-          <section className="container">
-            <h1 className="container_title">Categorías</h1>
+        isLoaderCategories === true ? <Loader /> :
+          <>
             <button onClick={() => goTo(`${ROUTES.CREATE_CATEGORY}`)} className="btn btn_new_category">Crear categoría</button>
             <form className="form_search">
               <input onInput={(e) => handlerFormSearch(e.target.value)} value={valueSearch} type="search" className="input_search" placeholder="Buscar categoría" />
@@ -65,9 +65,9 @@ const Categories = () => {
 
               }
             </div>
-          </section>
+          </>
       }
-    </>
+    </section>
   )
 }
 
