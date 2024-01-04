@@ -6,6 +6,7 @@ import { createProduct, updateProduct } from "../../service/product";
 import { addNewProduct, removeOneImage, editProduct } from "../../features/product/productSlice";
 import Loader from "../loader/Loader";
 import { useEffect } from "react";
+import { convertToBase64 } from "../../helpers/helpers";
 
 //{ dataImagen, handlerOpenForm ,productSeleted }
 const FormProduct = (props) => {
@@ -31,14 +32,14 @@ const FormProduct = (props) => {
     pricePromotion: "",
     imagen: props?.dataImagen && props.dataImagen?.image
   });
-  const [openSelectCollection,setOpenSelectCollection]=useState(false);
+  const [openSelectCollection, setOpenSelectCollection] = useState(false);
 
   const handlerNameOptionSelectedCollection = (name, value) => {
     handlerFormProduct("collection", value);
     setNameCollectionSelected(name);
     handlerOpenSelectCollection();
   }
-  
+
   const handlerNameOptionSelected = (name, value) => {
     handlerFormProduct("category", value);
     setNameCategorySelected(name);
@@ -64,20 +65,29 @@ const FormProduct = (props) => {
     let dataProduct = product;
     if (product.realPrice === "" || product.realPrice === null) {
       toast.warning("Por favor ingrese primero el precio del producto");
-    } else if(product.realPrice !==parseInt(pricePromotion)) {
+    } else if (product.realPrice !== parseInt(pricePromotion)) {
       const operationValueRest = parseInt(dataProduct.realPrice) - parseInt(pricePromotion);
       const valueOperation2 = operationValueRest / parseInt(dataProduct.realPrice);
       const percentage = parseFloat(valueOperation2.toFixed(2)) * 100;
       dataProduct.percentage = parseFloat(percentage.toFixed(2));
       dataProduct.pricePromotion = parseInt(pricePromotion);
-    }else if(product.realPrice ===parseInt(pricePromotion)) {
+    } else if (product.realPrice === parseInt(pricePromotion)) {
       dataProduct.percentage = 100;
       dataProduct.pricePromotion = parseInt(pricePromotion);
     }
     setProduct({ ...dataProduct });
   }
 
-  const handlerFormProduct = (target, value) => {
+  const handlerFormProduct = async (target, value) => {
+    if (target === "imagen") {
+      if (value.length > 0) {
+        const base64 = await convertToBase64(value);
+        value = base64;
+      }else{
+        return;
+      }
+    }
+
     if (target === "pricePromotion") {
       if (product.realPrice === "") {
         toast.warning("Por favor ingrese primero el precio del producto");
@@ -110,10 +120,10 @@ const FormProduct = (props) => {
       const pricePromotionFinal = parseInt(product.realPrice) - pricePromotion;
       data.pricePromotion = pricePromotionFinal;
       data.percentage = percentage;
-    }else if(percentage===0){
+    } else if (percentage === 0) {
       data.pricePromotion = 0;
       data.percentage = percentage;
-    }else if(percentage===100){
+    } else if (percentage === 100) {
       data.pricePromotion = data.realPrice;
       data.percentage = percentage;
     }
@@ -202,7 +212,7 @@ const FormProduct = (props) => {
         imagen: data.imagen
       });
       setNameCategorySelected(data.category?.name);
-      setNameCollectionSelected(data.collection?.name ?data.collection?.name:"Elije..." );
+      setNameCollectionSelected(data.collection?.name ? data.collection?.name : "Elije...");
     }
   }, []);
 
@@ -215,6 +225,11 @@ const FormProduct = (props) => {
         <form className='form_product'>
           <article className="section_form_product">
             <h3 onClick={() => handlerOpenSectionMain()} className={`section_title ${openSectionDataMain && "title_section_active"}`}>Datos Principales <i className="uil uil-angle-right icon_arrow_title"></i></h3>
+            <label className="label_form_product" htmlFor="imagen">Imagen</label>
+            <div className="input_change_imagen">
+              <label className="label_input_file" htmlFor="input_file">Cambiar Imagen</label>
+              <input onInput={(e) => handlerFormProduct("imagen", e.target.files)} id="input_file" className="input_file" type="file" accept="image/*" />
+            </div>
             {
               openSectionDataMain && <section className="section_data section_data_main">
                 <img className="section_imagen" src={props?.dataImagen?.image || product?.imagen} alt="" />
