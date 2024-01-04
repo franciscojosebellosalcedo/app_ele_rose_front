@@ -38,6 +38,7 @@ const FormProduct = (props) => {
     setNameCollectionSelected(name);
     handlerOpenSelectCollection();
   }
+  
   const handlerNameOptionSelected = (name, value) => {
     handlerFormProduct("category", value);
     setNameCategorySelected(name);

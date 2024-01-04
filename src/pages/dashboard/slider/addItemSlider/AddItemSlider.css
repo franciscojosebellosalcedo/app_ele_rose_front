@@ -1,0 +1,15 @@
+.type_item_input{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 200px;
+}
+.list_products_option_slider{
+    max-height: 300px;
+}
+
+@media screen and (min-width: 600px) {
+    .list_products_option_slider{
+      max-height: 340px;
+    }
+    
+  }

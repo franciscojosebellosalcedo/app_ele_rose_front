@@ -14,7 +14,7 @@ const Products = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.data.list);
   const productsFound = useSelector((state) => state.product.data.productsFound);
-  const isLoaderProducts=useSelector((state)=>state.sectionActive.data.isLoaderProducts);
+  const isLoaderProducts = useSelector((state) => state.sectionActive.data.isLoaderProducts);
 
   const [valueSearch, setValueSearch] = useState("");
   // const [isLoader, setIsloader] = useState(false);
@@ -25,7 +25,7 @@ const Products = () => {
     dispatch(setProductsFound(productsFound));
   }
 
-  const clearProductsFound=()=>{
+  const clearProductsFound = () => {
     dispatch(setProductsFound([]));
     setValueSearch("");
   }
@@ -34,40 +34,44 @@ const Products = () => {
     navigate(url);
   }
 
+  useEffect(() => {
+    dispatch(setProductsFound([]));
+  }, [])
+
   return (
     <section className="container">
       <h1 className="container_title">Productos</h1>
       {
-        isLoaderProducts === true ? <Loader/> :
-        <>
-          <button onClick={() => goTo(`${ROUTES.CREATE_PRODUCT}`)} className="btn btn_new_product">Crear producto</button>
-      <form className="form_search">
-        <input onInput={(e) => searchProduct(e.target.value)} defaultValue={valueSearch} type="search" className="input_search" placeholder="Buscar producto" />
-      </form>
-      <Filter />
-      <div className="list_products">
+        isLoaderProducts === true ? <Loader /> :
+          <>
+            <button onClick={() => goTo(`${ROUTES.CREATE_PRODUCT}`)} className="btn btn_new_product">Crear producto</button>
+            <form className="form_search">
+              <input onInput={(e) => searchProduct(e.target.value)} defaultValue={valueSearch} type="search" className="input_search" placeholder="Buscar producto" />
+            </form>
+            <Filter />
+            <div className="list_products">
 
-        {
-          productsFound && productsFound.length > 0 ?
-            <>
               {
-                productsFound.map((product, index) => (
-                  <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />
-                ))
+                productsFound && productsFound.length > 0 ?
+                  <>
+                    {
+                      productsFound.map((product, index) => (
+                        <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />
+                      ))
+                    }
+                  </> :
+                  products && products.length > 0 ?
+                    <>
+                      {
+                        products.map((product, index) => (
+                          <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />
+                        ))
+                      }
+                    </> : ""
               }
-            </> :
-            products && products.length > 0 ?
-              <>
-                {
-                  products.map((product, index) => (
-                    <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />
-                  ))
-                }
-              </> : ""
-        }
 
-      </div>
-        </>
+            </div>
+          </>
       }
     </section>
   )

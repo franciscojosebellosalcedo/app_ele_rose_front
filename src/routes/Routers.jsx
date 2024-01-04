@@ -11,10 +11,11 @@ import Products from '../pages/dashboard/products/index/Products'
 import CreateNewCategory from '../pages/dashboard/categories/createCategory/CreateCategory'
 import EditCategory from '../pages/dashboard/categories/editCategory/EditCategory';
 import CreateProduct from '../pages/dashboard/products/createProduct/CreateProduct'
-import Slider from '../pages/dashboard/slider/Slider'
+import Slider from '../pages/dashboard/slider/index/Slider'
 import Collections from '../pages/dashboard/collections/index/Collections'
 import CreateCollection from '../pages/dashboard/collections/createCollection/CreateCollection'
 import EditCollection from '../pages/dashboard/collections/editCollection/EditCollection'
+import AddItemSlider from '../pages/dashboard/slider/addItemSlider/AddItemSlider'
 
 const Routers = () => {
   return (
@@ -45,8 +46,9 @@ const Routers = () => {
 
             <Route path={`${ROUTES.COLLECTIONS}/${ROUTES.EDIT_COLLECTION}/:id`} element={<EditCollection/>}></Route>
 
-
             <Route path={ROUTES.SLIDER} element={<Slider />}></Route>
+
+            <Route path={`${ROUTES.SLIDER}/${ROUTES.ADD_ELEMENT_SLIDER}`} element={<AddItemSlider />}></Route>
 
             <Route path={ROUTES.USERS} element={<Users />}></Route>
 

@@ -17,6 +17,7 @@ export const ROUTES={
     EDIT_COLLECTION:"edit",
 
     SLIDER:"slider",
+    ADD_ELEMENT_SLIDER:"add",
 
     REGISTER:"register",
     NOT_FOUND:"*"
@@ -37,6 +38,8 @@ export const optionsFilter=[
     {name:"Nuevos",value:true},
     {name:"Anterior",value:false},
 ];
+
+export const typeElementSlider=["Producto","Colección"];
 
 
 export const keyLocalStorage=process.env.REACT_APP_KEY_LOCAL;

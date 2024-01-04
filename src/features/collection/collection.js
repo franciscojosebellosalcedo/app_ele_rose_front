@@ -15,6 +15,10 @@ const collectionSlice = createSlice({
       state.data.list = action.payload;
       state.data.list.unshift({name:"Ninguna",_id:null});
     },
+    setCollectionIsAssociatedSlider:(state,action)=>{
+      const index=state.data.list.findIndex((p)=>p._id===action.payload.valueItem);
+      state.data.list[index].isAssociatedSlider=!state.data.list[index].isAssociatedSlider;
+    },
     setListFoundCollection: (state, action) => {
       state.data.found = action.payload;
     },
@@ -51,6 +55,7 @@ export const {
   setListFoundCollection,
   deleteToListAndFoundsCollection,
   editCollection,
+  setCollectionIsAssociatedSlider
 } = collectionSlice.actions;
 
 export default collectionSlice.reducer;

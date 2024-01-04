@@ -6,9 +6,9 @@
     position: relative;
     border-radius: var(--border-radius-box);
     box-shadow: var(--box-shadow-black);
-    max-height: 90%;
     transition: .5s;
     overflow: auto;
+    max-height: 90%;
 }
 .modal_title_main{
     font-size: 18px;

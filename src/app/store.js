@@ -4,6 +4,7 @@ import sectionActiveReducer from "../features/sectionActive/sectionActiveSlice";
 import categoryReducer from "../features/category/categorySlice";
 import productReducer from "../features/product/productSlice";
 import collectionReducer from "../features/collection/collection";
+import itemSliderReducer from "../features/itemSlider/itemSliderSlice";
 
 export const store=configureStore({
     reducer:{
@@ -12,6 +13,7 @@ export const store=configureStore({
         category:categoryReducer,
         product:productReducer,
         collection:collectionReducer,
+        itemSlider:itemSliderReducer,
     },
 });
 

@@ -21,6 +21,10 @@ export const productSlice = createSlice({
     addNewProduct: (state, action) => {
       state.data.list.unshift(action.payload);
     },
+    setProductIsAssociatedSlider:(state,action)=>{
+      const index=state.data.list.findIndex((p)=>p._id===action.payload.valueItem);
+      state.data.list[index].isAssociatedSlider=!state.data.list[index].isAssociatedSlider;
+    },
     editProduct:(state,action)=>{
       const indexProductEdited=state.data.list.findIndex((p)=>p._id===action.payload._id);
       state.data.list[indexProductEdited]=action.payload;
@@ -55,6 +59,7 @@ export const {
   removeOneProduct,
   editProduct,
   setProductsFound,
+  setProductIsAssociatedSlider
 } = productSlice.actions;
 
 export default productSlice.reducer;
