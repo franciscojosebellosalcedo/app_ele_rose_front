@@ -29,6 +29,27 @@ export const productSlice = createSlice({
       const indexProductEdited=state.data.list.findIndex((p)=>p._id===action.payload._id);
       state.data.list[indexProductEdited]=action.payload;
     },
+    editCategoryProduct:(state,action)=>{
+      state.data.list.map((p,index)=>{
+        if(p.category._id===action.payload._id){
+          state.data.list[index].category=action.payload;
+        }
+      });
+    },
+    editCollectionProduct:(state,action)=>{
+      state.data.list.map((p,index)=>{
+        if(p.collection._id===action.payload._id){
+          state.data.list[index].collection=action.payload;
+        }
+      });
+    },
+    removeCollectionProduct:(state,action)=>{
+      state.data.list.map((p,index)=>{
+        if(p?.collection?._id===action.payload._id){
+          state.data.list[index].collection=null;
+        }
+      });
+    },
     removeOneProduct: (state, action) => {
       const index = state.data.list.findIndex((p) => p._id === action.payload);
       state.data.list.splice(index, 1);
@@ -59,7 +80,10 @@ export const {
   removeOneProduct,
   editProduct,
   setProductsFound,
-  setProductIsAssociatedSlider
+  setProductIsAssociatedSlider,
+  editCategoryProduct,
+  editCollectionProduct,
+  removeCollectionProduct
 } = productSlice.actions;
 
 export default productSlice.reducer;

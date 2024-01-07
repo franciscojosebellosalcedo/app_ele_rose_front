@@ -8,6 +8,7 @@ import { getOneCategory, updateCategory } from "../../../../service/category";
 import { editCategory } from "../../../../features/category/categorySlice";
 import { convertToBase64 } from "../../../../helpers/helpers";
 import Loader from "../../../../components/loader/Loader";
+import { editCategoryProduct } from "../../../../features/product/productSlice";
 
 const EditCategory = () => {
   const [newDataCategory, setNewDataCategory] = useState({ name: "", imagen: "" });
@@ -45,6 +46,7 @@ const EditCategory = () => {
         const responseUpdated = await updateCategory(accessToken, category._id, newDataCategory);
         if (responseUpdated.status === 200 && responseUpdated.response) {
           const data = responseUpdated.data;
+          dispatch(editCategoryProduct(data));
           dispatch(editCategory(data));
           navigate(`/${ROUTES.DASHBOARD}/${ROUTES.CATEGORIES}`);
           toast.success(responseUpdated.message);
@@ -53,6 +55,7 @@ const EditCategory = () => {
         }
       }
     } catch (error) {
+      console.log(error)
       toast.error("Error al editar esta categoría");
     }
     setIsLoader(false);

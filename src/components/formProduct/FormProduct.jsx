@@ -83,7 +83,7 @@ const FormProduct = (props) => {
       if (value.length > 0) {
         const base64 = await convertToBase64(value);
         value = base64;
-      }else{
+      } else {
         return;
       }
     }
@@ -226,10 +226,13 @@ const FormProduct = (props) => {
           <article className="section_form_product">
             <h3 onClick={() => handlerOpenSectionMain()} className={`section_title ${openSectionDataMain && "title_section_active"}`}>Datos Principales <i className="uil uil-angle-right icon_arrow_title"></i></h3>
             <label className="label_form_product" htmlFor="imagen">Imagen</label>
-            <div className="input_change_imagen">
-              <label className="label_input_file" htmlFor="input_file">Cambiar Imagen</label>
-              <input onInput={(e) => handlerFormProduct("imagen", e.target.files)} id="input_file" className="input_file" type="file" accept="image/*" />
-            </div>
+            {
+              props?.productSeleted ? <div className="input_change_imagen">
+                <label className="label_input_file" htmlFor="input_file">Cambiar Imagen</label>
+                <input onInput={(e) => handlerFormProduct("imagen", e.target.files)} id="input_file" className="input_file" type="file" accept="image/*" />
+              </div> : ""
+            }
+
             {
               openSectionDataMain && <section className="section_data section_data_main">
                 <img className="section_imagen" src={props?.dataImagen?.image || product?.imagen} alt="" />

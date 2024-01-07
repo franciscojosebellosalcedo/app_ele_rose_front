@@ -5,7 +5,9 @@ import {useSelector,useDispatch } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteToListAndFoundsCollection } from "../../../../features/collection/collection";
-import { ROUTES } from "../../../../constants/constants";
+import { ROUTES, typeElementSlider } from "../../../../constants/constants";
+import { removeCollectionProduct } from "../../../../features/product/productSlice";
+import { removeItemElementSliderByType } from "../../../../features/itemSlider/itemSliderSlice";
 
 const ItemCollection = ({collection,setValueSearch}) => {
   const dispatch=useDispatch();
@@ -19,7 +21,7 @@ const ItemCollection = ({collection,setValueSearch}) => {
     try {
         if (accessToken) {
             if (!openConfirm) {
-                toast(`¿ Desea eliminar la colección ${collection.name} ?`, {
+                toast(`¿ Desea eliminar la colección ${collection.name} ? ${collection?.isAssociatedSlider=== true? "\nEsta colección también pertenece al slider":""}`, {
                     action: {
                         label: "Si",
                         onClick: async () => {
@@ -27,6 +29,8 @@ const ItemCollection = ({collection,setValueSearch}) => {
                             const responseDeleted = await deleteCollection(accessToken, collection._id);
                             if (responseDeleted.status === 200 && responseDeleted.response) {
                                 dispatch(deleteToListAndFoundsCollection(collection._id));
+                                dispatch(removeCollectionProduct(collection));
+                                dispatch(removeItemElementSliderByType({type:typeElementSlider[1],collection}));
                                 setValueSearch("");
                                 toast.success(responseDeleted.message);
                             } else {

@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useEffect } from 'react';
 import { getOneCollection, updateOneCollection } from '../../../../service/collection';
 import { editCollection } from '../../../../features/collection/collection';
+import { editCollectionProduct } from '../../../../features/product/productSlice';
 
 const EditCollection = () => {
     const [isLoader, setIsLoader] = useState(false);
@@ -46,7 +47,9 @@ const EditCollection = () => {
                     }else{
                         const responseEditCollection=await updateOneCollection(accessToken,collection._id,{name:collection.name,imagen:collection.imagen});
                         if(responseEditCollection.status===200 && responseEditCollection.response){
-                            dispatch(editCollection(collection));
+                            const data=responseEditCollection.data;
+                            dispatch(editCollection(data));
+                            dispatch(editCollectionProduct(data));
                             toast.success(responseEditCollection.message);
                         }else{
                             toast.error(responseEditCollection.message);

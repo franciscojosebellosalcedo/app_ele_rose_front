@@ -7,6 +7,8 @@ import { toast } from "sonner";
 import { useState } from "react";
 import Loader from "../../../../components/loader/Loader";
 import FormProduct from "../../../../components/formProduct/FormProduct";
+import { typeElementSlider } from "../../../../constants/constants";
+import { removeItemElementSliderByType } from "../../../../features/itemSlider/itemSliderSlice";
 
 const ItemProduct = ({ product, clearProductsFound }) => {
   const dispatch = useDispatch();
@@ -22,13 +24,14 @@ const ItemProduct = ({ product, clearProductsFound }) => {
     try {
       if (accessToken) {
         if (!openConfirm) {
-          toast(`¿ Desea eliminar la categoría ${product.name} ?`, {
+          toast(`¿ Desea eliminar el producto ${product.name} ? ${product?.isAssociatedSlider=== true? "\nEste producto también pertenece al slider":""}`, {
             action: {
               label: "Si",
               onClick: async () => {
                 const responseDeleted = await deleteOneProducts(accessToken, product._id);
                 if (responseDeleted.status === 200 && responseDeleted.response) {
                   dispatch(removeOneProduct(product._id));
+                  dispatch(removeItemElementSliderByType({type:typeElementSlider[0],product}));
                   clearProductsFound();
                   toast.success(responseDeleted.message);
                 } else {

@@ -11,21 +11,21 @@ const ItemSlider = ({ item,removeItemSlider }) => {
                             <i className="uil uil-multiply icon_delete_img" onClick={(e)=>removeItemSlider(e,item._id)}></i>
 
                             {
-                                item.product.isNow === true ? <div className="title_now_product">
+                                item?.product?.isNow === true ? <div className="title_now_product">
                                     <img src={require("../../../../assest/icon-new-product.png")} alt="" />
                                 </div> : ""
                             }
                             {
-                                item.product.percentage && item.product.percentage > 0 ? <div className="text_percentage">
+                                item?.product?.percentage && item?.product?.percentage > 0 ? <div className="text_percentage">
                                     <p>{`${item.product.percentage}%`}</p>
                                 </div> : ""
                             }
-                            <img className="item_image" src={item.product?.imagen} alt="imagen producto" />
+                            <img className="item_image" src={item?.product?.imagen} alt="imagen producto" />
                             {
-                                item.product?.isAssociatedSlider === true ? <img className="icon_item_selected_slider" src={require("../../../../assest/icon-item-selected-slider.png")} alt="icon item selected slider" /> : ""
+                                item?.product?.isAssociatedSlider === true ? <img className="icon_item_selected_slider" src={require("../../../../assest/icon-item-selected-slider.png")} alt="icon item selected slider" /> : ""
                             }
                             <div className="info_item">
-                                <p className="text_info">Nombre: <span>{item.product?.name}</span></p>
+                                <p className="text_info">Nombre: <span>{item?.product?.name}</span></p>
                                 <p className="text_info">Precio unidad: $ <span>{item.product?.realPrice}</span></p>
                                 <p className="text_info">Precio descuento: <span>{item.product?.pricePromotion > 0 ? `$ ${item.product?.pricePromotion}` : "No aplica"}</span></p>
                                 <p className="text_info">Cantidad: <span>{item.product?.amount}</span></p>
