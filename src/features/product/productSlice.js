@@ -22,7 +22,7 @@ export const productSlice = createSlice({
       state.data.list.unshift(action.payload);
     },
     setProductIsAssociatedSlider:(state,action)=>{
-      const index=state.data.list.findIndex((p)=>p._id===action.payload.valueItem);
+      const index=state.data.list.findIndex((p)=>p._id===action.payload);
       state.data.list[index].isAssociatedSlider=!state.data.list[index].isAssociatedSlider;
     },
     editProduct:(state,action)=>{

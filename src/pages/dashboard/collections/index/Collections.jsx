@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import ItemCollection from "../itemCollection/ItemCollection";
 import Loader from "../../../../components/loader/Loader";
 import { setListFoundCollection } from "../../../../features/collection/collection";
+import { useEffect } from "react";
 
 
 
@@ -26,6 +27,10 @@ const Collections = () => {
     const collectionsFound=collections.filter((coll)=>coll.name.trim().toLowerCase().includes(value.trim().toLowerCase()));
     dispatch(setListFoundCollection(collectionsFound));
   }
+
+  useEffect(()=>{
+    dispatch(setListFoundCollection([]));
+  },[ ]);
 
   return (
     <section className="container">

@@ -1,0 +1,9 @@
+.icon_item_selected_slider_collection{
+    position: absolute;
+    width: 40px;
+    right: 15px;
+    bottom: 18%;
+}
+.grid_item_collection{
+    cursor: pointer;
+}

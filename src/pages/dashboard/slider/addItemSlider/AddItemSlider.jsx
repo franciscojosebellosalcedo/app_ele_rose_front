@@ -9,6 +9,8 @@ import { addItemSlider } from "../../../../service/itemSlider";
 import Loader from "../../../../components/loader/Loader";
 import { setProductIsAssociatedSlider } from "../../../../features/product/productSlice";
 import { setCollectionIsAssociatedSlider } from "../../../../features/collection/collection";
+import ContentCollectionSlider from "../../../../components/contentCollectionSlider/ContentCollectionSlider";
+import { addOneItemElementSlider, removeOneItemElementSlider } from "../../../../features/itemSlider/itemSliderSlice";
 
 const AddItemSlider = () => {
   const navigate = useNavigate();
@@ -43,9 +45,14 @@ const AddItemSlider = () => {
         if(responseItemSlider.status===200 && responseItemSlider.response){
           const data=responseItemSlider.data;
           if(data.type===typeElementSlider[0]){
-            dispatch(setProductIsAssociatedSlider(data));
+            dispatch(setProductIsAssociatedSlider(data.product._id));
           }else if(data.type===typeElementSlider[1]){
-            dispatch(setCollectionIsAssociatedSlider(data));
+            dispatch(setCollectionIsAssociatedSlider(data.collection._id));
+          }
+          if(data.idRemoved===true){
+            dispatch(removeOneItemElementSlider(data._id));
+          }else{
+            dispatch(addOneItemElementSlider(data));
           }
           toast.success(responseItemSlider.message);
         }else{
@@ -89,7 +96,9 @@ const AddItemSlider = () => {
       }
 
       {
-        nameTypeSelected === typeElementSlider[0] ? <ContentProductSlider addOneItemSlider={addOneItemSlider} /> : ""
+        nameTypeSelected === typeElementSlider[0] ? <ContentProductSlider addOneItemSlider={addOneItemSlider} /> 
+        :
+        nameTypeSelected === typeElementSlider[1]?<ContentCollectionSlider addOneItemSlider={addOneItemSlider} />:""  
       }
 
     </section>

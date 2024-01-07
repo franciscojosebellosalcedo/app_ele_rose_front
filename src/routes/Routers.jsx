@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes,Navigate } from 'react-router-dom'
 import { ROUTES } from '../constants/constants'
 import Login from '../pages/login/Login'
 import LoginGuard from '../guards/LoginGuard'
@@ -21,7 +21,8 @@ const Routers = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTES.NOT_FOUND} element={<div>Parece que estás perdido</div>}></Route>
+        <Route path={ROUTES.NOT_FOUND} element={<Navigate to={`/${ROUTES.DASHBOARD}/${ROUTES.CATEGORIES}`}/>}>
+        </Route>
 
         <Route element={<LoginGuard />}>
           <Route path={ROUTES.LOGIN} element={<Login />}></Route>

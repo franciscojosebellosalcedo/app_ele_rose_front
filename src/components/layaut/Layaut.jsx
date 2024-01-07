@@ -10,13 +10,33 @@ import Loader from "../loader/Loader";
 import { getAllProducts } from "../../service/product";
 import { setAllProducts } from "../../features/product/productSlice";
 import { setListCollection } from "../../features/collection/collection";
-import { setLoaderCategories,setLoaderProducts,setLoaderCollections } from "../../features/sectionActive/sectionActiveSlice";
+import { setLoaderCategories,setLoaderProducts,setLoaderCollections, setLoaderItemsSlider } from "../../features/sectionActive/sectionActiveSlice";
 import { getAllCollection } from "../../service/collection";
+import { getAllItemSlider } from "../../service/itemSlider";
+import { setAllItemsSlider } from "../../features/itemSlider/itemSliderSlice";
 
 const Layaut = () => {
   const dispatch = useDispatch();
   const isLoader=useSelector((state)=>state.sectionActive.data.loader);
   const accessToken = useSelector((state) => state.user.data.accessToken);
+
+  const getItemsSlider=async()=>{
+    dispatch(setLoaderItemsSlider(true));
+    try {
+      if (accessToken) {
+        const responseGetAll = await getAllItemSlider(accessToken);
+        if (responseGetAll.status === 200 && responseGetAll.response) {
+          const data = responseGetAll.data;
+          dispatch(setAllItemsSlider(data));
+        } else {
+          toast.error(responseGetAll.message);
+        }
+      }
+    } catch (error) {
+      toast.error("Se produjo un error al obtener los productos");
+    }
+    dispatch(setLoaderItemsSlider(false));
+  }
 
   const getProducts=async()=>{
     dispatch(setLoaderProducts(true));
@@ -76,6 +96,7 @@ const Layaut = () => {
     getCategories();
     getCollections();
     getProducts();
+    getItemsSlider();
   }
 
   useEffect(() => {
