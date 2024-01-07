@@ -19,30 +19,54 @@ const Slider = () => {
   const [isLoader, setIsLoader] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const removeOneItemSlider = async (e, id) => {
     e.preventDefault();
-    setIsLoader(true);
     try {
       if (accessToken) {
-        const responseRemoveItenSlider = await removeItemSlider(accessToken, id);
-        if (responseRemoveItenSlider.status == 200 && responseRemoveItenSlider.response) {
-          const data = responseRemoveItenSlider.data;
-          dispatch(removeOneItemElementSlider(data._id));
-          if (data.type === typeElementSlider[0]) {
-            dispatch(setProductIsAssociatedSlider(data.valueItem));
-          } else if (data.type === typeElementSlider[1]) {
-            dispatch(setCollectionIsAssociatedSlider(data.valueItem));
-          }
-          toast.success(responseRemoveItenSlider.message);
-        } else if (responseRemoveItenSlider.status == 300 && responseRemoveItenSlider.response) {
-          toast.warning(responseRemoveItenSlider.message);
+        if (!openConfirm) {
+          toast(`¿ Desea eliminar este elemento del slider de tu pagina web ?`, {
+            action: {
+              label: "Si",
+              onClick: async () => {
+                setIsLoader(true);
+                const responseRemoveItenSlider = await removeItemSlider(accessToken, id);
+                if (responseRemoveItenSlider.status == 200 && responseRemoveItenSlider.response) {
+                  const data = responseRemoveItenSlider.data;
+                  dispatch(removeOneItemElementSlider(data._id));
+                  if (data.type === typeElementSlider[0]) {
+                    dispatch(setProductIsAssociatedSlider(data.valueItem));
+                  } else if (data.type === typeElementSlider[1]) {
+                    dispatch(setCollectionIsAssociatedSlider(data.valueItem));
+                  }
+                  toast.success(responseRemoveItenSlider.message);
+                } else if (responseRemoveItenSlider.status == 300 && responseRemoveItenSlider.response) {
+                  toast.warning(responseRemoveItenSlider.message);
+                }
+                setIsLoader(false);
+                setOpenConfirm(false);
+              }
+            },
+            cancel: {
+              label: "No",
+              onClick: () => {
+                setOpenConfirm(false);
+              }
+            },
+            onAutoClose: () => {
+              setOpenConfirm(false);
+            },
+            onDismiss: () => {
+              setOpenConfirm(false);
+            }
+          })
+          setOpenConfirm(true);
         }
       }
     } catch (error) {
-
+      toast.error("Se produjo un error");
     }
-    setIsLoader(false);
   }
 
   return (
