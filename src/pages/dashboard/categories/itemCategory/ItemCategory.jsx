@@ -21,9 +21,7 @@ const ItemCategory = ({ category,setValueSearch }) => {
         try {
             if (accessToken) {
                 if (!openConfirm) {
-                    toast(`¿ Desea eliminar la categoría ${category.name} ?
-                    \nTener en cuenta que si elimina esta categoría se 
-                    eliminarán todos los productos relacionados a esta`, {
+                    toast(`¿ Desea eliminar la categoría ${category.name} ?`, {
                         action: {
                             label: "Si",
                             onClick: async () => {
@@ -31,8 +29,6 @@ const ItemCategory = ({ category,setValueSearch }) => {
                                 const responseDeleted = await deleteCategory(accessToken, category._id);
                                 if (responseDeleted.status === 200 && responseDeleted.response) {
                                     dispatch(removeCategorie(category._id));
-                                    const listProducts=products.filter((p)=>p.category._id !== category._id);
-                                    dispatch(setAllProducts(listProducts));
                                     setValueSearch("");
                                     toast.success(responseDeleted.message);
                                 } else {

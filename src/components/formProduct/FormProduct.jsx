@@ -225,16 +225,15 @@ const FormProduct = (props) => {
         <form className='form_product'>
           <article className="section_form_product">
             <h3 onClick={() => handlerOpenSectionMain()} className={`section_title ${openSectionDataMain && "title_section_active"}`}>Datos Principales <i className="uil uil-angle-right icon_arrow_title"></i></h3>
-            <label className="label_form_product" htmlFor="imagen">Imagen</label>
-            {
-              props?.productSeleted ? <div className="input_change_imagen">
-                <label className="label_input_file" htmlFor="input_file">Cambiar Imagen</label>
-                <input onInput={(e) => handlerFormProduct("imagen", e.target.files)} id="input_file" className="input_file" type="file" accept="image/*" />
-              </div> : ""
-            }
-
             {
               openSectionDataMain && <section className="section_data section_data_main">
+                <label className="label_form_product" htmlFor="imagen">Imagen</label>
+                {
+                  props?.productSeleted ? <div className="input_change_imagen">
+                    <label className="label_input_file" htmlFor="input_file">Cambiar Imagen</label>
+                    <input onInput={(e) => handlerFormProduct("imagen", e.target.files)} id="input_file" className="input_file" type="file" accept="image/*" />
+                  </div> : ""
+                }
                 <img className="section_imagen" src={props?.dataImagen?.image || product?.imagen} alt="" />
                 <div className="container_input">
                   <label className="label_form_product" htmlFor="input_name_product">Nombre:</label>

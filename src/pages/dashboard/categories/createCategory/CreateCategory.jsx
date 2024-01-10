@@ -7,9 +7,11 @@ import { createCategory } from "../../../../service/category";
 import { ROUTES } from "../../../../constants/constants";
 import { pushCategory } from "../../../../features/category/categorySlice";
 import { convertToBase64 } from "../../../../helpers/helpers";
+import Loader from "../../../../components/loader/Loader";
 
 
 const CreateNewCategory = () => {
+  const [isLoader,setIsLoader]=useState(false);
   const [newCategory, setNewCategory] = useState({ name: "" ,imagen:""});
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,6 +34,7 @@ const CreateNewCategory = () => {
 
   const saveCategory = async (e) => {
     e.preventDefault();
+    setIsLoader(true);
     try {
       if (accessToken) {
         if (validate()) {
@@ -52,10 +55,14 @@ const CreateNewCategory = () => {
     } catch (error) {
       toast.error("Se produjo un error al guardar la categoría");
     }
+    setIsLoader(false);
   }
 
   return (
     <section className="container">
+      {
+        isLoader=== true ? <Loader/>:""
+      }
       <i onClick={() => navigate(`/${ROUTES.DASHBOARD}/${ROUTES.CATEGORIES}`)} className="uil uil-arrow-left icon_back_section"></i>
       <h1 className="container_title">Nueva categoría</h1>
       <form className="form_category form_create_category">
