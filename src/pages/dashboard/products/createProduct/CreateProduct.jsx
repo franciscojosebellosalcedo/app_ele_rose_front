@@ -92,7 +92,7 @@ const CreateProduct = () => {
       <h1 className="container_title">Nuevos productos</h1>
       <p className="text_infomative">{user?.name} en esta sección puedes escojer una lista de imagenes 😘</p>
       <form className="form_files" >
-        <label className="label_input_file" htmlFor="input_file"><i className="uil uil-image-plus icon_add_files"></i> Listar</label>
+        <label className="label_input_file" htmlFor="input_file"><i className="uil uil-image-plus icon_add_files"></i> Listar imágenes</label>
         <input onInput={(e) => convertirABase64(e)} id="input_file" multiple className="input_file" type="file" accept="image/*" />
         {
           imagens && imagens.length > 0 ?

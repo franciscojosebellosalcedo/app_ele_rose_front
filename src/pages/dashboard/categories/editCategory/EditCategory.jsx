@@ -55,13 +55,13 @@ const EditCategory = () => {
         }
       }
     } catch (error) {
-      console.log(error)
       toast.error("Error al editar esta categoría");
     }
     setIsLoader(false);
   }
 
   const getOneCategorie = async (id) => {
+    setIsLoader(true);
     try {
       if (accessToken) {
         const responseFindOneCategory = await getOneCategory(accessToken, id);
@@ -76,6 +76,7 @@ const EditCategory = () => {
     } catch (error) {
       toast.error("Error al obtener esta categoría");
     }
+    setIsLoader(false);
   }
 
   useEffect(() => {

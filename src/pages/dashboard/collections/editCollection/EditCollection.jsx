@@ -64,6 +64,7 @@ const EditCollection = () => {
     }
 
     const getCollection = async () => {
+        setIsLoader(true);
         try {
             if (accessToken) {
                 const id = params.id;
@@ -82,6 +83,7 @@ const EditCollection = () => {
         } catch (error) {
             toast.error("Se produjo un error en obtener la coleccion")
         }
+        setIsLoader(false);
     }
 
     useEffect(() => {
