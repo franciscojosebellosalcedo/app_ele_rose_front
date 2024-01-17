@@ -38,7 +38,7 @@ export const productSlice = createSlice({
     },
     editCollectionProduct:(state,action)=>{
       state.data.list.map((p,index)=>{
-        if(p.collection._id===action.payload._id){
+        if(p?.collection?._id===action.payload._id){
           state.data.list[index].collection=action.payload;
         }
       });

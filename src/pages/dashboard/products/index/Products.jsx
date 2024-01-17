@@ -45,6 +45,7 @@ const Products = () => {
         isLoaderProducts === true ? <Loader /> :
           <>
             <button onClick={() => goTo(`${ROUTES.CREATE_PRODUCT}`)} className="btn btn_new_product">Crear producto</button>
+            <button onClick={() => goTo(`${ROUTES.CREATE_PRODUCT}`)} className="btn btn_porduct_empty_categorie">Pr. sin categorías</button>
             <form className="form_search">
               <input onInput={(e) => searchProduct(e.target.value)} defaultValue={valueSearch} type="search" className="input_search" placeholder="Buscar producto" />
             </form>

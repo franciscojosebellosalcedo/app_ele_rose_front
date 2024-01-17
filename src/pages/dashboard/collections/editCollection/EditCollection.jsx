@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Loader from '../../../../components/loader/Loader';
-import { ROUTES } from '../../../../constants/constants';
+import { ROUTES, typeElementSlider } from '../../../../constants/constants';
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { convertToBase64 } from '../../../../helpers/helpers';
@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { getOneCollection, updateOneCollection } from '../../../../service/collection';
 import { editCollection } from '../../../../features/collection/collection';
 import { editCollectionProduct } from '../../../../features/product/productSlice';
+import { setOneItemSlider } from '../../../../features/itemSlider/itemSliderSlice';
 
 const EditCollection = () => {
     const [isLoader, setIsLoader] = useState(false);
@@ -42,16 +43,17 @@ const EditCollection = () => {
                 } else {
                     const filterColl = collections.filter((coll) => coll._id !== collection._id);
                     const collectionFound = filterColl.find((coll) => coll.name.toLowerCase().includes(collection.name.toLocaleLowerCase()));
-                    if(collectionFound){
+                    if (collectionFound) {
                         toast.warning("Esta colección ya existe");
-                    }else{
-                        const responseEditCollection=await updateOneCollection(accessToken,collection._id,{name:collection.name,imagen:collection.imagen});
-                        if(responseEditCollection.status===200 && responseEditCollection.response){
-                            const data=responseEditCollection.data;
+                    } else {
+                        const responseEditCollection = await updateOneCollection(accessToken, collection._id, { name: collection.name, imagen: collection.imagen });
+                        if (responseEditCollection.status === 200 && responseEditCollection.response) {
+                            const data = responseEditCollection.data;
                             dispatch(editCollection(data));
                             dispatch(editCollectionProduct(data));
+                            dispatch(setOneItemSlider({collection:data,type:typeElementSlider[1]}));
                             toast.success(responseEditCollection.message);
-                        }else{
+                        } else {
                             toast.error(responseEditCollection.message);
                         }
                     }
@@ -88,7 +90,7 @@ const EditCollection = () => {
 
     useEffect(() => {
         getCollection();
-    }, []);
+    }, [ ]);
 
     return (
         <section className="container">

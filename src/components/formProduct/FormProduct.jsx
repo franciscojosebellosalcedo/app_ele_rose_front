@@ -7,6 +7,8 @@ import { addNewProduct, removeOneImage, editProduct } from "../../features/produ
 import Loader from "../loader/Loader";
 import { useEffect } from "react";
 import { convertToBase64 } from "../../helpers/helpers";
+import { setOneItemSlider } from "../../features/itemSlider/itemSliderSlice";
+import { typeElementSlider } from "../../constants/constants";
 
 //{ dataImagen, handlerOpenForm ,productSeleted }
 const FormProduct = (props) => {
@@ -157,6 +159,7 @@ const FormProduct = (props) => {
             const data = responseCretaed.data;
             dispatch(editProduct(data));
             props?.fnHandlerOpenForm(null);
+            dispatch(setOneItemSlider({product:data,type:typeElementSlider[0]}));
             toast.success(responseCretaed.message);
           } else {
             toast.error(responseCretaed.message);

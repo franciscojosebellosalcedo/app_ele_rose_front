@@ -69,7 +69,7 @@ const AddItemSlider = () => {
   return (
     <section className="container">
       <i onClick={() => navigate(`/${ROUTES.DASHBOARD}/${ROUTES.SLIDER}`)} className="uil uil-arrow-left icon_back_section"></i>
-      <h1 className="container_title">Nuevo elemento slider</h1>
+      <h1 className="container_title">Nuevo elemento carrusel</h1>
 
       <div className="container_input type_item_input">
         <label className="label_form_product" htmlFor="category">Tipo de elemento</label>

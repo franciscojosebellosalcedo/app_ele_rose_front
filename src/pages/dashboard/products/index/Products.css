@@ -7,6 +7,16 @@
   border-radius: var(--border-radius-box);
   cursor: pointer;
 }
+.btn_porduct_empty_categorie {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  padding: 4px 5px;
+  margin-left: 20px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-radius: var(--border-radius-box);
+  cursor: pointer;
+}
 .text_product {
   font-size: 13px;
 }

@@ -26,7 +26,7 @@ const Slider = () => {
     try {
       if (accessToken) {
         if (!openConfirm) {
-          toast(`¿ Desea eliminar este elemento del slider de tu pagina web ?`, {
+          toast(`¿ Desea eliminar este elemento del carrusel de tu pagina web ?`, {
             action: {
               label: "Si",
               onClick: async () => {
@@ -74,12 +74,12 @@ const Slider = () => {
       {
         isLoader === true ? <Loader /> : ""
       }
-      <h1 className="container_title">Slider</h1>
+      <h1 className="container_title">Carrusel</h1>
       {
         isLoaderItemsSlider === true ? <Loader /> :
           <>
             <button className="btn btn_new_category" onClick={() => navigate(ROUTES.ADD_ELEMENT_SLIDER)}>Agregar elemento</button>
-            <p className="text_slider_container">{user?.name} Aquí podrás asociar maximo tres productos al slider de tu pagina web 😚</p>
+            <p className="text_slider_container">{user?.name} Aquí podrás asociar maximo tres productos al carrusel de tu pagina web 😚</p>
             <h3 className="subtitle_slider">Elementos agregados</h3>
             <h3 className="subtitle_slider">Colecciones: {itemsSlider.filter((item) => item.type === "Colección").length}</h3>
             <h3 className="subtitle_slider">Productos: {itemsSlider.filter((item) => item.type === "Producto").length}</h3>
