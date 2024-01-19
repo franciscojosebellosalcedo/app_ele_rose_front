@@ -2,20 +2,25 @@ export const ROUTES={
     LOGIN:"/",
     DASHBOARD:"dashboard",
 
+    //string url categories
     CATEGORIES:"categories",
     CREATE_CATEGORY:"create",
     EDIT_CATEGORY:"edit",
 
+    //string url products
     PRODUCTS:"products",
     CREATE_PRODUCT:"create",
+    NO_CATEGORIES_PRODUCTS:"no-categories",
 
-
+    //string url user
     USERS:"users",
 
+    //string url collections
     COLLECTIONS:"collections",
     CREATE_COLLECTION:"create",
     EDIT_COLLECTION:"edit",
 
+    //string url slider
     SLIDER:"slider",
     ADD_ELEMENT_SLIDER:"add",
 

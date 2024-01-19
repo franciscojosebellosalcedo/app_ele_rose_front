@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../../constants/constants";
 import { useState } from "react";
 import { removeCategorie } from "../../../../features/category/categorySlice";
-import { setAllProducts } from "../../../../features/product/productSlice";
+import { removeCategorieProduct } from "../../../../features/product/productSlice";
 import Loader from "../../../../components/loader/Loader";
 
 const ItemCategory = ({ category,setValueSearch }) => {
@@ -15,7 +15,6 @@ const ItemCategory = ({ category,setValueSearch }) => {
     const [isLoader,setIsLoader]=useState(false);
     const [openConfirm, setOpenConfirm] = useState(false);
     const accessToken = useSelector((state) => state.user.data.accessToken);
-    const products = useSelector((state) => state.product.data.list);
     const deleteOneCategory = async (e, category) => {
         e.preventDefault();
         try {
@@ -29,12 +28,13 @@ const ItemCategory = ({ category,setValueSearch }) => {
                                 const responseDeleted = await deleteCategory(accessToken, category._id);
                                 if (responseDeleted.status === 200 && responseDeleted.response) {
                                     dispatch(removeCategorie(category._id));
+                                    dispatch(removeCategorieProduct(category));
                                     setValueSearch("");
                                     toast.success(responseDeleted.message);
                                 } else {
                                     toast.error(responseDeleted.message);
                                 }
-                                setIsLoader(true)
+                                setIsLoader(false)
                                 setOpenConfirm(false);
                             }
                         },

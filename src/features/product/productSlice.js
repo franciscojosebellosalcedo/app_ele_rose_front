@@ -50,6 +50,13 @@ export const productSlice = createSlice({
         }
       });
     },
+    removeCategorieProduct:(state,action)=>{
+      state.data.list.map((p,index)=>{
+        if(p?.category?._id===action.payload._id){
+          state.data.list[index].category=null;
+        }
+      });
+    },
     removeOneProduct: (state, action) => {
       const index = state.data.list.findIndex((p) => p._id === action.payload);
       state.data.list.splice(index, 1);
@@ -83,7 +90,8 @@ export const {
   setProductIsAssociatedSlider,
   editCategoryProduct,
   editCollectionProduct,
-  removeCollectionProduct
+  removeCollectionProduct,
+  removeCategorieProduct,
 } = productSlice.actions;
 
 export default productSlice.reducer;

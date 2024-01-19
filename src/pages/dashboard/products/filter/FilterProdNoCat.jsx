@@ -4,7 +4,7 @@ import "./Filter.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setProductsFound } from "../../../../features/product/productSlice";
 
-const Filter = () => {
+const FilterProdNoCat = () => {
   const [openOptions, setOpenOptions] = useState(false);
   const [openValue, setOpenValueOperator] = useState(false);
   const [nameOperator, setNameOperator] = useState("");
@@ -61,28 +61,28 @@ const Filter = () => {
   const filterProducts = (dataFilter) => {
     let productFoundFilter = [];
     if (dataFilter.property === optionsFilter[3].name) {
-      productFoundFilter = listProducts.filter((p) => p.category.name === dataFilter.value && p.category !==null);
+      productFoundFilter = listProducts.filter((p) => p.category.name === dataFilter.value  && p.category ===null);
     } else if (dataFilter.property === optionsFilter[4].name) {
-      productFoundFilter = listProducts.filter((p) => p.isNow === true && p.category !==null);
+      productFoundFilter = listProducts.filter((p) => p.isNow === true && p.category ===null);
     } else if (dataFilter.property === optionsFilter[5].name) {
-      productFoundFilter = listProducts.filter((p) => p.isNow === false && p.category !==null);
+      productFoundFilter = listProducts.filter((p) => p.isNow === false && p.category ===null);
     }else if (dataFilter.property === optionsFilter[1].name) {
       if(valueOperator===conditionals[1].value){
-        productFoundFilter = listProducts.filter((p) => p.realPrice > parseInt(dataFilter.value) && p.category !==null);
+        productFoundFilter = listProducts.filter((p) => p.realPrice > parseInt(dataFilter.value) && p.category ===null);
       }else if(valueOperator===conditionals[2].value){
-        productFoundFilter = listProducts.filter((p) => p.realPrice < parseInt(dataFilter.value) && p.category !==null);
+        productFoundFilter = listProducts.filter((p) => p.realPrice < parseInt(dataFilter.value) && p.category ===null);
       }else if(valueOperator===conditionals[3].value){
-        productFoundFilter = listProducts.filter((p) => p.realPrice === parseInt(dataFilter.value) && p.category !==null);
+        productFoundFilter = listProducts.filter((p) => p.realPrice === parseInt(dataFilter.value) && p.category ===null);
       }
     }else if (dataFilter.property === optionsFilter[2].name) {
       if(valueOperator===conditionals[1].value){
 
-        productFoundFilter = listProducts.filter((p) => p.amount > parseInt(dataFilter.value) && p.category !==null);
+        productFoundFilter = listProducts.filter((p) => p.amount > parseInt(dataFilter.value) && p.category ===null);
       }else if(valueOperator===conditionals[2].value){
 
-        productFoundFilter = listProducts.filter((p) => p.amount < parseInt(dataFilter.value) && p.category !==null);
+        productFoundFilter = listProducts.filter((p) => p.amount < parseInt(dataFilter.value) && p.category ===null);
       }else if(valueOperator===conditionals[3].value){
-        productFoundFilter = listProducts.filter((p) => p.amount === parseInt(dataFilter.value) && p.category !==null);
+        productFoundFilter = listProducts.filter((p) => p.amount === parseInt(dataFilter.value) && p.category ===null);
       }
     }
     dispatch(setProductsFound(productFoundFilter));
@@ -118,7 +118,7 @@ const Filter = () => {
         {
           openOptions === true ? <div className="options_filter">
             {
-              optionsFilter.map((option, index) => (
+              optionsFilter.filter((op)=>op.name!==optionsFilter[3].name).map((option, index) => (
                 <div onClick={(e) => handlerSelectedOption(option)} key={index} className="item_option">{option.name}</div>
               ))
             }
@@ -183,4 +183,4 @@ const Filter = () => {
   )
 }
 
-export default Filter;
+export default FilterProdNoCat;

@@ -113,7 +113,7 @@ const ItemProduct = ({ product, clearProductsFound }) => {
           <p className="text_info">Precio unidad: $ <span>{product?.realPrice}</span></p>
           <p className="text_info">Precio descuento: <span>{product?.pricePromotion > 0 ? `$ ${product?.pricePromotion}` : "No aplica"}</span></p>
           <p className="text_info">Cantidad: <span>{product?.amount}</span></p>
-          <p className="text_info">Categoría: <span>{product?.category?.name ? product?.category?.name :"No aplica"}</span></p>
+          <p className="text_info">Categoría: <span>{product?.category ? product?.category?.name :"No aplica"}</span></p>
           <p className="text_info">Colección: <span>{product?.collection?.name ? product?.collection?.name:"No aplica"}</span></p>
           <section className="actions_card">
             <button onClick={(e) => deleteProduct(e, product)} className="btn btn_card btn_delete">Eliminar</button>

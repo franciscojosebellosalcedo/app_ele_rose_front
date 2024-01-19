@@ -35,7 +35,7 @@ export const itemSliderSlice = createSlice({
     },
     removeItemElementSliderByType: (state, action) => {
       if(action.payload.type===typeElementSlider[0]){
-          const indexProduct = state.data.list.findIndex((item) => item?.product._id === action.payload.product._id);
+          const indexProduct = state.data.list.findIndex((item) => item?.product?._id === action.payload.product._id);
           state.data.list.splice(indexProduct,1);
       }else if(action.payload.type===typeElementSlider[1]){
           const indexCollection = state.data.list.findIndex((item) => item?.collection._id === action.payload.collection._id);

@@ -17,6 +17,9 @@
   border-radius: var(--border-radius-box);
   cursor: pointer;
 }
+.form_search_product_no_category{
+  margin-top: 10px;
+}
 .text_product {
   font-size: 13px;
 }

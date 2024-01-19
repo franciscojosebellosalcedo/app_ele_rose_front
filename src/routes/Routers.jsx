@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Link, Route, Routes,Navigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes,Navigate } from 'react-router-dom'
 import { ROUTES } from '../constants/constants'
 import Login from '../pages/login/Login'
 import LoginGuard from '../guards/LoginGuard'
@@ -16,6 +16,7 @@ import Collections from '../pages/dashboard/collections/index/Collections'
 import CreateCollection from '../pages/dashboard/collections/createCollection/CreateCollection'
 import EditCollection from '../pages/dashboard/collections/editCollection/EditCollection'
 import AddItemSlider from '../pages/dashboard/slider/addItemSlider/AddItemSlider'
+import ProdNoCat from '../pages/dashboard/products/prodNoCat/ProdNoCat'
 
 const Routers = () => {
   return (
@@ -40,6 +41,8 @@ const Routers = () => {
             <Route path={ROUTES.PRODUCTS} element={<Products />}></Route>
 
             <Route path={`${ROUTES.PRODUCTS}/${ROUTES.CREATE_PRODUCT}`} element={<CreateProduct />}></Route>
+
+            <Route path={`${ROUTES.PRODUCTS}/${ROUTES.NO_CATEGORIES_PRODUCTS}`} element={<ProdNoCat />}></Route>
 
             <Route path={ROUTES.COLLECTIONS} element={<Collections />}></Route>
 

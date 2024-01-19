@@ -17,11 +17,10 @@ const Products = () => {
   const isLoaderProducts = useSelector((state) => state.sectionActive.data.isLoaderProducts);
 
   const [valueSearch, setValueSearch] = useState("");
-  // const [isLoader, setIsloader] = useState(false);
 
   const searchProduct = (value) => {
     setValueSearch(value);
-    const productsFound = products.filter((p) => p.name.trim().toLowerCase().includes(value.trim().toLowerCase()));
+    const productsFound = products.filter((p) => p.name.trim().toLowerCase().includes(value.trim().toLowerCase()) && p.category !==null);
     dispatch(setProductsFound(productsFound));
   }
 
@@ -45,11 +44,11 @@ const Products = () => {
         isLoaderProducts === true ? <Loader /> :
           <>
             <button onClick={() => goTo(`${ROUTES.CREATE_PRODUCT}`)} className="btn btn_new_product">Crear producto</button>
-            <button onClick={() => goTo(`${ROUTES.CREATE_PRODUCT}`)} className="btn btn_porduct_empty_categorie">Pr. sin categorías</button>
+            <button onClick={() => goTo(`${ROUTES.NO_CATEGORIES_PRODUCTS}`)} className="btn btn_porduct_empty_categorie">Pr. sin categorías</button>
             <form className="form_search">
               <input onInput={(e) => searchProduct(e.target.value)} defaultValue={valueSearch} type="search" className="input_search" placeholder="Buscar producto" />
             </form>
-            <Filter />
+            <Filter isEmptyCategory={false} />
             <div className="list_products">
 
               {
@@ -57,7 +56,7 @@ const Products = () => {
                   <>
                     {
                       productsFound.map((product, index) => (
-                        <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />
+                        product.category !== null ? <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />:""
                       ))
                     }
                   </> :
@@ -65,7 +64,7 @@ const Products = () => {
                     <>
                       {
                         products.map((product, index) => (
-                          <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />
+                          product.category !== null ? <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />:""
                         ))
                       }
                     </> : ""
