@@ -1,5 +1,5 @@
 export const headersWithAccessToken = (headers, accessToken) => {
-  headers["access-token"] = `bearer ${accessToken}`;
+  headers["access-x"] = `bearer ${accessToken}`;
   return headers;
 };
 
