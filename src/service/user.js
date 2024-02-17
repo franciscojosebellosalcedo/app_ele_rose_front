@@ -10,7 +10,7 @@ export const loginUser=async (data)=>{
 }
 
 export const getNewTokenUser=async (token)=>{
-    HEADERS["access-token"]=`bearer ${token}`;
+    HEADERS["access-x"]=`bearer ${token}`;
     const response=await fetch(URL_BASE+"/user/refress-token",{
         method:"GET",
         headers:HEADERS,
