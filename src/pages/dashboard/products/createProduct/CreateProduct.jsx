@@ -2,24 +2,25 @@ import { ROUTES } from "../../../../constants/constants";
 import "./CreateProduct.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Loader from "../../../../components/loader/Loader";
 import FormProduct from "../../../../components/formProduct/FormProduct";
-import {  toast} from "sonner";
+import { toast } from "sonner";
 import { addImage, removeAllImagens, removeOneImage, setImagens } from "../../../../features/product/productSlice";
 import { setOpenFormProduct } from "../../../../features/sectionActive/sectionActiveSlice";
-
+import { Widget } from '@uploadcare/react-widget';
 
 const CreateProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.data.user);
   const imagens = useSelector((state) => state.product.data.imagens);
-  const openFormProduct=useSelector((state)=>state.sectionActive.data.openFormProduct);
+  const openFormProduct = useSelector((state) => state.sectionActive.data.openFormProduct);
   const [base64Strings, setBase64Strings] = useState([]);
   const [isLoader, setIsLoader] = useState(false);
   const [imageSelected, setImageSelected] = useState(null);
-  const [openConfirm,setOpenConfirm]=useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
+  const uploadcareRef = useRef(null); 
 
   const deleteOneImageSelected = (e, index) => {
     e.preventDefault();
@@ -61,30 +62,29 @@ const CreateProduct = () => {
     e.preventDefault();
     if (!openConfirm) {
       toast(`¿ Desea eliminar las imagenes restantes ?`, {
-          action: {
-              label: "Si",
-              onClick: async () => {
-                dispatch(removeAllImagens());
-                setOpenConfirm(false);
-              }
-          },
-          cancel: {
-              label: "No",
-              onClick: () => {
-                  setOpenConfirm(false);
-              }
-          },
-          onAutoClose:()=>{
-              setOpenConfirm(false);
-          },
-          onDismiss:()=>{
-              setOpenConfirm(false);
+        action: {
+          label: "Si",
+          onClick: async () => {
+            dispatch(removeAllImagens());
+            setOpenConfirm(false);
           }
+        },
+        cancel: {
+          label: "No",
+          onClick: () => {
+            setOpenConfirm(false);
+          }
+        },
+        onAutoClose: () => {
+          setOpenConfirm(false);
+        },
+        onDismiss: () => {
+          setOpenConfirm(false);
+        }
       })
       setOpenConfirm(true);
+    }
   }
-  }
-
 
   return (
     <div className="container container_create_product">
@@ -92,11 +92,16 @@ const CreateProduct = () => {
       <h1 className="container_title">Nuevos productos</h1>
       <p className="text_infomative">{user?.name} en esta sección puedes escojer una lista de imagenes 😘</p>
       <form className="form_files" >
-        <label className="label_input_file" htmlFor="input_file"><i className="uil uil-image-plus icon_add_files"></i> Listar imágenes</label>
-        <input onInput={(e) => convertirABase64(e)} id="input_file" multiple className="input_file" type="file" accept="image/*" />
+        {/* <label className="label_input_file" htmlFor="input_file"><i className="uil uil-image-plus icon_add_files"></i> Listar imágenes</label>
+        <input onInput={(e) => convertirABase64(e)} id="input_file" multiple className="input_file" type="file" accept="image/*" /> */}
+        <Widget
+          publicKey="56c704ce776c0acebcfd"
+          onChange={(files) =>{}}
+          multiple={true}
+        />
         {
           imagens && imagens.length > 0 ?
-            <button onClick={(e)=>deleteAllImagensSelected(e)} className="btn_delete_all_imagens">Eliminar imagenes</button>
+            <button onClick={(e) => deleteAllImagensSelected(e)} className="btn_delete_all_imagens">Eliminar imagenes</button>
             : ""
         }
       </form>
@@ -123,7 +128,7 @@ const CreateProduct = () => {
           }
         </>
         {
-          openFormProduct===true ? <FormProduct dataImagen={imageSelected} fnHandlerOpenForm={handlerOpenForm} productSeleted={null} />:""
+          openFormProduct === true ? <FormProduct dataImagen={imageSelected} fnHandlerOpenForm={handlerOpenForm} productSeleted={null} /> : ""
         }
       </section>
     </div>

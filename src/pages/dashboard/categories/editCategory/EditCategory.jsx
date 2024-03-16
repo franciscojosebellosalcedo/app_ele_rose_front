@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { getOneCategory, updateCategory } from "../../../../service/category";
 import { editCategory } from "../../../../features/category/categorySlice";
-import { convertToBase64 } from "../../../../helpers/helpers";
+// import { convertToBase64 } from "../../../../helpers/helpers";
 import Loader from "../../../../components/loader/Loader";
 import { editCategoryProduct } from "../../../../features/product/productSlice";
+import { Widget } from '@uploadcare/react-widget';
+
 
 const EditCategory = () => {
   const [newDataCategory, setNewDataCategory] = useState({ name: "", imagen: "" });
@@ -21,13 +23,7 @@ const EditCategory = () => {
   const [isLoader, setIsLoader] = useState(false);
 
   const handelerFormCategory = async (target, value) => {
-    if (target == "imagen") {
-      const base64Image = await convertToBase64(value);
-      setNewDataCategory({ ...newDataCategory, [target]: base64Image });
-    } else {
-      setNewDataCategory({ ...newDataCategory, [target]: value });
-    }
-
+    setNewDataCategory({ ...newDataCategory, [target]: value });
   }
 
   const updateCategorie = async (e) => {
@@ -86,7 +82,7 @@ const EditCategory = () => {
 
   return (
     <section className="container">
-      {isLoader=== true ? <Loader/> :""}
+      {isLoader === true ? <Loader /> : ""}
       <i onClick={() => navigate(`/${ROUTES.DASHBOARD}/${ROUTES.CATEGORIES}`)} className="uil uil-arrow-left icon_back_section"></i>
       <h1 className="container_title">Editar categoría</h1>
       <form className="form_category form_create_category">
@@ -96,8 +92,10 @@ const EditCategory = () => {
         </section>
         <section className="form_section form_section_input_file">
           <label htmlFor="imagen_category">Imagen:</label>
-          <label htmlFor="imagen_category" className="label_input_image_category">Seleccionar imagen</label>
-          <input onInput={(e) => handelerFormCategory("imagen", e.target.files)} accept="image/*" className="input_form_category input_file_category" type="file" placeholder="Ingrese el nombre de la categoria" id="imagen_category" />
+          <Widget
+            publicKey="56c704ce776c0acebcfd"
+            onChange={(file) => handelerFormCategory("imagen", file.originalUrl)}
+          />
         </section>
         {newDataCategory?.imagen && <img className="imagen_new_category" src={newDataCategory?.imagen} alt="imagen category" />}
       </form>

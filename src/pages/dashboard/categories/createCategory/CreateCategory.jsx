@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { createCategory } from "../../../../service/category";
 import { ROUTES } from "../../../../constants/constants";
 import { pushCategory } from "../../../../features/category/categorySlice";
-import { convertToBase64 } from "../../../../helpers/helpers";
+// import { convertToBase64 } from "../../../../helpers/helpers";
 import Loader from "../../../../components/loader/Loader";
 import { Widget } from '@uploadcare/react-widget';
 
