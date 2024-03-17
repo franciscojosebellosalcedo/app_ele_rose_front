@@ -20,7 +20,6 @@ const CreateProduct = () => {
   const [isLoader, setIsLoader] = useState(false);
   const [imageSelected, setImageSelected] = useState(null);
   const [openConfirm, setOpenConfirm] = useState(false);
-  const uploadcareRef = useRef(null); 
 
   const deleteOneImageSelected = (e, index) => {
     e.preventDefault();
@@ -33,30 +32,43 @@ const CreateProduct = () => {
     setImageSelected(data);
   }
 
-  const convertirABase64 = (event) => {
-    setIsLoader(true);
-    const input = event.target;
-
-    if (input.files.length > 0) {
-      const files = Array.from(input.files);
-
-      Promise.all(files.map(file => {
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const base64String = e.target.result;
-            resolve(base64String);
-          };
-          reader.readAsDataURL(file);
-        });
-      })).then(base64Array => {
-        dispatch(addImage([...base64Array]));
-      });
-    } else {
-      dispatch(setImagens());
+  const setAllImages = (infoFile) => {
+    console.log(infoFile)
+    if (infoFile) {
+      const count = infoFile.count;
+      const listImages = [];
+      for (let index = 0; index < count; index++) {
+        const image = `${infoFile.cdnUrl}nth/${index}/`;
+        listImages.push(image);
+      }
+      dispatch(addImage(listImages));
     }
-    setIsLoader(false);
-  };
+  }
+
+  // const convertirABase64 = (event) => {
+  //   setIsLoader(true);
+  //   const input = event.target;
+
+  //   if (input.files.length > 0) {
+  //     const files = Array.from(input.files);
+
+  //     Promise.all(files.map(file => {
+  //       return new Promise((resolve) => {
+  //         const reader = new FileReader();
+  //         reader.onload = function (e) {
+  //           const base64String = e.target.result;
+  //           resolve(base64String);
+  //         };
+  //         reader.readAsDataURL(file);
+  //       });
+  //     })).then(base64Array => {
+  //       dispatch(addImage([...base64Array]));
+  //     });
+  //   } else {
+  //     dispatch(setImagens());
+  //   }
+  //   setIsLoader(false);
+  // };
 
   const deleteAllImagensSelected = (e) => {
     e.preventDefault();
@@ -65,8 +77,10 @@ const CreateProduct = () => {
         action: {
           label: "Si",
           onClick: async () => {
+            setIsLoader(true);
             dispatch(removeAllImagens());
             setOpenConfirm(false);
+            setIsLoader(false);
           }
         },
         cancel: {
@@ -94,11 +108,14 @@ const CreateProduct = () => {
       <form className="form_files" >
         {/* <label className="label_input_file" htmlFor="input_file"><i className="uil uil-image-plus icon_add_files"></i> Listar imágenes</label>
         <input onInput={(e) => convertirABase64(e)} id="input_file" multiple className="input_file" type="file" accept="image/*" /> */}
-        <Widget
-          publicKey="56c704ce776c0acebcfd"
-          onChange={(files) =>{}}
-          multiple={true}
-        />
+        {
+          isLoader === true ? <Loader /> :
+            <Widget
+              publicKey="56c704ce776c0acebcfd"
+              onChange={(infoFile) => setAllImages(infoFile)}
+              multiple
+            />
+        }
         {
           imagens && imagens.length > 0 ?
             <button onClick={(e) => deleteAllImagensSelected(e)} className="btn_delete_all_imagens">Eliminar imagenes</button>
