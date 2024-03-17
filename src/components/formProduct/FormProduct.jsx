@@ -8,7 +8,9 @@ import Loader from "../loader/Loader";
 import { useEffect } from "react";
 import { convertToBase64 } from "../../helpers/helpers";
 import { setOneItemSlider } from "../../features/itemSlider/itemSliderSlice";
-import { typeElementSlider } from "../../constants/constants";
+import { PUBLIC_KEY_UPLOADCARE, typeElementSlider } from "../../constants/constants";
+import { Widget } from '@uploadcare/react-widget';
+
 
 //{ dataImagen, handlerOpenForm ,productSeleted }
 const FormProduct = (props) => {
@@ -83,8 +85,7 @@ const FormProduct = (props) => {
   const handlerFormProduct = async (target, value) => {
     if (target === "imagen") {
       if (value.length > 0) {
-        const base64 = await convertToBase64(value);
-        value = base64;
+        setProduct({...product,[target]:value});
       } else {
         return;
       }
@@ -159,7 +160,7 @@ const FormProduct = (props) => {
             const data = responseCretaed.data;
             dispatch(editProduct(data));
             props?.fnHandlerOpenForm(null);
-            dispatch(setOneItemSlider({product:data,type:typeElementSlider[0]}));
+            dispatch(setOneItemSlider({ product: data, type: typeElementSlider[0] }));
             toast.success(responseCretaed.message);
           } else {
             toast.error(responseCretaed.message);
@@ -233,8 +234,10 @@ const FormProduct = (props) => {
                 <label className="label_form_product" htmlFor="imagen">Imagen</label>
                 {
                   props?.productSeleted ? <div className="input_change_imagen">
-                    <label className="label_input_file" htmlFor="input_file">Cambiar Imagen</label>
-                    <input onInput={(e) => handlerFormProduct("imagen", e.target.files)} id="input_file" className="input_file" type="file" accept="image/*" />
+                    <Widget
+                      publicKey={PUBLIC_KEY_UPLOADCARE}
+                      onChange={(file) => handlerFormProduct("imagen", file.originalUrl)}
+                    />
                   </div> : ""
                 }
                 <img className="section_imagen" src={props?.dataImagen?.image || product?.imagen} alt="" />

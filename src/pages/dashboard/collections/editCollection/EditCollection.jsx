@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import Loader from '../../../../components/loader/Loader';
-import { ROUTES, typeElementSlider } from '../../../../constants/constants';
+import { PUBLIC_KEY_UPLOADCARE, ROUTES, typeElementSlider } from '../../../../constants/constants';
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { convertToBase64 } from '../../../../helpers/helpers';
+// import { convertToBase64 } from '../../../../helpers/helpers';
 import { toast } from "sonner";
 import { useEffect } from 'react';
 import { getOneCollection, updateOneCollection } from '../../../../service/collection';
 import { editCollection } from '../../../../features/collection/collection';
 import { editCollectionProduct } from '../../../../features/product/productSlice';
 import { setOneItemSlider } from '../../../../features/itemSlider/itemSliderSlice';
+import { Widget } from '@uploadcare/react-widget';
+
 
 const EditCollection = () => {
     const [isLoader, setIsLoader] = useState(false);
@@ -21,12 +23,7 @@ const EditCollection = () => {
     const collections = useSelector((state) => state.collection.data.list);
 
     const handlerFormCollection = async (target, value) => {
-        if (target === "imagen") {
-            const base64 = await convertToBase64(value);
-            setCollection({ ...collection, imagen: base64 });
-        } else {
-            setCollection({ ...collection, name: value });
-        }
+        setCollection({ ...collection, [target]: value });
     }
 
     const validate = () => {
@@ -51,7 +48,7 @@ const EditCollection = () => {
                             const data = responseEditCollection.data;
                             dispatch(editCollection(data));
                             dispatch(editCollectionProduct(data));
-                            dispatch(setOneItemSlider({collection:data,type:typeElementSlider[1]}));
+                            dispatch(setOneItemSlider({ collection: data, type: typeElementSlider[1] }));
                             toast.success(responseEditCollection.message);
                         } else {
                             toast.error(responseEditCollection.message);
@@ -90,7 +87,7 @@ const EditCollection = () => {
 
     useEffect(() => {
         getCollection();
-    }, [ ]);
+    }, []);
 
     return (
         <section className="container">
@@ -104,8 +101,10 @@ const EditCollection = () => {
                 </section>
                 <section className="form_section form_section_input_file">
                     <label htmlFor="imagen_edit_collection">Imagen:</label>
-                    <label htmlFor="imagen_edit_collection" className="label_input_image_category">Seleccionar imagen</label>
-                    <input onInput={(e) => handlerFormCollection("imagen", e.target.files)} accept="image/*" className="input_form_category input_file_category" type="file" placeholder="Ingrese el nombre de la categoria" id="imagen_edit_collection" />
+                    <Widget
+                        publicKey={PUBLIC_KEY_UPLOADCARE}
+                        onChange={(file) => handlerFormCollection("imagen", file.originalUrl)}
+                    />
                 </section>
                 {collection?.imagen && <img className="imagen_new_category" src={collection?.imagen} alt="imagen category" />}
             </form>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./EditCategory.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { ROUTES } from "../../../../constants/constants";
+import { PUBLIC_KEY_UPLOADCARE, ROUTES } from "../../../../constants/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
 import { getOneCategory, updateCategory } from "../../../../service/category";
@@ -93,7 +93,7 @@ const EditCategory = () => {
         <section className="form_section form_section_input_file">
           <label htmlFor="imagen_category">Imagen:</label>
           <Widget
-            publicKey="56c704ce776c0acebcfd"
+            publicKey={PUBLIC_KEY_UPLOADCARE}
             onChange={(file) => handelerFormCategory("imagen", file.originalUrl)}
           />
         </section>

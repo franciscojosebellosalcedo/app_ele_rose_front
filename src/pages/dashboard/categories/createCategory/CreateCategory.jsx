@@ -4,7 +4,7 @@ import "./CreateCategory.css";
 import { toast } from "sonner";
 import { useSelector, useDispatch } from "react-redux";
 import { createCategory } from "../../../../service/category";
-import { ROUTES } from "../../../../constants/constants";
+import { PUBLIC_KEY_UPLOADCARE, ROUTES } from "../../../../constants/constants";
 import { pushCategory } from "../../../../features/category/categorySlice";
 // import { convertToBase64 } from "../../../../helpers/helpers";
 import Loader from "../../../../components/loader/Loader";
@@ -74,7 +74,7 @@ const CreateNewCategory = () => {
               <section className="form_section form_section_input_file">
                 <label htmlFor="imagen_category">Imagen:</label>
                 <Widget
-                  publicKey="56c704ce776c0acebcfd"
+                  publicKey={PUBLIC_KEY_UPLOADCARE}
                   onChange={(file) => handelerFormCategory("imagen", file.originalUrl)}
                 />
               </section>

@@ -49,6 +49,9 @@ export const typeElementSlider=["Producto","Colección"];
 
 export const keyLocalStorage=process.env.REACT_APP_KEY_LOCAL;
 
+export const PUBLIC_KEY_UPLOADCARE=process.env.REACT_APP_PUBLIC_KEY_UPLOADCARE;
+
+
 export const URL_BASE=process.env.REACT_APP_URL_BASE;
 
 export const HEADERS={
