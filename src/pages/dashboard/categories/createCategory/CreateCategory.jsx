@@ -1,14 +1,14 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import "./CreateCategory.css";
 import { toast } from "sonner";
-import { useSelector, useDispatch } from "react-redux";
-import { createCategory } from "../../../../service/category";
 import { PUBLIC_KEY_UPLOADCARE, ROUTES } from "../../../../constants/constants";
 import { pushCategory } from "../../../../features/category/categorySlice";
-// import { convertToBase64 } from "../../../../helpers/helpers";
-import Loader from "../../../../components/loader/Loader";
+import { createCategory } from "../../../../service/category";
+import "./CreateCategory.css";
 import { Widget } from '@uploadcare/react-widget';
+import Loader from "../../../../components/loader/Loader";
+import { addImagen } from "../../../../features/uploadcare/uploadcare";
 
 
 const CreateNewCategory = () => {
@@ -16,13 +16,13 @@ const CreateNewCategory = () => {
   const [newCategory, setNewCategory] = useState({ name: "", imagen: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [imagenSelected, setImagenSelected] = useState("");
   const accessToken = useSelector((state) => state.user.data.accessToken);
+  const [imagenUploadcare, setImagenSelectedUploadcare] = useState(null);
+
 
   const handelerFormCategory = async (target, value) => {
     if (target == "imagen") {
       setNewCategory({ ...newCategory, [target]: value });
-      setImagenSelected(value);
     } else {
       setNewCategory({ ...newCategory, [target]: value });
     }
@@ -39,14 +39,14 @@ const CreateNewCategory = () => {
       if (accessToken) {
         if (validate()) {
           toast.warning("LLene los campo por favor");
-        }else{
+        } else {
           const responseCreate = await createCategory(accessToken, newCategory);
           if (responseCreate.status === 200 && responseCreate.response) {
             const data = responseCreate.data;
             dispatch(pushCategory(data));
-            setImagenSelected("");
             setNewCategory({ name: "", imagen: "" });
             toast.success(responseCreate.message);
+            dispatch(addImagen({ name: imagenUploadcare.name, url: imagenUploadcare.originalUrl, uuid: imagenUploadcare.uuid }));
           } else {
             toast.warning(responseCreate.message);
           }
@@ -75,10 +75,13 @@ const CreateNewCategory = () => {
                 <label htmlFor="imagen_category">Imagen:</label>
                 <Widget
                   publicKey={PUBLIC_KEY_UPLOADCARE}
-                  onChange={(file) => handelerFormCategory("imagen", file.originalUrl)}
+                  onChange={async (file) => {
+                    setImagenSelectedUploadcare(file);
+                    handelerFormCategory("imagen", file.originalUrl);
+                  }}
                 />
               </section>
-              {imagenSelected && <img className="imagen_new_category" src={imagenSelected} alt="imagen category" />}
+              {imagenUploadcare && <img className="imagen_new_category" src={imagenUploadcare.originalUrl} alt="imagen category" />}
             </form>
             <button onClick={(e) => saveCategory(e)} className="btn btn_create_category">Guardar</button>
           </>

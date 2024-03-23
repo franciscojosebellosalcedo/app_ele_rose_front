@@ -51,6 +51,8 @@ export const keyLocalStorage=process.env.REACT_APP_KEY_LOCAL;
 
 export const PUBLIC_KEY_UPLOADCARE=process.env.REACT_APP_PUBLIC_KEY_UPLOADCARE;
 
+export const SECRET_KEY_UPLOADCARE=process.env.REACT_APP_SECRET_KEY_UPLOADCARE;
+
 
 export const URL_BASE=process.env.REACT_APP_URL_BASE;
 
