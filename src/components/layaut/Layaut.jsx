@@ -10,7 +10,8 @@ import Loader from "../loader/Loader";
 import { getAllProducts } from "../../service/product";
 import { setAllProducts } from "../../features/product/productSlice";
 import { setListCollection } from "../../features/collection/collection";
-import { setLoaderCategories, setLoaderProducts, setLoaderCollections, setLoaderItemsSlider, setLoaderItemsOrder, setListStatusOrder } from "../../features/sectionActive/sectionActiveSlice";
+import { setLoaderCategories, setLoaderProducts, setLoaderCollections, 
+  setLoaderItemsSlider, setLoaderItemsOrder, setListStatusOrder, setLoaderItemsClients,setLoaderItemsUserList } from "../../features/sectionActive/sectionActiveSlice";
 import { getAllCollection } from "../../service/collection";
 import { getAllItemSlider } from "../../service/itemSlider";
 import { setAllItemsSlider } from "../../features/itemSlider/itemSliderSlice";
@@ -19,6 +20,10 @@ import { getAllImages } from "../../service/uploadcare";
 import { setImages } from "../../features/uploadcare/uploadcare";
 import { setOrders } from "../../features/order/orderSlice";
 import { getAllOrders } from "../../service/order";
+import { getAllClients } from "../../service/clients";
+import { getAllUsers } from "../../service/user";
+import { setClients } from "../../features/client/clientSlice";
+import { setUserList } from "../../features/user/userListSlice";
 
 const Layaut = () => {
   const dispatch = useDispatch();
@@ -27,15 +32,15 @@ const Layaut = () => {
 
 
   const fetchImages = async () => {
-    const publicKey = PUBLIC_KEY_UPLOADCARE; 
-    const secretKey = SECRET_KEY_UPLOADCARE; 
+    const publicKey = PUBLIC_KEY_UPLOADCARE;
+    const secretKey = SECRET_KEY_UPLOADCARE;
     try {
-      const data=await   getAllImages(publicKey, secretKey);
-      const results=data.results;
-      const list=[];
+      const data = await getAllImages(publicKey, secretKey);
+      const results = data.results;
+      const list = [];
       for (let index = 0; index < results.length; index++) {
         const imagen = results[index];
-        list.push({url:imagen.url,name:imagen.original_filename,uuid:imagen.uuid});
+        list.push({ url: imagen.url, name: imagen.original_filename, uuid: imagen.uuid });
       }
       dispatch(setImages(list));
     } catch (error) {
@@ -124,7 +129,7 @@ const Layaut = () => {
           const data = responseGetAll.data;
           const list = [];
           for (let index = 0; index < data.length; index++) {
-              list.push({ isOpen: false, index });
+            list.push({ isOpen: false, index });
           }
           dispatch(setListStatusOrder([...list]));
           dispatch(setOrders(data));
@@ -133,9 +138,44 @@ const Layaut = () => {
         }
       }
     } catch (error) {
-      toast.error("Se produjo un error al obtener las categorías");
+      toast.error("Se produjo un error al obtener los pedidos");
     }
     dispatch(setLoaderItemsOrder(false));
+  }
+  const getClients = async () => {
+    dispatch(setLoaderItemsClients(true));
+    try {
+      if (accessToken) {
+        const responseGetAll = await getAllClients(accessToken);
+        if (responseGetAll.status === 200 && responseGetAll.response) {
+          const data = responseGetAll.data;
+          dispatch(setClients(data));
+        } else {
+          toast.error(responseGetAll.message);
+        }
+      }
+    } catch (error) {
+      toast.error("Se produjo un error al obtener los clientes");
+    }
+    dispatch(setLoaderItemsClients(false));
+  }
+
+  const getUsers = async () => {
+    dispatch(setLoaderItemsUserList(true));
+    try {
+      if (accessToken) {
+        const responseGetAll = await getAllUsers(accessToken);
+        if (responseGetAll.status === 200 && responseGetAll.response) {
+          const data = responseGetAll.data;
+          dispatch(setUserList(data));
+        } else {
+          toast.error(responseGetAll.message);
+        }
+      }
+    } catch (error) {
+      toast.error("Se produjo un error al obtener los usuarios");
+    }
+    dispatch(setLoaderItemsUserList(false));
   }
 
   const loadModules = () => {
@@ -145,6 +185,8 @@ const Layaut = () => {
     getProducts();
     getItemsSlider();
     getOrders();
+    getClients();
+    getUsers();
   }
 
   useEffect(() => {

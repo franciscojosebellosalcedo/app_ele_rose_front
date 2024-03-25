@@ -22,9 +22,14 @@ export const ROUTES={
 
     //string url slider
     SLIDER:"slider",
+    ADD_ELEMENT_SLIDER:"add",
+
+    //string url clients
+    CLIENTS:"clients",
+
+    //string url orders
     ORDER:"orders",
     ORDER_DETAILS:"details",
-    ADD_ELEMENT_SLIDER:"add",
 
     REGISTER:"register",
     NOT_FOUND:"*"

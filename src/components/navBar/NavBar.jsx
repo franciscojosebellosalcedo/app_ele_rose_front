@@ -36,9 +36,10 @@ const NavBar = () => {
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.CATEGORIES} className={({isActive})=>isActive ===true? "item_active":""}><i className="uil uil-apps icon_menu_item"></i> Categorias</NavLink>
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.PRODUCTS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-box icon_menu_item"></i> Productos</NavLink>
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.COLLECTIONS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-layer-group icon_menu_item"></i>Colecciones</NavLink>
-          <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.SLIDER} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-arrows-h-alt icon_menu_item"></i> Carrusel</NavLink>
+          {/* <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.SLIDER} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-arrows-h-alt icon_menu_item"></i> Carrusel</NavLink> */}
+          <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.CLIENTS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-user-square icon_menu_item"></i> Clientes</NavLink>
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.ORDER} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-shopping-bag icon_menu_item"></i> Pedidos</NavLink>
-          {/* <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.USERS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-users-alt icon_menu_item"></i> Usuarios</NavLink> */}
+          <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.USERS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-users-alt icon_menu_item"></i> Usuarios</NavLink>
           <button onClick={(e)=>logout(e)} className="btn btn_logout"><i className="uil uil-signout icon_logout"></i> Cerrar sesión</button>
         </div>
       </nav>

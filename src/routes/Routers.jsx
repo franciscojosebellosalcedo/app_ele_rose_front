@@ -5,7 +5,7 @@ import Login from '../pages/login/Login'
 import LoginGuard from '../guards/LoginGuard'
 import AuthGuard from '../guards/AuthGuard';
 import Layaut from '../components/layaut/Layaut'
-import Users from '../pages/dashboard/users/Users'
+import Users from '../pages/dashboard/users/index/Users'
 import Categories from '../pages/dashboard/categories/index/Categories'
 import Products from '../pages/dashboard/products/index/Products'
 import CreateNewCategory from '../pages/dashboard/categories/createCategory/CreateCategory'
@@ -19,6 +19,7 @@ import AddItemSlider from '../pages/dashboard/slider/addItemSlider/AddItemSlider
 import ProdNoCat from '../pages/dashboard/products/prodNoCat/ProdNoCat'
 import Orders from '../pages/dashboard/orders/index/Orders'
 import OrderDetails from '../pages/dashboard/orders/orderDetails/OrderDetails'
+import Clients from '../pages/dashboard/clients/index/Clients'
 
 const Routers = () => {
   return (
@@ -59,6 +60,8 @@ const Routers = () => {
             <Route path={`${ROUTES.ORDER}`} element={<Orders />}></Route>
             
             <Route path={`${ROUTES.ORDER}/${ROUTES.ORDER_DETAILS}/:id`} element={<OrderDetails />}></Route>
+
+            <Route path={ROUTES.CLIENTS} element={<Clients />}></Route>
 
             <Route path={ROUTES.USERS} element={<Users />}></Route>
 

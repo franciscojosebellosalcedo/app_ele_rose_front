@@ -7,6 +7,8 @@ import collectionReducer from "../features/collection/collection";
 import itemSliderReducer from "../features/itemSlider/itemSliderSlice";
 import uploadCareReducer from "../features/uploadcare/uploadcare";
 import orderReducer from "../features/order/orderSlice";
+import clientReducer from "../features/client/clientSlice";
+import userListReducer from "../features/user/userListSlice";
 
 export const store=configureStore({
     reducer:{
@@ -18,6 +20,8 @@ export const store=configureStore({
         itemSlider:itemSliderReducer,
         uploadcare:uploadCareReducer,
         order:orderReducer,
+        client:clientReducer,
+        userList:userListReducer,
     },
 });
 

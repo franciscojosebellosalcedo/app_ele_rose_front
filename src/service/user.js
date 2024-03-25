@@ -1,4 +1,5 @@
 import { HEADERS, URL_BASE } from "../constants/constants"
+import { headersWithAccessToken } from "../helpers/helpers";
 
 export const loginUser=async (data)=>{
     const response=await fetch(URL_BASE+"/user/login",{
@@ -16,4 +17,11 @@ export const getNewTokenUser=async (token)=>{
         headers:HEADERS,
     });
     return response.json(); 
+}
+export const getAllUsers=async (accessToken)=>{
+    const response=await fetch(URL_BASE+"/user",{
+        method:"GET",
+        headers:headersWithAccessToken(HEADERS,accessToken),
+    });
+    return await  response.json();
 }

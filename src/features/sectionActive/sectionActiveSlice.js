@@ -9,6 +9,8 @@ const initialState = {
     isLoaderCollection: false,
     isLoaderItemsSlider: false,
     isLoaderItemsOrder: false,
+    isLoaderItemsClients: false,
+    isLoaderItemsUserList: false,
     listStatusOrder:[]
   },
 };
@@ -29,8 +31,14 @@ export const sectionActiveSlice = createSlice({
       }
       state.data.listStatusOrder=list;
     },
+    setLoaderItemsUserList: (state, action) => {
+      state.data.isLoaderItemsUserList = action.payload;
+    },
     setListStatusOrder: (state, action) => {
       state.data.listStatusOrder = action.payload;
+    },
+    setLoaderItemsClients: (state, action) => {
+      state.data.isLoaderItemsClients = action.payload;
     },
     setLoaderItemsOrder: (state, action) => {
       state.data.isLoaderItemsOrder = action.payload;
@@ -66,6 +74,8 @@ export const {
   setLoaderItemsOrder,
   setListStatusOrder,
   handlerIsOpenListStatusOrder,
+  setLoaderItemsClients,
+  setLoaderItemsUserList,
 } = sectionActiveSlice.actions;
 
 export default sectionActiveSlice.reducer;
