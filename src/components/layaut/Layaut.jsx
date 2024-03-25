@@ -179,7 +179,7 @@ const Layaut = () => {
   }
 
   const loadModules = () => {
-    fetchImages();
+    // fetchImages();
     getCategories();
     getCollections();
     getProducts();
