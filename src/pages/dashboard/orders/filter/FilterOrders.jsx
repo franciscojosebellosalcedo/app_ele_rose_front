@@ -10,7 +10,6 @@ const FilterOrders = ({valueInputSearch,setValue}) => {
   const dispatch=useDispatch();
 
   const handlerSelectedOption = (option) => {
-    console.log(option)
     if(option && option.value){
       setOptionSelected(option.name);
       const dataFilter=orders.filter((order)=>order.statusOrder===option.value);
