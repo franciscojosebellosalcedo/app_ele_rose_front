@@ -1,4 +1,4 @@
-import { ROUTES } from "../../../../constants/constants";
+import { PUBLIC_KEY_UPLOADCARE, ROUTES } from "../../../../constants/constants";
 import "./CreateProduct.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -111,7 +111,7 @@ const CreateProduct = () => {
         {
           isLoader === true ? <Loader /> :
             <Widget
-              publicKey="56c704ce776c0acebcfd"
+              publicKey={PUBLIC_KEY_UPLOADCARE}
               onChange={(infoFile) => setAllImages(infoFile)}
               multiple
             />
