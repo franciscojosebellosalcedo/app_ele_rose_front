@@ -22,6 +22,8 @@ export const ROUTES={
 
     //string url slider
     SLIDER:"slider",
+    ORDER:"orders",
+    ORDER_DETAILS:"details",
     ADD_ELEMENT_SLIDER:"add",
 
     REGISTER:"register",
@@ -42,6 +44,15 @@ export const optionsFilter=[
     {name:"Categoría",value:"category"},
     {name:"Nuevos",value:true},
     {name:"Anterior",value:false},
+];
+
+export const optionsFilterOrders=[
+    {name:"Pendiente",value:"Pending"},
+    {name:"En proceso",value:"In process"},
+    {name:"Enviado",value:"Sent"},
+    {name:"Finalizado",value:"Finalized"},
+    {name:"Cancelado",value:"Canceled"},
+    {name:"Ninguno",value:null},
 ];
 
 export const typeElementSlider=["Producto","Colección"];

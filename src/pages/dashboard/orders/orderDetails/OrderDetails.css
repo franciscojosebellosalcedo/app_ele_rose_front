@@ -1,0 +1,114 @@
+.container_details{
+    margin-top: 20px;
+}
+.title_data_order{
+    font-weight: 500;
+    margin-bottom: 7px;
+}
+.title_data_order >span{
+    font-weight: 350;
+}
+.imagen_product_cart{
+    width: 90px;
+    border-radius: var(--border-radius-box);
+}
+
+.table_order_details {
+	width: 100%;
+	background: white;
+	margin-bottom: 1.25em;
+	border: solid 1px var(--color-text-titles);
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.table_order_details tr th,
+.table_order_details tr td {
+	padding: 0.5625em 0.625em;
+	font-size: 0.875em;
+	color: #222222;
+	border: 1px solid #dddddd;
+}
+
+.table_order_details tr.even,
+.table_order_details tr.alt,
+.table_order_details tr:nth-of-type(even) {
+	background: var(--bg-row-table);
+}
+
+.table_order_details > tbody > tr > td {
+	text-align: center;
+}
+@media screen and (min-width:700px){
+	.imagen_product_cart{
+		width: 90px;
+	}
+}
+@media only screen and (max-width: 768px) {
+	table.table_details,
+	.table_details thead,
+	.table_details tbody,
+	.table_details tr,
+	.table_details th,
+	.table_details td,
+	.table_details caption {
+		display: block;
+	}
+
+	table.table_details {
+		border: none;
+	}
+
+	.table_details thead tr {
+		display: none;
+	}
+
+	.table_details tbody tr {
+		margin: 1em 0;
+		border: 1px solid var(--color-text-titles);
+		border-radius: var(--border-radius-box);
+	}
+
+	.table_details td {
+		border: none;
+		border-bottom: 1px solid #dddddd;
+		position: relative;
+		padding-left: 45%;
+		text-align: left;
+	}
+
+	.table_details tr td:last-child {
+		border-bottom: 1px double #dddddd;
+	}
+
+	.table_details tr:last-child td:last-child {
+		border: none;
+	}
+
+	.table_details td:before {
+		position: absolute;
+		top: 6px;
+		left: 6px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+		text-align: left;
+		font-weight: bold;
+	}
+	.table_details td:nth-of-type(1):before {
+		content: "Producto";
+	}
+
+	.table_details td:nth-of-type(2):before {
+		content: "Precio";
+	}
+
+	.table_details td:nth-of-type(3):before {
+		content: "Cantidad";
+	}
+
+	.table_details td:nth-of-type(4):before {
+		content: "Total";
+	}
+
+}

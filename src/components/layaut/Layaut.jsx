@@ -4,24 +4,27 @@ import { Outlet } from "react-router-dom";
 import { toast } from "sonner";
 import { getAllCategories } from "../../service/category";
 import { setAllCategories } from "../../features/category/categorySlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../loader/Loader";
 import { getAllProducts } from "../../service/product";
 import { setAllProducts } from "../../features/product/productSlice";
 import { setListCollection } from "../../features/collection/collection";
-import { setLoaderCategories, setLoaderProducts, setLoaderCollections, setLoaderItemsSlider } from "../../features/sectionActive/sectionActiveSlice";
+import { setLoaderCategories, setLoaderProducts, setLoaderCollections, setLoaderItemsSlider, setLoaderItemsOrder, setListStatusOrder } from "../../features/sectionActive/sectionActiveSlice";
 import { getAllCollection } from "../../service/collection";
 import { getAllItemSlider } from "../../service/itemSlider";
 import { setAllItemsSlider } from "../../features/itemSlider/itemSliderSlice";
 import { PUBLIC_KEY_UPLOADCARE, SECRET_KEY_UPLOADCARE } from "../../constants/constants";
 import { getAllImages } from "../../service/uploadcare";
 import { setImages } from "../../features/uploadcare/uploadcare";
+import { setOrders } from "../../features/order/orderSlice";
+import { getAllOrders } from "../../service/order";
 
 const Layaut = () => {
   const dispatch = useDispatch();
   const isLoader = useSelector((state) => state.sectionActive.data.loader);
   const accessToken = useSelector((state) => state.user.data.accessToken);
+
 
   const fetchImages = async () => {
     const publicKey = PUBLIC_KEY_UPLOADCARE; 
@@ -112,12 +115,36 @@ const Layaut = () => {
     dispatch(setLoaderCategories(false));
   }
 
+  const getOrders = async () => {
+    dispatch(setLoaderItemsOrder(true));
+    try {
+      if (accessToken) {
+        const responseGetAll = await getAllOrders(accessToken);
+        if (responseGetAll.status === 200 && responseGetAll.response) {
+          const data = responseGetAll.data;
+          const list = [];
+          for (let index = 0; index < data.length; index++) {
+              list.push({ isOpen: false, index });
+          }
+          dispatch(setListStatusOrder([...list]));
+          dispatch(setOrders(data));
+        } else {
+          toast.error(responseGetAll.message);
+        }
+      }
+    } catch (error) {
+      toast.error("Se produjo un error al obtener las categorías");
+    }
+    dispatch(setLoaderItemsOrder(false));
+  }
+
   const loadModules = () => {
     fetchImages();
     getCategories();
     getCollections();
     getProducts();
     getItemsSlider();
+    getOrders();
   }
 
   useEffect(() => {

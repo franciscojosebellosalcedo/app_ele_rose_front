@@ -17,6 +17,8 @@ import CreateCollection from '../pages/dashboard/collections/createCollection/Cr
 import EditCollection from '../pages/dashboard/collections/editCollection/EditCollection'
 import AddItemSlider from '../pages/dashboard/slider/addItemSlider/AddItemSlider'
 import ProdNoCat from '../pages/dashboard/products/prodNoCat/ProdNoCat'
+import Orders from '../pages/dashboard/orders/index/Orders'
+import OrderDetails from '../pages/dashboard/orders/orderDetails/OrderDetails'
 
 const Routers = () => {
   return (
@@ -53,6 +55,10 @@ const Routers = () => {
             <Route path={ROUTES.SLIDER} element={<Slider />}></Route>
 
             <Route path={`${ROUTES.SLIDER}/${ROUTES.ADD_ELEMENT_SLIDER}`} element={<AddItemSlider />}></Route>
+
+            <Route path={`${ROUTES.ORDER}`} element={<Orders />}></Route>
+            
+            <Route path={`${ROUTES.ORDER}/${ROUTES.ORDER_DETAILS}/:id`} element={<OrderDetails />}></Route>
 
             <Route path={ROUTES.USERS} element={<Users />}></Route>
 

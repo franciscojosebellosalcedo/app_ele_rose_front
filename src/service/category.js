@@ -1,8 +1,6 @@
 import { HEADERS, URL_BASE } from "../constants/constants"
 import { headersWithAccessToken } from "../helpers/helpers";
 
-
-
 export const updateCategory=async (accessToken,id,body)=>{
     const response=await fetch(URL_BASE+"/category/"+id,{
         method:"PUT",

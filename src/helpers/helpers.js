@@ -24,3 +24,22 @@ export const convertToBase64 =async (files) => {
     return data[0];
   }
 };
+
+export const formatDate=(fechaString)=> {
+  const fecha = new Date(fechaString);
+
+  const dia = fecha.getDate().toString().padStart(2, '0');
+  const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+  const año = fecha.getFullYear();
+
+  return `${dia}/${mes}/${año}`;
+}
+
+export const getAllAmountPoductsOrder=(listProducts)=>{
+	let amount=0;
+	for (let index = 0; index < listProducts.length; index++) {
+		const item = listProducts[index];
+		amount+=item.amount;
+	}
+	return amount;
+}

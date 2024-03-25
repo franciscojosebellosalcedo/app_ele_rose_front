@@ -25,6 +25,7 @@
     font-size: 13px;
     position: absolute;
     left: 0px;
+    box-shadow: var(--box-shadow-black);
     width: 100%;
     top: 40px;
     border-radius: var(--border-radius-box);

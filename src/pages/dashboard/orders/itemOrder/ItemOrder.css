@@ -1,0 +1,46 @@
+.textStatusOrder {
+  padding: 2px;
+  color: white;
+  border-radius: 6px;
+}
+.color_orange {
+  background-color: orange;
+}
+.color_green {
+  background-color: green;
+}
+.color_red {
+  background-color: red;
+}
+.color_blue {
+  background-color: rgba(0, 0, 255, 0.69);
+}
+.color_pink {
+  background-color: pink;
+}
+.btn_list_status_order {
+  padding: 6px 10px;
+  border-radius: 6px;
+  position: relative;
+  cursor: pointer;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+.list_status {
+  position: absolute;
+  top: 100%;
+  border-radius: 6px;
+  right: 0px;
+  box-shadow: var(--box-shadow-black);
+  background-color: var(--color-white);
+  display: flex;
+  width: 130px;
+  gap: 8px;
+  z-index: 30;
+  flex-direction: column;
+  padding: 6px;
+  color: var(--color-white);
+}
+.list_status >li{
+    cursor: pointer;
+}
