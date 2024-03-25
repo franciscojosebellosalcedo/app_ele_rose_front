@@ -12,6 +12,7 @@ table tr th,
 table tr td {
 	padding: 0.5625em 0.625em;
 	font-size: 0.875em;
+	cursor: pointer;
 	color: #222222;
 	border: 1px solid #dddddd;
 }

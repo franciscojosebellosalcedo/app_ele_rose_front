@@ -18,6 +18,7 @@ const FilterOrders = ({valueInputSearch,setValue}) => {
       setValue("");
     }else{
       setOptionSelected(null);
+      dispatch(setOrdersFound([]));
     }
     handlerOpenOptionsFilterOrders();
   }
