@@ -15,6 +15,8 @@ export const ROUTES={
     //string url user
     USERS:"users",
 
+    RATINGS: "ratings",
+
     //string url collections
     COLLECTIONS:"collections",
     CREATE_COLLECTION:"create",

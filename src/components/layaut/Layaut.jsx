@@ -24,6 +24,8 @@ import { getAllClients } from "../../service/clients";
 import { getAllUsers } from "../../service/user";
 import { setClients } from "../../features/client/clientSlice";
 import { setUserList } from "../../features/user/userListSlice";
+import { getAllRatings } from "../../service/rating";
+import { setAllRating } from "../../features/rating/ratingSlice";
 
 const Layaut = () => {
   const dispatch = useDispatch();
@@ -178,6 +180,22 @@ const Layaut = () => {
     dispatch(setLoaderItemsUserList(false));
   }
 
+  const getRatings = async () => {
+    try {
+      if (accessToken) {
+        const responseGetAll = await getAllRatings(accessToken);
+        if (responseGetAll.status === 200 && responseGetAll.response) {
+          const data = responseGetAll.data;
+          dispatch(setAllRating(data));
+        } else {
+          toast.error(responseGetAll.message);
+        }
+      }
+    } catch (error) {
+      toast.error("Se produjo un error al obtener las valoraciones");
+    }
+  }
+
   const loadModules = () => {
     // fetchImages();
     getCategories();
@@ -187,6 +205,7 @@ const Layaut = () => {
     getOrders();
     getClients();
     getUsers();
+    getRatings();
   }
 
   useEffect(() => {

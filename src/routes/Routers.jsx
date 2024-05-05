@@ -20,6 +20,7 @@ import ProdNoCat from '../pages/dashboard/products/prodNoCat/ProdNoCat'
 import Orders from '../pages/dashboard/orders/index/Orders'
 import OrderDetails from '../pages/dashboard/orders/orderDetails/OrderDetails'
 import Clients from '../pages/dashboard/clients/index/Clients'
+import Ratings from '../pages/dashboard/ratings/Ratings'
 
 const Routers = () => {
   return (
@@ -64,6 +65,8 @@ const Routers = () => {
             <Route path={ROUTES.CLIENTS} element={<Clients />}></Route>
 
             <Route path={ROUTES.USERS} element={<Users />}></Route>
+
+            <Route path={ROUTES.RATINGS} element={<Ratings />}></Route>
 
           </Route>
         </Route>

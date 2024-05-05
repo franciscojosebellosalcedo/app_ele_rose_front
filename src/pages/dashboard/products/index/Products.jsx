@@ -56,7 +56,7 @@ const Products = () => {
                   <>
                     {
                       productsFound.map((product, index) => (
-                        product.category !== null ? <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />:""
+                        product.status=== true ? product.category !== null ? <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />:"":""
                       ))
                     }
                   </> :
@@ -64,7 +64,7 @@ const Products = () => {
                     <>
                       {
                         products.map((product, index) => (
-                          product.category !== null ? <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />:""
+                          product.status=== true ? product.category !== null ? <ItemProduct key={index} product={product} clearProductsFound={clearProductsFound} />:"":""
                         ))
                       }
                     </> : ""

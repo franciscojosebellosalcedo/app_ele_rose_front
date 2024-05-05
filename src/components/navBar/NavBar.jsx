@@ -40,6 +40,7 @@ const NavBar = () => {
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.CLIENTS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-user-square icon_menu_item"></i> Clientes</NavLink>
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.ORDER} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-shopping-bag icon_menu_item"></i> Pedidos</NavLink>
           <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.USERS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-users-alt icon_menu_item"></i> Usuarios</NavLink>
+          <NavLink onClick={()=>handlerOpenMenu()} to={ROUTES.RATINGS} className={(data)=>data.isActive ? "item_active":""}><i className="uil uil-star icon_menu_item"></i> Valoraciones</NavLink>
           <button onClick={(e)=>logout(e)} className="btn btn_logout"><i className="uil uil-signout icon_logout"></i> Cerrar sesión</button>
         </div>
       </nav>

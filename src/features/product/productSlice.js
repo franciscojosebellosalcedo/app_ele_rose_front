@@ -15,6 +15,9 @@ export const productSlice = createSlice({
     setProductsFound: (state, action) => {
       state.data.productsFound = action.payload;
     },
+    setProduct: (state,action)=>{
+      state.data.list[action.payload.index]=action.payload.product;
+    },
     setAllProducts: (state, action) => {
       state.data.list = action.payload;
     },
@@ -83,6 +86,7 @@ export const {
   removeOneImage,
   setImagens,
   removeAllImagens,
+  setProduct,
   addNewProduct,
   removeOneProduct,
   editProduct,

@@ -9,6 +9,7 @@ import uploadCareReducer from "../features/uploadcare/uploadcare";
 import orderReducer from "../features/order/orderSlice";
 import clientReducer from "../features/client/clientSlice";
 import userListReducer from "../features/user/userListSlice";
+import ratingReducer from "../features/rating/ratingSlice";
 
 export const store=configureStore({
     reducer:{
@@ -22,6 +23,7 @@ export const store=configureStore({
         order:orderReducer,
         client:clientReducer,
         userList:userListReducer,
+        rating:ratingReducer,
     },
 });
 

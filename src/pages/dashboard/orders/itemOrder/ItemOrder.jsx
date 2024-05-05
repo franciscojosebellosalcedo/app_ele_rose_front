@@ -1,17 +1,19 @@
-import "./ItemOrder.css";
-import { formatDate } from '../../../../helpers/helpers';
-import { useDispatch, useSelector } from "react-redux";
-import { handlerIsOpenListStatusOrder } from "../../../../features/sectionActive/sectionActiveSlice";
-import { setOrder } from "../../../../features/order/orderSlice";
-import { changeStatusOrder } from "../../../../service/order";
-import { toast } from "sonner";
 import { useState } from "react";
-import Loader from "../../../../components/loader/Loader";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import Loader from "../../../../components/loader/Loader";
 import { ROUTES } from "../../../../constants/constants";
+import { setOrder } from "../../../../features/order/orderSlice";
+import { setProduct } from "../../../../features/product/productSlice";
+import { handlerIsOpenListStatusOrder } from "../../../../features/sectionActive/sectionActiveSlice";
+import { formatDate } from '../../../../helpers/helpers';
+import { changeStatusOrder } from "../../../../service/order";
+import "./ItemOrder.css";
 
 const ItemOrder = ({ order, index }) => {
     const listStatus = useSelector((state) => state.sectionActive.data.listStatusOrder);
+    const products= useSelector((state) => state.product.data.list);
     const dispatch = useDispatch();
     const accessToken = useSelector((state) => state.user.data.accessToken);
     const [isLoader,setIsLoader]=useState(false);
@@ -22,6 +24,22 @@ const ItemOrder = ({ order, index }) => {
         dispatch(handlerIsOpenListStatusOrder(index));
     }
 
+    const decrementAmountProduct = (statusOrder, list)=>{
+        let lisProducts=[];
+        products.map((pro)=>lisProducts.push({product:{...pro}}));
+        if(statusOrder==="In process"){ 
+            for (let index = 0; index < list.length; index++) {
+                const itemList = list[index];
+                const indexProduct= lisProducts.findIndex((item)=> item.product._id===itemList.product._id);
+                const itemFound= lisProducts.find((item)=> item.product._id===itemList.product._id);
+                if(indexProduct !== -1 && itemFound.product && itemFound.product.amount >= itemList.amount){
+                    lisProducts[indexProduct].product.amount= itemFound.product.amount - itemList.amount;
+                    dispatch(setProduct({index:indexProduct, product: lisProducts[indexProduct].product}));
+                }
+            }
+        }
+    }
+
     const changeStatus = async (statusOrder) => {
         setIsLoader(true);
         try {
@@ -29,6 +47,7 @@ const ItemOrder = ({ order, index }) => {
                 const responseRequest = await changeStatusOrder(accessToken, statusOrder, order._id);
                 if (responseRequest.status === 200 && responseRequest.response) {
                     dispatch(setOrder({ index, order: responseRequest.data }));
+                    decrementAmountProduct(statusOrder,responseRequest.data.listProducts);
                     toast.success(responseRequest.message);
                 }
             }
