@@ -46,6 +46,7 @@ const OrderDetails = () => {
             {
                 isLoader ? <Loader /> :
                     <section className="container">
+                        <i onClick={() => navigate(`/${ROUTES.DASHBOARD}/${ROUTES.ORDER}`)} className="uil uil-arrow-left icon_back_section"></i>
                         <h1 className="container_title">Detalles del pedido</h1>
                         {
                             order ?

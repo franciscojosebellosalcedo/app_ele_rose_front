@@ -1,0 +1,10 @@
+
+.grid_ratings {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    padding: 16px;
+    box-sizing: border-box;
+    max-height: 85vh;
+    overflow-y: auto;
+}

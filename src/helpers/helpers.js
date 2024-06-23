@@ -43,3 +43,5 @@ export const getAllAmountPoductsOrder=(listProducts)=>{
 	}
 	return amount;
 }
+
+export const LIST_NUMBER_SCORE = [1, 2, 3, 4, 5];
