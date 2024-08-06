@@ -62,7 +62,6 @@
     gap: 5px;
 }
 .input_description_product{
-    resize: none;
     height: 80px;
     border-radius: var(--border-radius-input);
 }
